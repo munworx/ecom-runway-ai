@@ -142,7 +142,6 @@ def premium_dashboard():
                     .then(wrapper => {
                         const data = wrapper.payload;
                         
-                        // Style updating routines
                         document.getElementById('resStatus').innerText = data.status;
                         if(data.status === 'HEALTHY MARGIN') {
                             document.getElementById('resStatus').style.backgroundColor = '#059669';
@@ -157,3 +156,5 @@ def premium_dashboard():
                         document.getElementById('resCompPrice').innerText = '$' + data.competitor_price.toFixed(2);
                         document.getElementById('resUnits').innerText = data.units_needed + ' Units';
                         document.getElementById('resPlan').innerHTML = data.action_plan;
+                        document.getElementById('results').style.display = 'block';
+                    });
