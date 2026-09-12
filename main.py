@@ -81,45 +81,48 @@ async def analyze_runway(
 
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
-    html_lines = [
-        "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><title>E-Com Runway AI Command Suite</title><style>",
-        "body{font-family:sans-serif;background-color:#060913;color:#f8fafc;margin:0;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh;}",
-        ".card{background:linear-gradient(160deg,#1e293b,#090d16);border:1px solid #334155;padding:35px;border-radius:28px;width:100%;max-width:640px;box-shadow:0 40px 80px rgba(0,0,0,0.8);}",
-        "h1{color:#38bdf8;font-size:2.4rem;margin:0 0 4px 0;font-weight:800;text-align:center;}.subtitle{color:#64748b;font-size:0.95rem;text-align:center;margin-bottom:25px;}",
-        ".form-group{margin-bottom:15px;}label{display:block;font-size:0.75rem;font-weight:700;color:#cbd5e1;text-transform:uppercase;margin-bottom:6px;letter-spacing:0.05em;}",
-        "input{width:100%;padding:12px 14px;background-color:#020617;border:1px solid #475569;border-radius:12px;color:#f8fafc;font-size:0.95rem;box-sizing:border-box;margin-bottom:8px;}",
-        ".row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px;}",
-        "button{width:100%;padding:16px;background:linear-gradient(135deg,#0ea5e9,#2563eb);color:white;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;box-shadow:0 10px 20px rgba(14,165,233,0.2);margin-top:10px;}",
-        ".results-box{margin-top:30px;background:#020617;border:1px solid #1e293b;border-radius:20px;padding:24px;display:none;}",
-        ".status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px dashed #334155;padding-bottom:15px;}",
-        ".badge{padding:6px 14px;border-radius:9999px;font-size:0.75rem;font-weight:800;text-transform:uppercase;color:white;}",
-        ".table-zone{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:0.85rem;text-align:left;}",
-        ".table-zone th{color:#38bdf8;padding:8px;border-bottom:1px solid #1e293b;}.table-zone td{padding:8px;color:#cbd5e1;border-bottom:1px solid #0f172a;}",
-        ".grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:20px;}",
-        ".stat{background:#1e293b;padding:12px;border-radius:12px;text-align:center;border:1px solid #334155;}",
-        ".stat-val{font-size:1.15rem;font-weight:800;color:#34d399;}.stat-lbl{color:#94a3b8;text-transform:uppercase;margin-top:4px;font-size:0.6rem;letter-spacing:0.02em;}",
-        ".progress-container{margin-bottom:20px;background:rgba(30,41,59,0.3);padding:12px;border-radius:12px;border:1px solid #1e293b;}",
-        ".progress-bar{height:8px;background-color:#1e293b;border-radius:9999px;overflow:hidden;position:relative;margin-top:6px;}",
-        ".progress-fill{height:100%;background:linear-gradient(90deg,#34d399,#38bdf8);width:0%;transition:width 0.4s;}",
-        ".advice{font-size:0.95rem;line-height:1.6;color:#e2e8f0;background:rgba(30,41,59,0.4);border-radius:12px;padding:14px;border-left:4px solid #38bdf8;}",
-        "</style></head><body><div class='card'>",
-        "<h1>⚡ E-Com Runway AI</h1><div class='subtitle'>Enterprise Intelligence Matrix & Multi-Scraper Matrix</div>",
-        "<div class='form-group'><label>🌐 Multi-Scraper Competitor Target Links (Up to 3)</label>",
-        "<input type='text' id='u1' placeholder='Competitor link 1 (Amazon / eBay)'><input type='text' id='u2' placeholder='Competitor link 2 (Optional)'><input type='text' id='u3' placeholder='Competitor link 3 (Optional)'></div>",
-        "<div class='row'><div class='form-group'><label>💳 Monthly Software Expenses ($)</label><input type='number' id='subs' value='150'></div>",
-        "<div class='form-group'><label>🎯 Monthly Net Income Take-Home Goal ($)</label><input type='number' id='goal' value='2000'></div></div>",
-        "<button onclick='runMatrix()'>🚀 Execute Cloud Intelligence Matrix</button>",
-        "<div class='results-box' id='results'><div class='status-header'><span style='font-size:0.85rem;color:#64748b;font-weight:700;'>FINANCIAL RADAR LOGS</span><div class='badge' id='badge'>Analyzing</div></div>",
-        "<table class='table-zone'><thead><tr><th>Competitor Node</th><th>Live Captured Price</th><th>Status</th></tr></thead>",
-        "<tbody><tr><td>Node 01 (Primary)</td><td id='r1'>$0.00</td><td id='s1'>Pending</td></tr><tr><td>Node 02</td><td id='r2'>$0.00</td><td id='s2'>Pending</td></tr><tr><td>Node 03</td><td id='r3'>$0.00</td><td id='s3'>Pending</td></tr></tbody></table>",
-        "<div class='grid-4'>",
-        "<div class='stat'><div class='stat-val' id='m1'>$0.00</div><div class='stat-lbl'>Floor Price</div></div><div class='stat'><div class='stat-val' id='m2'>$0.00</div><div class='stat-lbl'>Net Margin</div></div>",
-        "<div class='stat'><div class='stat-val' id='m3'>0</div><div class='stat-lbl'>Mo. Units</div></div><div class='stat'><div class='stat-val' id='m4'>0</div><div class='stat-lbl'>Daily Target</div></div></div>",
-        "<div class='progress-container'><div style='display:flex;justify-content:space-between;font-size:0.72rem;color:#94a3b8;font-weight:600;'><span>CASH-FLOW RUNWAY OVERHEAD SECURITY RADAR</span><span id='pText'>0%</span></div>",
-        "<div class='progress-bar'><div class='progress-fill' id='pFill'></div></div></div>",
-        "<div class='advice' id='plan'>Loading blueprint analysis...</div></div></div>",
-        "<script>function runMatrix(){const u1=document.getElementById('u1').value;const u2=document.getElementById('u2').value;const u3=document.getElementById('u3').value;const sub=document.getElementById('subs').value;const go=document.getElementById('goal').value;if(!u1||!sub||!go){alert('Please fill out all operational targets!');return;}",
-        "fetch(`/analyze-runway?url1=${encodeURIComponent(u1)}&url2=${encodeURIComponent(u2)}&url3=${encodeURIComponent(u3)}&monthly_subs=${sub}&income_goal=${go}`).then(r=>r.json()).then(w=>{const d=w.payload;",
-        "document.getElementById('badge').innerText=d.status;document.getElementById('badge').style.backgroundColor=d.status==='HEALTHY MARGIN'?'#059669':(d.status==='CRITICAL UNDERCUT'?'#ef4444':'#d97706');",
-        "document.getElementById('r1').innerText=d.p1>0?'$'+d.p1.toFixed(2):'No Connection';document.getElementById('s1').className=d.p1>0?'':'color:#64748b';document.getElementById('s1').innerText=d.p1>0?'Live Active':'MOCKED';",
-        "document.getElementById('r2').innerText=d.p2>0?'$'+d.p2.toFixed(2):'None Input';document.getElementById('s2').innerText=d.p2>0?'Live Active':'Inactive';",
+    # Strict block layout to bypass all brackets and closure parsing limits completely
+    return """
+    <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>E-Com Runway AI Command Suite</title><style>
+    body{font-family:sans-serif;background-color:#060913;color:#f8fafc;margin:0;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+    .card{background:linear-gradient(160deg,#1e293b,#090d16);border:1px solid #334155;padding:35px;border-radius:28px;width:100%;max-width:640px;box-shadow:0 40px 80px rgba(0,0,0,0.8);}
+    h1{color:#38bdf8;font-size:2.4rem;margin:0 0 4px 0;font-weight:800;text-align:center;}.subtitle{color:#64748b;font-size:0.95rem;text-align:center;margin-bottom:25px;}
+    .form-group{margin-bottom:15px;}label{display:block;font-size:0.75rem;font-weight:700;color:#cbd5e1;text-transform:uppercase;margin-bottom:6px;letter-spacing:0.05em;}
+    input{width:100%;padding:12px 14px;background-color:#020617;border:1px solid #475569;border-radius:12px;color:#f8fafc;font-size:0.95rem;box-sizing:border-box;margin-bottom:8px;}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px;}
+    button{width:100%;padding:16px;background:linear-gradient(135deg,#0ea5e9,#2563eb);color:white;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;box-shadow:0 10px 20px rgba(14,165,233,0.2);margin-top:10px;}
+    .results-box{margin-top:30px;background:#020617;border:1px solid #1e293b;border-radius:20px;padding:24px;display:none;}
+    .status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px dashed #334155;padding-bottom:15px;}
+    .badge{padding:6px 14px;border-radius:9999px;font-size:0.75rem;font-weight:800;text-transform:uppercase;color:white;}
+    .table-zone{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:0.85rem;text-align:left;}
+    .table-zone th{color:#38bdf8;padding:8px;border-bottom:1px solid #1e293b;}.table-zone td{padding:8px;color:#cbd5e1;border-bottom:1px solid #0f172a;}
+    .grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
+    .stat{background:#1e293b;padding:12px;border-radius:12px;text-align:center;border:1px solid #334155;}
+    .stat-val{font-size:1.15rem;font-weight:800;color:#34d399;}
+    .stat-lbl{color:#94a3b8;text-transform:uppercase;margin-top:4px;font-size:0.6rem;letter-spacing:0.02em;}
+    .progress-container{margin-bottom:20px;background:rgba(30,41,59,0.3);padding:12px;border-radius:12px;border:1px solid #1e293b;}
+    .progress-bar{height:8px;background-color:#1e293b;border-radius:9999px;overflow:hidden;position:relative;margin-top:6px;}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#34d399,#38bdf8);width:0%;transition:width 0.4s;}
+    .advice{font-size:0.95rem;line-height:1.6;color:#e2e8f0;background:rgba(30,41,59,0.4);border-radius:12px;padding:14px;border-left:4px solid #38bdf8;}
+    </style></head><body><div class='card'>
+    <h1>⚡ E-Com Runway AI</h1><div class='subtitle'>Enterprise Intelligence Matrix & Multi-Scraper Dashboard</div>
+    <div class='form-group'><label>🌐 Multi-Scraper Competitor Target Links (Up to 3)</label>
+    <input type='text' id='u1' placeholder='Competitor link 1 (Amazon / eBay)'><input type='text' id='u2' placeholder='Competitor link 2 (Optional)'><input type='text' id='u3' placeholder='Competitor link 3 (Optional)'></div>
+    <div class='row'><div class='form-group'><label>💳 Monthly Software Expenses ($)</label><input type='number' id='subs' value='150'></div>
+    <div class='form-group'><label>🎯 Monthly Net Income Take-Home Goal ($)</label><input type='number' id='goal' value='2000'></div></div>
+    <button onclick='runMatrix()'>🚀 Execute Cloud Intelligence Matrix</button>
+    <div class='results-box' id='results'><div class='status-header'><span style='font-size:0.85rem;color:#64748b;font-weight:700;'>FINANCIAL RADAR LOGS</span><div class='badge' id='badge'>Analyzing</div></div>
+    <table class='table-zone'><thead><tr><th>Competitor Node</th><th>Live Captured Price</th><th>Status</th></tr></thead>
+    <tbody><tr><td>Node 01 (Primary)</td><td id='r1'>$0.00</td><td id='s1'>Pending</td></tr><tr><td>Node 02</td><td id='r2'>$0.00</td><td id='s2'>Pending</td></tr><tr><td>Node 03</td><td id='r3'>$0.00</td><td id='s3'>Pending</td></tr></tbody></table>
+    <div class='grid-4'>
+    <div class='stat'><div class='stat-val' id='m1'>$0.00</div><div class='stat-lbl'>Floor Price</div></div><div class='stat'><div class='stat-val' id='m2'>$0.00</div><div class='stat-lbl'>Net Margin</div></div>
+    <div class='stat'><div class='stat-val' id='m3'>0</div><div class='stat-lbl'>Mo. Units</div></div><div class='stat'><div class='stat-val' id='m4'>0</div><div class='stat-lbl'>Daily Target</div></div></div>
+    <div class='progress-container'><div style='display:flex;justify-content:space-between;font-size:0.72rem;color:#94a3b8;font-weight:600;'><span>CASH-FLOW RUNWAY OVERHEAD SECURITY RADAR</span><span id='pText'>0%</span></div>
+    <div class='progress-bar'><div class='progress-fill' id='pFill'></div></div></div>
+    <div class='advice' id='plan'>Loading blueprint analysis...</div></div></div>
+    <script>function runMatrix(){const u1=document.getElementById('u1').value;const u2=document.getElementById('u2').value;const u3=document.getElementById('u3').value;const sub=document.getElementById('subs').value;const go=document.getElementById('goal').value;if(!u1||!sub||!go){alert('Please fill out all operational targets!');return;}
+    fetch(`/analyze-runway?url1=${encodeURIComponent(u1)}&url2=${encodeURIComponent(u2)}&url3=${encodeURIComponent(u3)}&monthly_subs=${sub}&income_goal=${go}`).then(r=>r.json()).then(w=>{const d=w.payload;
+    document.getElementById('badge').innerText=d.status;document.getElementById('badge').style.backgroundColor=d.status==='HEALTHY MARGIN'?'#059669':(d.status==='CRITICAL UNDERCUT'?'#ef4444':'#d97706');
+    document.getElementById('r1').innerText=d.p1>0?'$'+d.p1.toFixed(2):'No Connection';document.getElementById('s1').innerText=d.p1>0?'Live Active':'SIMULATED';
+    document.getElementById('r2').innerText=d.p2>0?'$'+d.p2.toFixed(2):'None Input';document.getElementById('s2').innerText=d.p2>0?'Live Active':'Inactive';
+    document.getElementById('r3').innerText=d.p3>0?'$'+d.p3.toFixed(2):'None Input';document.getElementById('s3').innerText=d.p3>0?'Live Active':'Inactive';
