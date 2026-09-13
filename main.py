@@ -2,6 +2,7 @@ import random
 import httpx
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, Query
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
