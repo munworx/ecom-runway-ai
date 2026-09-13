@@ -93,19 +93,25 @@
 
     <script>
         function runMatrix(){
-            var u1 = document.getElementById("u1").value;
-            var u2 = document.getElementById("u2").value;
-            var u3 = document.getElementById("u3").value;
-            var sub = document.getElementById("subs").value;
-            var go = document.getElementById("goal").value;
-            if(!u1 || !sub || !go){ alert("Please fill out all operational targets!"); return; }
+            var comp1 = document.getElementById("u1").value;
+            var comp2 = document.getElementById("u2").value;
+            var comp3 = document.getElementById("u3").value;
+            var expenseSpend = document.getElementById("subs").value;
+            var personalGoal = document.getElementById("goal").value;
             
-            var targetUrl = "https://onrender.com" + encodeURIComponent(u1) + "&url2=" + encodeURIComponent(u2) + "&url3=" + encodeURIComponent(u3) + "&monthly_subs=" + sub + "&income_goal=" + go;
+            if(!comp1 || !expenseSpend || !personalGoal){ 
+                alert("Please fill out all operational targets!"); 
+                return; 
+            }
             
-            fetch(targetUrl)
-                .then(r => r.json())
-                .then(w => {
-                    var d = w.payload;
+            // Clean parameter assembly - 100% split path validation
+            var hostCore = "https://onrender.com";
+            var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" + encodeURIComponent(comp2) + "&url3=" + encodeURIComponent(comp3) + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
+            
+            fetch(hostCore + dataQuery)
+                .then(function(res){ return res.json(); })
+                .then(function(payloadBox){
+                    var d = payloadBox.payload;
                     document.getElementById("badge").innerText = d.status;
                     document.getElementById("badge").style.backgroundColor = d.status === "HEALTHY MARGIN" ? "#059669" : (d.status === "CRITICAL UNDERCUT" ? "#ef4444" : "#d97706");
                     
