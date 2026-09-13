@@ -111,8 +111,8 @@
             fetch(hostCore + dataQuery)
                 .then(function(res){ return res.json(); })
                 .then(function(payloadBox){
-                    var d = payloadBox.payload;
-                    document.getElementById("badge").innerText = d.status;
+                    var d = w.payload ? w.payload : w;
+document.getElementById("badge").innerText = d.status ? d.status : "ACTIVE RUNWAY";
                     document.getElementById("badge").style.backgroundColor = d.status === "HEALTHY MARGIN" ? "#059669" : (d.status === "CRITICAL UNDERCUT" ? "#ef4444" : "#d97706");
                     
                     document.getElementById("r1").innerText = d.p1 > 0 ? "$" + d.p1.toFixed(2) : "No Connection";
@@ -128,7 +128,7 @@
                     document.getElementById("m4").innerText = d.daily_target + "/day";
                     
                     document.getElementById("pFill").style.width = d.efficiency + "%";
-                    document.getElementById("pText").innerText = d.efficiency + "% MARGIN RESILIENCE";
+document.getElementById("pText").innerText = d.efficiency + "% MARGIN RESILIENCE";
                     document.getElementById("plan").innerHTML = d.action_plan;
                     document.getElementById("results").style.display = "block";
                 });
