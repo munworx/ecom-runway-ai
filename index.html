@@ -100,10 +100,8 @@
             const go = document.getElementById("goal").value;
             if(!u1 || !sub || !go){ alert("Please fill out all operational targets!"); return; }
             
-           fetch(`https://onrender.com{encodeURIComponent(u1)}&url2=${encodeURIComponent(u2)}&url3=${encodeURIComponent(u3)}&monthly_subs=${sub}&income_goal=${go}`)
-
-
-            .then(r => r.json())
+            fetch("https://onrender.com" + encodeURIComponent(u1) + "&url2=" + encodeURIComponent(u2) + "&url3=" + encodeURIComponent(u3) + "&monthly_subs=" + sub + "&income_goal=" + go)
+                .then(r => r.json())
                 .then(w => {
                     const d = w.payload;
                     document.getElementById("badge").innerText = d.status;
