@@ -2,18 +2,9 @@ import random
 import httpx
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, Query
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
-
-# Strictly authorizing your public website link to communicate with this cloud core
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://github.io", "http://github.io"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",

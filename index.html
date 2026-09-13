@@ -93,25 +93,17 @@
 
     <script>
         function runMatrix(){
-            var link1 = document.getElementById("u1").value;
-            var link2 = document.getElementById("u2").value;
-            var link3 = document.getElementById("u3").value;
-            var expenses = document.getElementById("subs").value;
-            var paycheck = document.getElementById("goal").value;
+            const u1 = document.getElementById("u1").value;
+            const u2 = document.getElementById("u2").value;
+            const u3 = document.getElementById("u3").value;
+            const sub = document.getElementById("subs").value;
+            const go = document.getElementById("goal").value;
+            if(!u1 || !sub || !go){ alert("Please fill out all operational targets!"); return; }
             
-            if(!link1 || !expenses || !paycheck){ 
-                alert("Please fill out all operational targets!"); 
-                return; 
-            }
-            
-            var baseApi = "https://onrender.com";
-            var queryParams = "?url1=" + encodeURIComponent(link1) + "&url2=" + encodeURIComponent(link2) + "&url3=" + encodeURIComponent(link3) + "&monthly_subs=" + expenses + "&income_goal=" + paycheck;
-            var fullRequestUrl = baseApi + queryParams;
-            
-            fetch(fullRequestUrl)
-                .then(function(response){ return response.json(); })
-                .then(function(wrapper){
-                    var d = wrapper.payload;
+                    fetch(`https://onrender.com{encodeURIComponent(u1)}&url2=${encodeURIComponent(u2)}&url3=${encodeURIComponent(u3)}&monthly_subs=${sub}&income_goal=${go}`)
+            .then(r => r.json())
+                .then(w => {
+                    const d = w.payload;
                     document.getElementById("badge").innerText = d.status;
                     document.getElementById("badge").style.backgroundColor = d.status === "HEALTHY MARGIN" ? "#059669" : (d.status === "CRITICAL UNDERCUT" ? "#ef4444" : "#d97706");
                     
