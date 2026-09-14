@@ -24,6 +24,58 @@
         .progress-fill{height:100%;background:linear-gradient(90deg,#34d399,#38bdf8);width:0%;transition:width 0.4s;}
         .advice{font-size:0.95rem;line-height:1.6;color:#e2e8f0;background:rgba(30,41,59,0.4);border-radius:12px;padding:14px;border-left:4px solid #38bdf8;margin-top:15px;}
     </style>
+    <script>
+        function runMatrix(){
+            var comp1 = document.getElementById("u1").value;
+            var comp2 = document.getElementById("u2").value;
+            var comp3 = document.getElementById("u3").value;
+            var supplierCostInput = parseFloat(document.getElementById("item_cost").value) || 0;
+            var expenseSpend = document.getElementById("subs").value;
+            var personalGoal = document.getElementById("goal").value;
+            
+            if(!comp1 || !expenseSpend || !personalGoal){ 
+                alert("Please fill out all operational targets!"); 
+                return; 
+            }
+            
+            var hostCore = "https://onrender.com";
+            var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" + encodeURIComponent(comp2) + "&url3=" + encodeURIComponent(comp3) + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
+            
+            fetch(hostCore + dataQuery)
+                .then(function(res){ return res.json(); })
+                .then(function(payloadBox){
+                    var d = payloadBox.payload ? payloadBox.payload : payloadBox;
+                    var floor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
+                    
+                    var computedMargin = floor - supplierCostInput;
+                    var grossRevenue = floor * d.units_needed;
+                    var maxSourcingLimit = floor * 0.40; 
+                    var allowableCPA = computedMargin * 0.45;
+                    var targetROAS = floor / (allowableCPA > 0 ? allowableCPA : 1);
+                    var calculatedAdSpend = allowableCPA * d.units_needed;
+                    
+                    document.getElementById("badge").innerText = computedMargin > (floor * 0.4) ? "HEALTHY MARGIN" : "COMPETITIVE PRESSURE";
+                    document.getElementById("badge").style.backgroundColor = computedMargin > (floor * 0.4) ? "#059669" : "#d97706";
+                    
+                    document.getElementById("m1").innerText = "$" + Number(floor).toFixed(2);
+                    document.getElementById("m2").innerText = "$" + Number(computedMargin).toFixed(2);
+                    document.getElementById("sourcing_max").innerText = "$" + Number(maxSourcingLimit).toFixed(2);
+                    
+                    document.getElementById("max_cpa").innerText = "$" + Number(allowableCPA).toFixed(2);
+                    document.getElementById("target_roas").innerText = Number(targetROAS).toFixed(1) + "x";
+                    document.getElementById("ad_budget_max").innerText = "$" + Number(calculatedAdSpend).toFixed(2);
+                    
+                    document.getElementById("m3").innerText = (d.units_needed ? d.units_needed : 0) + " Units";
+                    document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : 0) + "/day";
+                    document.getElementById("gross_rev").innerText = "$" + Number(grossRevenue).toFixed(2);
+                    
+                    document.getElementById("pFill").style.width = d.efficiency + "%";
+                    document.getElementById("pText").innerText = d.efficiency + "% CASHFLOW RUNWAY SECURITY";
+                    document.getElementById("plan").innerHTML = "<b>ENTERPRISE DIRECTIVE:</b> Sourcing this inventory at $" + supplierCostInput.toFixed(2) + " leaves you with a clean $" + computedMargin.toFixed(2) + " net margin per order. To safely pocket your profit check and secure ad traffic, hit a gross sales runway volume of $" + grossRevenue.toFixed(2) + " this month.";
+                    document.getElementById("results").style.display = "block";
+                });
+        }
+    </script>
 </head>
 <body>
     <div class="card">
@@ -83,61 +135,3 @@
             
             <div class="progress-container">
                 <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#94a3b8;font-weight:600;">
-                    <span>CASH-FLOW SECURITY RESILIENCE RADAR</span>
-                    <span id="pText">0%</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
-            </div>
-            
-            <div class="advice" id="plan">Loading blueprint analysis...</div>
-        </div>
-    </div>
-
-    <script>
-        function runMatrix(){
-            var comp1 = document.getElementById("u1").value;
-            var comp2 = document.getElementById("u2").value;
-            var comp3 = document.getElementById("u3").value;
-            var supplierCostInput = parseFloat(document.getElementById("item_cost").value) || 0;
-            var expenseSpend = document.getElementById("subs").value;
-            var personalGoal = document.getElementById("goal").value;
-            
-            if(!comp1 || !expenseSpend || !personalGoal){ 
-                alert("Please fill out all operational targets!"); 
-                return; 
-            }
-            
-            var hostCore = "https://onrender.com";
-            var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" + encodeURIComponent(comp2) + "&url3=" + encodeURIComponent(comp3) + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
-            
-            fetch(hostCore + dataQuery)
-                .then(function(res){ return res.json(); })
-                .then(function(payloadBox){
-                    var d = payloadBox.payload ? payloadBox.payload : payloadBox;
-                    var floor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
-                    
-                    var computedMargin = floor - supplierCostInput;
-                    var grossRevenue = floor * d.units_needed;
-                    var maxSourcingLimit = floor * 0.40; 
-                    var allowableCPA = computedMargin * 0.45;
-                    var targetROAS = floor / (allowableCPA > 0 ? allowableCPA : 1);
-                    var calculatedAdSpend = allowableCPA * d.units_needed;
-                    
-                    document.getElementById("badge").innerText = computedMargin > (floor * 0.4) ? "HEALTHY MARGIN" : "COMPETITIVE PRESSURE";
-                    document.getElementById("badge").style.backgroundColor = computedMargin > (floor * 0.4) ? "#059669" : "#d97706";
-                    
-                    document.getElementById("m1").innerText = "$" + Number(floor).toFixed(2);
-                    document.getElementById("m2").innerText = "$" + Number(computedMargin).toFixed(2);
-                    document.getElementById("sourcing_max").innerText = "$" + Number(maxSourcingLimit).toFixed(2);
-                    
-                    document.getElementById("max_cpa").innerText = "$" + Number(allowableCPA).toFixed(2);
-                    document.getElementById("target_roas").innerText = Number(targetROAS).toFixed(1) + "x";
-                    document.getElementById("ad_budget_max").innerText = "$" + Number(calculatedAdSpend).toFixed(2);
-                    
-                    document.getElementById("m3").innerText = (d.units_needed ? d.units_needed : 0) + " Units";
-                    document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : 0) + "/day";
-                    document.getElementById("gross_rev").innerText = "$" + Number(grossRevenue).toFixed(2);
-                    
-                    document.getElementById("pFill").style.width = d.efficiency + "%";
-                    document.getElementById("pText").innerText = d.efficiency + "% CASHFLOW RUNWAY SECURITY";
- 
