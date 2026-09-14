@@ -115,13 +115,14 @@
                 .then(function(payloadBox){
                     var d = payloadBox.payload ? payloadBox.payload : payloadBox;
                     var floor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
+                    var units = d.units_needed ? parseInt(d.units_needed) : (d.units ? parseInt(d.units) : 1);
                     
                     var computedMargin = floor - supplierCostInput;
-                    var grossRevenue = floor * d.units_needed;
+                    var grossRevenue = floor * units;
                     var maxSourcingLimit = floor * 0.40; 
                     var allowableCPA = computedMargin * 0.45;
                     var targetROAS = floor / (allowableCPA > 0 ? allowableCPA : 1);
-                    var calculatedAdSpend = allowableCPA * d.units_needed;
+                    var calculatedAdSpend = allowableCPA * units;
                     
                     document.getElementById("badge").innerText = computedMargin > (floor * 0.4) ? "HEALTHY MARGIN" : "COMPETITIVE PRESSURE";
                     document.getElementById("badge").style.backgroundColor = computedMargin > (floor * 0.4) ? "#059669" : "#d97706";
@@ -134,9 +135,9 @@
                     document.getElementById("target_roas").innerText = Number(targetROAS).toFixed(1) + "x";
                     document.getElementById("ad_budget_max").innerText = "$" + Number(calculatedAdSpend).toFixed(2);
                     
-                    document.getElementById("m3").innerText = (d.units_needed ? d.units_needed : 0) + " Units";
-                    document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : 0) + "/day";
-                    document.getElementById("gross_rev").innerText = "$" + Number(grossRevenue).toFixed(2);
+                    document.getElementById("m3").innerText = units + " Units";
+document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : (d.daily ? d.daily : 0)) + "/day";
+document.getElementById("gross_rev").innerText = "$" + Number(grossRevenue).toFixed(2);
                     
                     document.getElementById("pFill").style.width = d.efficiency + "%";
                     document.getElementById("pText").innerText = d.efficiency + "% CASHFLOW RUNWAY SECURITY";
