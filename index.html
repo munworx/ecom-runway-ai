@@ -122,11 +122,13 @@ document.getElementById("r3").innerText = (d.p3 && d.p3 > 0) ? "$" + Number(d.p3
 document.getElementById("s3").innerText = (d.p3 && d.p3 > 0) ? "Live Active" : "Inactive";
 
                     
-                    document.getElementById("m1").innerText = "$" + d.floor_price.toFixed(2);
-document.getElementById("m2").innerText = "$" + d.net_margin.toFixed(2);
-document.getElementById("m3").innerText = d.units_needed + " Units";
-document.getElementById("m4").innerText = d.daily_target + "/day";
+                    var currentFloor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
+                    var currentMargin = d.net_margin ? d.net_margin : (d.margin ? d.margin : 0);
 
+                    document.getElementById("m1").innerText = "$" + Number(currentFloor).toFixed(2);
+                    document.getElementById("m2").innerText = "$" + Number(currentMargin).toFixed(2);
+                    document.getElementById("m3").innerText = (d.units_needed ? d.units_needed : 0) + " Units";
+                    document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : 0) + "/day";
                     
                     document.getElementById("pFill").style.width = d.efficiency + "%";
                     document.getElementById("pText").innerText = d.efficiency + "% MARGIN RESILIENCE";
