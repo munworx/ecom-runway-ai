@@ -14,13 +14,11 @@
         .results-box{margin-top:30px;background:#020617;border:1px solid #1e293b;border-radius:20px;padding:24px;display:none;}
         .status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px dashed #334155;padding-bottom:15px;}
         .badge{padding:6px 14px;border-radius:9999px;font-size:0.75rem;font-weight:800;text-transform:uppercase;color:white;}
-        
         .section-title{font-size:0.8rem;color:#38bdf8;font-weight:800;text-transform:uppercase;margin:25px 0 12px 0;letter-spacing:0.05em;border-left:3px solid #38bdf8;padding-left:8px;}
         .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:15px;}
         .stat{background:#1e293b;padding:14px;border-radius:14px;text-align:center;border:1px solid #334155;}
         .stat-val{font-size:1.3rem;font-weight:800;color:#34d399;}
         .stat-lbl{color:#94a3b8;text-transform:uppercase;margin-top:5px;font-size:0.65rem;letter-spacing:0.02em;}
-        
         .progress-container{margin:20px 0;background:rgba(30,41,59,0.3);padding:12px;border-radius:12px;border:1px solid #1e293b;}
         .progress-bar{height:8px;background-color:#1e293b;border-radius:9999px;overflow:hidden;position:relative;margin-top:6px;}
         .progress-fill{height:100%;background:linear-gradient(90deg,#34d399,#38bdf8);width:0%;transition:width 0.4s;}
@@ -69,7 +67,7 @@
                 <div class="stat"><div class="stat-val" id="sourcing_max">$0.00</div><div class="stat-lbl">Max Sourcing Limit</div></div>
             </div>
             
-            <div class="section-title">📈 Acquisition & Marketing Targets</div>
+            <div class="section-title">📈 Marketing & Acquisition Targets</div>
             <div class="grid-3">
                 <div class="stat"><div class="stat-val" id="max_cpa">$0.00</div><div class="stat-lbl">Allowable CPA Limit</div></div>
                 <div class="stat"><div class="stat-val" id="target_roas">0.0x</div><div class="stat-lbl">Target Break-Even ROAS</div></div>
@@ -116,10 +114,8 @@
                 .then(function(res){ return res.json(); })
                 .then(function(payloadBox){
                     var d = payloadBox.payload ? payloadBox.payload : payloadBox;
-                    
                     var floor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
                     
-                    // Advanced Financial Arithmetic Formulas
                     var computedMargin = floor - supplierCostInput;
                     var grossRevenue = floor * d.units_needed;
                     var maxSourcingLimit = floor * 0.40; 
@@ -130,19 +126,17 @@
                     document.getElementById("badge").innerText = computedMargin > (floor * 0.4) ? "HEALTHY MARGIN" : "COMPETITIVE PRESSURE";
                     document.getElementById("badge").style.backgroundColor = computedMargin > (floor * 0.4) ? "#059669" : "#d97706";
                     
-                    // Populate Sourcing Metrics
                     document.getElementById("m1").innerText = "$" + Number(floor).toFixed(2);
                     document.getElementById("m2").innerText = "$" + Number(computedMargin).toFixed(2);
                     document.getElementById("sourcing_max").innerText = "$" + Number(maxSourcingLimit).toFixed(2);
                     
-                    // Populate Marketing Metrics
                     document.getElementById("max_cpa").innerText = "$" + Number(allowableCPA).toFixed(2);
                     document.getElementById("target_roas").innerText = Number(targetROAS).toFixed(1) + "x";
                     document.getElementById("ad_budget_max").innerText = "$" + Number(calculatedAdSpend).toFixed(2);
                     
-                    // Populate Revenue Metrics
                     document.getElementById("m3").innerText = (d.units_needed ? d.units_needed : 0) + " Units";
                     document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : 0) + "/day";
                     document.getElementById("gross_rev").innerText = "$" + Number(grossRevenue).toFixed(2);
                     
-                    // Progress & Plan
+                    document.getElementById("pFill").style.width = d.efficiency + "%";
+                    document.getElementById("pText").innerText = d.efficiency + "% CASHFLOW RUNWAY SECURITY";
