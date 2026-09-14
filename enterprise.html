@@ -41,7 +41,7 @@
             var hostCore = "https://ecom-runway-ai.onrender.com";
             var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" + encodeURIComponent(comp2) + "&url3=" + encodeURIComponent(comp3) + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
             
-            fetch(hostCore + dataQuery)
+                        fetch(hostCore + dataQuery)
                 .then(function(res){ return res.json(); })
                 .then(function(payloadBox){
                     var d = payloadBox.payload ? payloadBox.payload : payloadBox;
@@ -74,6 +74,7 @@
                     document.getElementById("plan").innerHTML = "<b>ENTERPRISE DIRECTIVE:</b> Sourcing this inventory at $" + supplierCostInput.toFixed(2) + " leaves you with a clean $" + computedMargin.toFixed(2) + " net margin per order. To safely pocket your profit check and secure ad traffic, hit a gross sales runway volume of $" + grossRevenue.toFixed(2) + " this month.";
                     document.getElementById("results").style.display = "block";
                 });
+
         }
     </script>
 </head>
