@@ -123,9 +123,10 @@ document.getElementById("s3").innerText = (d.p3 && d.p3 > 0) ? "Live Active" : "
 
                     
                     document.getElementById("m1").innerText = "$" + d.floor_price.toFixed(2);
-                    document.getElementById("m2").innerText = "$" + d.net_margin.toFixed(2);
-                    document.getElementById("m3").innerText = d.units_needed + " Units";
-                    document.getElementById("m4").innerText = d.daily_target + "/day";
+document.getElementById("m2").innerText = "$" + d.net_margin.toFixed(2);
+document.getElementById("m3").innerText = d.units_needed + " Units";
+document.getElementById("m4").innerText = d.daily_target + "/day";
+
                     
                     document.getElementById("pFill").style.width = d.efficiency + "%";
                     document.getElementById("pText").innerText = d.efficiency + "% MARGIN RESILIENCE";
