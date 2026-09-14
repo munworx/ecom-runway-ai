@@ -124,17 +124,18 @@
             var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" + encodeURIComponent(comp2) + "&url3=" + encodeURIComponent("") + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
             
             fetch(hostCore + dataQuery)
-                .then(res => res.json())
-                .then(payloadBox => {
-                    var d = payloadBox.payload ? payloadBox.payload : payloadBox;
-                    var compFloor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
-                    
+                            .then(function(res){ return res.json(); })
+            .then(async function(payloadBox){
+                var d = payloadBox.payload ? payloadBox.payload : payloadBox;
+                var compFloor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
+
+                // Clean sequence bridge to trigger the secondary scraper
+                var res2 = await fetch(hostCore + myQuery);
+                var myPayloadBox = await res2.json();
+ 
                     // Step 2: Parallel fetch tracking to scrape your own item price tag safely
                     var myQuery = "?url1=" + encodeURIComponent(myUrlInput) + "&url2=" + encodeURIComponent("") + "&url3=" + encodeURIComponent("") + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
                     
-                    fetch(hostCore + myQuery)
-                        .then(res2 => res2.json())
-                        .then(myPayloadBox => {
                             var myD = myPayloadBox.payload ? myPayloadBox.payload : myPayloadBox;
                             var myPrice = myD.floor_price ? myD.floor_price : (myD.floor ? myD.floor : 0);
                             
