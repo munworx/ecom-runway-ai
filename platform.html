@@ -131,11 +131,11 @@
                 var compFloor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
 
                 // Clean sequence bridge to trigger the secondary scraper
+                var myQuery = "?url1=" + encodeURIComponent(myUrlInput) + "&url2=" + encodeURIComponent("") + "&url3=" + encodeURIComponent("") + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
                 var res2 = await fetch(hostCore + myQuery);
                 var myPayloadBox = await res2.json();
  
                     // Step 2: Parallel fetch tracking to scrape your own item price tag safely
-                    var myQuery = "?url1=" + encodeURIComponent(myUrlInput) + "&url2=" + encodeURIComponent("") + "&url3=" + encodeURIComponent("") + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
                     
                             var myD = myPayloadBox.payload ? myPayloadBox.payload : myPayloadBox;
                             var myPrice = myD.floor_price ? myD.floor_price : (myD.floor ? myD.floor : 0);
