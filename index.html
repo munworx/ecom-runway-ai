@@ -104,15 +104,14 @@
                 return; 
             }
             
-            // Clean parameter assembly - 100% split path validation
-            var hostCore = "https://ecom-runway-ai.onrender.com";
+            var hostCore = "https://onrender.com";
             var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" + encodeURIComponent(comp2) + "&url3=" + encodeURIComponent(comp3) + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
             
             fetch(hostCore + dataQuery)
                 .then(function(res){ return res.json(); })
                 .then(function(payloadBox){
-                    var d = w.payload ? w.payload : w;
-document.getElementById("badge").innerText = d.status ? d.status : "ACTIVE RUNWAY";
+                    var d = payloadBox.payload ? payloadBox.payload : payloadBox;
+                    document.getElementById("badge").innerText = d.status ? d.status : "ACTIVE RUNWAY";
                     document.getElementById("badge").style.backgroundColor = d.status === "HEALTHY MARGIN" ? "#059669" : (d.status === "CRITICAL UNDERCUT" ? "#ef4444" : "#d97706");
                     
                     document.getElementById("r1").innerText = d.p1 > 0 ? "$" + d.p1.toFixed(2) : "No Connection";
@@ -128,7 +127,7 @@ document.getElementById("badge").innerText = d.status ? d.status : "ACTIVE RUNWA
                     document.getElementById("m4").innerText = d.daily_target + "/day";
                     
                     document.getElementById("pFill").style.width = d.efficiency + "%";
-document.getElementById("pText").innerText = d.efficiency + "% MARGIN RESILIENCE";
+                    document.getElementById("pText").innerText = d.efficiency + "% MARGIN RESILIENCE";
                     document.getElementById("plan").innerHTML = d.action_plan;
                     document.getElementById("results").style.display = "block";
                 });
