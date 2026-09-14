@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Com Runway AI - Product Management Console</title>
+    <style>
+        body{font-family:sans-serif;background-color:#060913;color:#f8fafc;margin:0;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+        .card{background:linear-gradient(160deg,#1e293b,#090d16);border:1px solid #334155;padding:35px;border-radius:28px;width:100%;max-width:750px;box-shadow:0 40px 80px rgba(0,0,0,0.8);}
+        h1{color:#38bdf8;font-size:2.4rem;margin:0 0 4px 0;font-weight:800;text-align:center;}.subtitle{color:#64748b;font-size:0.95rem;text-align:center;margin-bottom:25px;}
+        .form-group{margin-bottom:15px;}label{display:block;font-size:0.75rem;font-weight:700;color:#cbd5e1;text-transform:uppercase;margin-bottom:6px;letter-spacing:0.05em;}
+        input{width:100%;padding:12px 14px;background-color:#020617;border:1px solid #475569;border-radius:12px;color:#f8fafc;font-size:0.95rem;box-sizing:border-box;margin-bottom:8px;}
+        .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-bottom:15px;}
+        button{width:100%;padding:16px;background:linear-gradient(135deg,#0ea5e9,#2563eb);color:white;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;box-shadow:0 10px 20px rgba(14,165,233,0.2);margin-top:10px;}
+        
+        /* Feature 2 styles */
+        .profile-section{background:#111827;border:1px solid #3b82f6;border-radius:16px;padding:18px;margin-bottom:20px;}
+        .profile-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+        .profile-btn{background:#1e293b;border:1px solid #4b5563;color:#e5e7eb;padding:8px 14px;border-radius:8px;font-size:0.8rem;cursor:pointer;font-weight:600;}
+        .profile-btn:hover{background:#2563eb;border-color:#3b82f6;}
+        .save-row{display:flex;gap:10px;}
+        .save-btn{background:#10b981;padding:12px 20px;border-radius:12px;font-size:0.85rem;margin:0;}
+        
+        .results-box{margin-top:30px;background:#020617;border:1px solid #1e293b;border-radius:20px;padding:24px;display:none;}
+        .status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px dashed #334155;padding-bottom:15px;}
+        .badge{padding:6px 14px;border-radius:9999px;font-size:0.75rem;font-weight:800;text-transform:uppercase;color:white;}
+        .section-title{font-size:0.8rem;color:#38bdf8;font-weight:800;text-transform:uppercase;margin:25px 0 12px 0;letter-spacing:0.05em;border-left:3px solid #38bdf8;padding-left:8px;}
+        .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:15px;}
+        .stat{background:#1e293b;padding:14px;border-radius:14px;text-align:center;border:1px solid #334155;}
+        .stat-val{font-size:1.3rem;font-weight:800;color:#34d399;}
+        .stat-lbl{color:#94a3b8;text-transform:uppercase;margin-top:5px;font-size:0.65rem;letter-spacing:0.02em;}
+        .progress-container{margin:20px 0;background:rgba(30,41,59,0.3);padding:12px;border-radius:12px;border:1px solid #1e293b;}
+        .progress-bar{height:8px;background-color:#1e293b;border-radius:9999px;overflow:hidden;position:relative;margin-top:6px;}
+        .progress-fill{height:100%;background:linear-gradient(90deg,#34d399,#38bdf8);width:0%;transition:width 0.4s;}
+        .advice{font-size:0.95rem;line-height:1.6;color:#e2e8f0;background:rgba(30,41,59,0.4);border-radius:12px;padding:14px;border-left:4px solid #38bdf8;margin-top:15px;}
+        .ledger-box{margin-top:15px;padding:14px;border-radius:12px;font-size:0.95rem;font-weight:600;}
+        .ledger-win{background:rgba(52,211,153,0.1);border-left:4px solid #34d399;color:#a7f3d0;}
+        .ledger-lose{background:rgba(239,68,68,0.1);border-left:4px solid #ef4444;color:#fca5a5;}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>⚡ E-Com Runway AI</h1>
+        <div class="subtitle">SaaS Product Console & Saved Profile Vault</div>
+        
+        <!-- FEATURE #2 VISUAL INJECTION BLOCK -->
+        <div class="profile-section">
+            <label style="color:#3b82f6;">💾 Saved Products Vault (Local Memory)</label>
+            <div class="save-row" style="margin-top:6px;">
+                <input type="text" id="profile_name" placeholder="Give this tracking setup a name (e.g., Star Wars Toy)">
+                <button onclick="saveCurrentProfile()" class="save-btn">Save Current URLs</button>
+            </div>
+            <div class="profile-list" id="vault_list">
+                <!-- Saved items populate here dynamically -->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="color: #c084fc;">💎 My Own Store Listing Link (Your Product)</label>
+            <input type="text" id="my_url" placeholder="Paste your own Amazon/eBay link here to compare">
+        </div>
+
+        <div class="form-group">
+            <label>🌐 Multi-Scraper Competitor Target Links (Up to 2)</label>
+            <input type="text" id="u1" placeholder="Competitor link 1 (Amazon / eBay)">
+            <input type="text" id="u2" placeholder="Competitor link 2 (Optional)">
+        </div>
+        
+        <div class="row-3">
+            <div class="form-group">
+                <label>📦 Item Wholesale Cost ($)</label>
+                <input type="number" id="item_cost" value="25">
+            </div>
+            <div class="form-group">
+                <label>💳 Software Overhead ($)</label>
+                <input type="number" id="subs" value="150">
+            </div>
+            <div class="form-group">
+                <label>🎯 Take-Home Target ($)</label>
+                <input type="number" id="goal" value="2500">
+            </div>
+        </div>
+        
+        <button onclick="runMatrix()">🚀 Execute Head-to-Head Comparison Matrix</button>
+        
+        <div class="results-box" id="results">
+            <div class="status-header">
+                <span style="font-size:0.85rem;color:#64748b;font-weight:700;">SAAS PLATFORM RUNTIME RADAR</span>
+                <div class="badge" id="badge">Analyzing</div>
+            </div>
+
+            <div class="section-title">⚖️ Head-to-Head Market Edge Discrepancy Ledger</div>
+            <div class="ledger-box" id="ledger_output">Analyzing position gap...</div>
+            
+            <div class="section-title">📊 Sourcing & Product Viability</div>
+            <div class="grid-3">
+                <div class="stat"><div class="stat-val" id="m1">$0.00</div><div class="stat-lbl">Market Floor Price</div></div>
+                <div class="stat"><div class="stat-val" id="my_captured_price">$0.00</div><div class="stat-lbl">My Captured Price</div></div>
+                <div class="stat"><div class="stat-val" id="m2">$0.00</div><div class="stat-lbl">Net Profit Margin</div></div>
+            </div>
+            
+            <div class="section-title">📈 Marketing & Acquisition Targets</div>
+            <div class="grid-3">
+                <div class="stat"><div class="stat-val" id="max_cpa">$0.00</div><div class="stat-lbl">Allowable CPA Limit</div></div>
+                <div class="stat"><div class="stat-val" id="target_roas">0.0x</div><div class="stat-lbl">Target Break-Even ROAS</div></div>
+                <div class="stat"><div class="stat-val" id="ad_budget_max">$0.00</div><div class="stat-lbl">Projected Ad Spend</div></div>
+            </div>
+
+            <div class="section-title">💰 Operational Volumes & Revenues</div>
+            <div class="grid-3">
+                <div class="stat"><div class="stat-val" id="m3">0 Units</div><div class="stat-lbl">Required Mo. Volume</div></div>
+                <div class="stat"><div class="stat-val" id="m4">0/day</div><div class="stat-lbl">Daily Order Speed</div></div>
+                <div class="stat"><div class="stat-val" id="gross_rev">$0.00</div><div class="stat-lbl">Gross Revenue Target</div></div>
+            </div>
+            
+            <div class="progress-container">
+                <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#94a3b8;font-weight:600;">
+                    <span>CASH-FLOW SECURITY RESILIENCE RADAR</span>
+                    <span id="pText">0%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
+            </div>
+            
+            <div class="advice" id="plan">Loading blueprint analysis...</div>
+        </div>
+    </div>
+
+    <script>
+        // Feature 2 Logic: Local Vault Core Systems
+        function saveCurrentProfile() {
+            var name = document.getElementById("profile_name").value.trim();
+            var myUrl = document.getElementById("my_url").value;
+            var c1 = document.getElementById("u1").value;
+            var c2 = document.getElementById("u2").value;
+            var cost = document.getElementById("item_cost").value;
+            
+            if(!name || !myUrl || !c1) {
+                alert("Please fill your profile name and URLs before saving!");
+                return;
+            }
+            
+            var profileData = { myUrl: myUrl, c1: c1, c2: c2, cost: cost };
+            localStorage.setItem("ecom_profile_" + name, JSON.stringify(profileData));
+            document.getElementById("profile_name").value = "";
+            loadVaultList();
+        }
+
+        function loadVaultList() {
+            var container = document.getElementById("vault_list");
+            container.innerHTML = "";
+            var keys = Object.keys(localStorage);
+            
+            keys.forEach(function(key) {
+                if(key.indexOf("ecom_profile_") === 0) {
+                    var name = key.replace("ecom_profile_", "");
+                    var btn = document.createElement("button");
+                    btn.className = "profile-btn";
+                    btn.innerText = "📁 " + name;
+                    btn.onclick = function() {
+var data = JSON.parse(localStorage.getItem(key));
+document.getElementById("my_url").value = data.myUrl || "";
+ document.getElementById("u1").value = data.c1 || "";
+                      document.getElementById("u2").value = data.c2 || "";
+                      document.getElementById("item_cost").value = data.cost || 25;
+                      };
+                  container.appendChild(btn);
+                }
+            });
+        }
+// Run automatically when window draws onto client viewport screen
+window.onload = function() {
+loadVaultList();
+};
+
+function runMatrix(){
+var myUrlInput = document.getElementById("my_url").value;
+var comp1 = document.getElementById("u1").value;
+var comp2 = document.getElementById("u2").value;
+var supplierCostInput = parseFloat(document.getElementById("item_cost").value) || 0;
+ var expenseSpend = document.getElementById("subs").value;
+ var personalGoal = document.getElementById("goal").value;
+
+ if(!myUrlInput || !comp1 || !expenseSpend || !personalGoal){
+alert("Please complete your store link and competitor targets!");
+return;
+ }
+
+var hostCore = "onrender.com";
+var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" +
+encodeURIComponent(comp2) + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
+
+fetch(hostCore + dataQuery)
+  .then(function(res){ return res.json(); })
+  .then(function(payloadBox){
+   var d = payloadBox.payload ? payloadBox.payload : payloadBox;
+    var compFloor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
+var myQuery = "?url1=" + encodeURIComponent(myUrlInput) + "&url2=" +
+        encodeURIComponent("") + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;
+
+  var myQuery = "?url1=" + encodeURIComponent(myUrlInput) + "&url2=" + encodeURIComponent("") + "&url3=" + encodeURIComponent("") + "&monthly_subs=" + expenseSpend + "&income_goal=" + personalGoal;   
+
+    fetch(hostCore + myQuery)
+    .then(function(res2){ return res2.json(); })
+    .then(function(myPayloadBox){
+      var myD = myPayloadBox.payload ? myPayloadBox.payload : myPayloadBox;
+      var myPrice = myD.floor_price ? myD.floor_price : (myD.floor ? myD.floor : 0);
+
+        var computedMargin = myPrice - supplierCostInput;
+      var units = d.units_needed ? d.units_needed : 1;
+      var grossRevenue = myPrice * units;
+      var maxSourcingLimit = compFloor * 0.40;
+      var allowableCPA = computedMargin * 0.45;
+      var targetROAS = myPrice / (allowableCPA > 0 ? allowableCPA : 1);
+      var calculatedAdSpend = allowableCPA * units;
+
+          var ledger = document.getElementById("ledger_output");
+      if(myPrice < compFloor) {
+        var gap = compFloor - myPrice;
+        ledger.className = "ledger-box ledger-win";
+        ledger.innerHTML = "🎯 MARKET ADVANTAGE: Your product is priced lower than the competitor floor by $" + gap.toFixed(2) + ". This makes you the most competitive option on the dashboard! You have room to increase prices if you want to capture higher margins.";
+        } else if (myPrice > compFloor) {
+        var gap = myPrice - compFloor;
+        ledger.className = "ledger-box ledger-lose";
+        ledger.innerHTML = "⚠️ COMPETITIVE RISK: You are currently being undercut by competitors by $" + gap.toFixed(2) + ". Consider lowering your pricing strategy to match the competitor floor of $" + compFloor.toFixed(2) + " or bundle features to justify the premium tier cost.";
+        } else {
+        ledger.className = "ledger-box";
+        ledger.innerHTML = "🤝 MARKET PARITY: Your pricing structure matches the absolute low market floor exactly. Watch software overhead expenses closely to optimize profitability metrics.";
+      }
+document.getElementById("badge").innerText = computedMargin > (myPrice * 0.4) ? "HEALTHY MARGIN" : "COMPETITIVE PRESSURE";
+      document.getElementById("badge").style.backgroundColor = computedMargin > (myPrice * 0.4) ? "#059669" : "#d97706";
+
+      document.getElementById("m1").innerText = "$" + Number(compFloor).toFixed(2);
+      document.getElementById("my_captured_price").innerText = "$" + Number(myPrice).toFixed(2);
+      document.getElementById("m2").innerText = "$" + Number(computedMargin).toFixed(2);
+
+      document.getElementById("max_cpa").innerText = "$" + Number(allowableCPA).toFixed(2);
+      document.getElementById("target_roas").innerText = Number(targetROAS).toFixed(1) + "x";
+      document.getElementById("ad_budget_max").innerText = "$" + Number(calculatedAdSpend).toFixed(2);
+
+      document.getElementById("m3").innerText = units + " Units";
+      document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : 0) + "/day";
+      document.getElementById("gross_rev").innerText = "$" + Number(grossRevenue).toFixed(2);
+
+      document.getElementById("pFill").style.width = d.efficiency + "%";
+      document.getElementById("pText").innerText = d.efficiency + "% CASHFLOW RUNWAY SECURITY";
+
+      document.getElementById("plan").innerHTML = "ENTERPRISE PLATFORM DIRECTIVE: Sourcing your own inventory items at $" + supplierCostInput.toFixed(2) + " yields a clean $" + computedMargin.toFixed(2) + " net margin per order based on your live store listing values.";
+      document.getElementById("results").style.display = "block";
+      });
+    });
+}
+          
