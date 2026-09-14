@@ -114,12 +114,13 @@
                     document.getElementById("badge").innerText = d.status ? d.status : "ACTIVE RUNWAY";
                     document.getElementById("badge").style.backgroundColor = d.status === "HEALTHY MARGIN" ? "#059669" : (d.status === "CRITICAL UNDERCUT" ? "#ef4444" : "#d97706");
                     
-                    document.getElementById("r1").innerText = d.p1 > 0 ? "$" + d.p1.toFixed(2) : "No Connection";
-                    document.getElementById("s1").innerText = d.p1 > 0 ? "Live Active" : "SIMULATED";
-                    document.getElementById("r2").innerText = d.p2 > 0 ? "$" + d.p2.toFixed(2) : "None Input";
-                    document.getElementById("s2").innerText = d.p2 > 0 ? "Live Active" : "Inactive";
-                    document.getElementById("r3").innerText = d.p3 > 0 ? "$" + d.p3.toFixed(2) : "None Input";
-                    document.getElementById("s3").innerText = d.p3 > 0 ? "Live Active" : "Inactive";
+                    document.getElementById("r1").innerText = (d.p1 && d.p1 > 0) ? "$" + Number(d.p1).toFixed(2) : "No Connection";
+document.getElementById("s1").innerText = (d.p1 && d.p1 > 0) ? "Live Active" : "SIMULATED";
+document.getElementById("r2").innerText = (d.p2 && d.p2 > 0) ? "$" + Number(d.p2).toFixed(2) : "None Input";
+document.getElementById("s2").innerText = (d.p2 && d.p2 > 0) ? "Live Active" : "Inactive";
+document.getElementById("r3").innerText = (d.p3 && d.p3 > 0) ? "$" + Number(d.p3).toFixed(2) : "None Input";
+document.getElementById("s3").innerText = (d.p3 && d.p3 > 0) ? "Live Active" : "Inactive";
+
                     
                     document.getElementById("m1").innerText = "$" + d.floor_price.toFixed(2);
                     document.getElementById("m2").innerText = "$" + d.net_margin.toFixed(2);
