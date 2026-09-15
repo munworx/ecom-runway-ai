@@ -142,7 +142,7 @@
                     <div class="stat"><div class="stat-val" id="gross_rev">$0.00</div><div class="stat-lbl">Gross Revenue Target</div></div>
                  var isLoginMode = true;
                     // Authorize Cloud Database Initialization
-var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co/rest/v1/";
+var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
 var supabaseKey = "sb_publishable_h9Qt6L2UZNxiPjxzIagl5w_jh0Pz8cm";
 var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                   function toggleAuthMode() {
@@ -174,8 +174,7 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                         }
                     });
                     }
-                    }
-            else {
+             else {
                 // Secure Registration Handshake
                 supabaseClient.auth.signUp({ email: email, password: password })
                     .then(function(result) {
