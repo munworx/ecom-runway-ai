@@ -259,28 +259,35 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         }
  
 
-                  function loadVaultList() {
-                  var container = document.getElementById("vault_list");
-                  container.innerHTML = "";
-                  var keys = Object.keys(localStorage);
+                          function loadVaultList() {
+            var container = document.getElementById("vault_list");
+            container.innerHTML = "";
 
-                  keys.forEach(function(key) {
-                  if(key.indexOf("ecom_portal_") === 0) {
-                  var name = key.replace("ecom_portal_", "");
-                  var btn = document.createElement("button");
-                  btn.className = "profile-btn";
-                  btn.innerText = "📁 " + name;
-                  btn.onclick = function() {
-                  var data = JSON.parse(localStorage.getItem(key));
-                  document.getElementById("my_url").value = data.myUrl || "";
-                  document.getElementById("u1").value = data.c1 || "";
-                  document.getElementById("u2").value = data.c2 || "";
-                  document.getElementById("item_cost").value = data.cost || 25;
-                  }
-                  container.appendChild(btn);
-                  }
-                  });
-                  }
+            // Asynchronously fetch archived rows matching the active user session from your database
+            supabaseClient.from("saved_vaults").select("*").then(function(result) {
+                if (result.error) {
+                    console.log("Cloud Pull Blocked: " + result.error.message);
+                    return;
+                }
+
+                var records = result.data || [];
+                records.forEach(function(row) {
+                    var btn = document.createElement("button");
+                    btn.className = "profile-btn";
+                    btn.innerText = "📁 " + row.profile_name;
+                    
+                    // Click event to automatically populate inputs from your relational table row data
+                    btn.onclick = function() {
+                        document.getElementById("my_url").value = row.my_url || "";
+                        document.getElementById("u1").value = row.comp_url1 || "";
+                        document.getElementById("u2").value = ""; // Optional link secondary field reset
+                        document.getElementById("item_cost").value = row.item_cost || 25;
+                    };
+                    container.appendChild(btn);
+                });
+            });
+        }
+
 
                   function runMatrix(){
                   var myUrlInput = document.getElementById("my_url").value;
