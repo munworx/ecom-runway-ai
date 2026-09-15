@@ -62,7 +62,7 @@
             </div>
             
             <button onclick="handleAuth()" id="auth_btn">Secure Sign In</button>
-            <span class="auth-toggle" onclick="toggleAuthMode()" id="auth_toggle_text">Need to register a corporate account? Create one here</span>
+           <span class="auth-toggle" onclick="toggleAuthMode()" id="auth_toggle_text">Need to register a corporate account? Create one here</span>
         </div>
 
         <!-- 🚀 SCREEN B: THE SYSTEM DASHBOARD (HIDDEN BY DEFAULT) -->
@@ -139,19 +139,22 @@
                 <div class="grid-3">
                     <div class="stat"><div class="stat-val" id="m3">0 Units</div><div class="stat-lbl">Required Mo. Volume</div></div>
                     <div class="stat"><div class="stat-val" id="m4">0/day</div><div class="stat-lbl">Daily Order Speed</div></div>
-                    <div class="stat"><div class="stat-val" id="gross_rev">$0.00</div><div class="stat-lbl">Gross Revenue Target</div></div>
-                 var isLoginMode = true;
-                    // Authorize Cloud Database Initialization
-var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
-var supabaseKey = "sb_publishable_h9Qt6L2UZNxiPjxzIagl5w_jh0Pz8cm";
-var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-                  function toggleAuthMode() {
+                               <div class="stat"><div class="stat-val" id="gross_rev">$0.00</div><div class="stat-lbl">Gross Revenue Target</div></div>
+    </div>
+    <script>
+    var isLoginMode = true;
+        function toggleAuthMode() {
                   isLoginMode = !isLoginMode;
                   document.getElementById("auth_title").innerText = isLoginMode ? "🔒 Partner Login" : "🚀 Create Platform Account";
                   document.getElementById("auth_subtitle").innerText = isLoginMode ? "Enter your corporate credentials to access Runway AI" : "Register your email to stand up a clean calculation instance";
                   document.getElementById("auth_btn").innerText = isLoginMode ? "Secure Sign In" : "Register Corporate Account";
                   document.getElementById("auth_toggle_text").innerText = isLoginMode ? "Need to register a corporate account? Create one here" : "Already have a platform account? Secure log in here";
                   }
+    // Authorize Cloud Database Initialization
+var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
+var supabaseKey = "sb_publishable_h9Qt6L2UZNxiPjxzIagl5w_jh0Pz8cm";
+var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+                  
                   // Prototype Mock-Auth Handshake System (Upgraded to true Cloud Database in Phase 2)
                             // Live Supabase Authentication Handshake Engine
                 function handleAuth() {
