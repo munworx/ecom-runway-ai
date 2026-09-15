@@ -156,7 +156,7 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                   }
                   // Prototype Mock-Auth Handshake System (Upgraded to true Cloud Database in Phase 2)
                             // Live Supabase Authentication Handshake Engine
-        function handleAuth() {
+                function handleAuth() {
             var email = document.getElementById("auth_email").value.trim();
             var password = document.getElementById("auth_password").value;
             
@@ -175,7 +175,9 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                             launchDashboard(result.data.user.email);
                         }
                     });
-            } else {
+                    }
+                    }
+            else {
                 // Secure Registration Handshake
                 supabaseClient.auth.signUp({ email: email, password: password })
                     .then(function(result) {
@@ -188,7 +190,6 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                     });
             }
         }
-
         function launchDashboard(userEmail) {
             document.getElementById("user_display").innerText = userEmail;
             document.getElementById("auth_screen").style.display = "none";
@@ -204,12 +205,6 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                 document.getElementById("auth_screen").style.display = "block";
             });
         }
-
-                 document.getElementById("auth_email").value = "";
-                  document.getElementById("auth_password").value = "";
-                  document.getElementById("app_dashboard").style.display = "none";
-                  document.getElementById("auth_screen").style.display = "block";
-                  }
 
                   function saveCurrentProfile() {
                   var name = document.getElementById("profile_name").value.trim();
@@ -246,7 +241,7 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                   document.getElementById("u1").value = data.c1 || "";
                   document.getElementById("u2").value = data.c2 || "";
                   document.getElementById("item_cost").value = data.cost || 25;
-                  };
+                  }
                   container.appendChild(btn);
                   }
                   });
@@ -265,7 +260,7 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                   return;
                   }
 
-                  var hostCore = "https://ecom-runway-ai.onrender.com";
+                  var hostCore = "https://ecom-runway-ai.onrender.com/analyza-runway";
                   var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" +
                   encodeURIComponent(comp2) + "&monthly_subs=" + expenseSpend + "&income_goal=" +
                   personalGoal;
@@ -287,7 +282,7 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                   var myPrice = myD.floor_price ? myD.floor_price : (myD.floor ? myD.floor : 0);
 
                  var computedMargin = myPrice - supplierCostInput;
-                  var units = d.units_needed ? d.units_needed : 1;
+                 var units = d.units_needed ? parseInt(d.units_needed) : (d.units ? parseInt(d.units) : 1);
                   var grossRevenue = myPrice * units;
                   var maxSourcingLimit = compFloor * 0.40;
                   var allowableCPA = computedMargin * 0.45;
@@ -326,10 +321,10 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                     document.getElementById("pFill").style.width = d.efficiency + "%";
                     document.getElementById("pText").innerText = d.efficiency + "% CASHFLOW RUNWAY SECURITY";
                     document.getElementById("plan").innerHTML = "ENTERPRISE PLATFORM DIRECTIVE: Sourcing your own inventory items at $" + supplierCostInput.toFixed(2) + " yields a clean $" + computedMargin.toFixed(2) + " net margin per order based on your live store listing values.";
-                    document.getElementById("results").style.display = "block";
-                   });
-          }); 
-                    }
-                    </script>
+                document.getElementById("results").style.display = "block";
+        });
+    });
+}
+</script>
 </body>
 </html>
