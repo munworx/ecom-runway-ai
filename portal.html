@@ -217,23 +217,47 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
             });
         }
 
-                  function saveCurrentProfile() {
-                  var name = document.getElementById("profile_name").value.trim();
-                  var myUrl = document.getElementById("my_url").value;
-                  var c1 = document.getElementById("u1").value;
-                  var c2 = document.getElementById("u2").value;
-                  var cost = document.getElementById("item_cost").value;
+                        function saveCurrentProfile() {
+            var name = document.getElementById("profile_name").value.trim();
+            var myUrl = document.getElementById("my_url").value;
+            var c1 = document.getElementById("u1").value;
+            var c2 = document.getElementById("u2").value;
+            var cost = document.getElementById("item_cost").value;
+            
+            if(!name || !myUrl || !c1) {
+                alert("Please fill your profile name and URLs before saving!");
+                return;
+            }
 
-                  if(!name || !myUrl || !c1) {
-                  alert("Please fill your profile name and URLs before saving!");
-                  return;
-                  }
+            // Securely grab the active authenticated user's ID
+            supabaseClient.auth.getUser().then(function(userResponse) {
+                var user = userResponse.data.user;
+                if (!user) {
+                    alert("Session expired. Please log in again.");
+                    return;
+                }
 
-                  var profileData = { myUrl: myUrl, c1: c1, c2: c2, cost: cost };
-                  localStorage.setItem("ecom_portal_" + name, JSON.stringify(profileData));
-                  document.getElementById("profile_name").value = "";
-                  loadVaultList();
-                  }
+                var cloudRow = {
+                    user_id: user.id,
+                    profile_name: name,
+                    my_url: myUrl,
+                    comp_url1: c1,
+                    item_cost: parseFloat(cost) || 0
+                };
+
+                // Asynchronously write straight into your relational data grid table
+                supabaseClient.from("saved_vaults").insert([cloudRow]).then(function(result) {
+                    if (result.error) {
+                        alert("Cloud Save Error: " + result.error.message);
+                    } else {
+                        alert("Product setup successfully archived to your Secure Cloud Vault!");
+                        document.getElementById("profile_name").value = "";
+                        loadVaultList();
+                    }
+                });
+            });
+        }
+ 
 
                   function loadVaultList() {
                   var container = document.getElementById("vault_list");
