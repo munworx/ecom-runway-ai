@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    <script src="https://jsdelivr.net"></script>
 <head>
     <script src="https://jsdelivr.net"></script>
     <meta charset="UTF-8">
@@ -154,21 +155,57 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                   document.getElementById("auth_btn").innerText = isLoginMode ? "Secure Sign In" : "Register Corporate Account";
                   document.getElementById("auth_toggle_text").innerText = isLoginMode ? "Need to register a corporate account? Create one here" : "Already have a platform account? Secure log in here";
                   }
-                  // Prototype Mock-Auth Handshake System (Upgraded to true Cloud Database in Phase 2)function handleAuth() {
-                  var email = document.getElementById("auth_email").value.trim();
-                  var password = document.getElementById("auth_password").value;
-if(!email || !password) {
-    alert("Please fully complete your account credentials!");
+                  // Prototype Mock-Auth Handshake System (Upgraded to true Cloud Database in Phase 2)
+                            // Live Supabase Authentication Handshake Engine
+        function handleAuth() {
+            var email = document.getElementById("auth_email").value.trim();
+            var password = document.getElementById("auth_password").value;
+            
+            if(!email || !password) {
+                alert("Please fully complete your account credentials!");
                 return;
-}
-            // Temporary check for local interface validation testing
-                  document.getElementById("user_display").innerText = email;
-                  document.getElementById("auth_screen").style.display = "none";
-                  document.getElementById("app_dashboard").style.display = "block";
-                  loadVaultList();
-                  }
+            }
 
-                 function logoutSession() {
+            if (isLoginMode) {
+                // Secure Sign In Handshake
+                supabaseClient.auth.signInWithPassword({ email: email, password: password })
+                    .then(function(result) {
+                        if (result.error) {
+                            alert("Authentication Error: " + result.error.message);
+                        } else {
+                            launchDashboard(result.data.user.email);
+                        }
+                    });
+            } else {
+                // Secure Registration Handshake
+                supabaseClient.auth.signUp({ email: email, password: password })
+                    .then(function(result) {
+                        if (result.error) {
+                            alert("Registration Blocked: " + result.error.message);
+                        } else {
+                            alert("Registration Successful! Welcome to the platform. Logging you in automatically...");
+                            launchDashboard(result.data.user.email);
+                        }
+                    });
+            }
+        }
+
+        function launchDashboard(userEmail) {
+            document.getElementById("user_display").innerText = userEmail;
+            document.getElementById("auth_screen").style.display = "none";
+            document.getElementById("app_dashboard").style.display = "block";
+            loadVaultList();
+        }
+
+        function logoutSession() {
+            supabaseClient.auth.signOut().then(function() {
+                document.getElementById("auth_email").value = "";
+                document.getElementById("auth_password").value = "";
+                document.getElementById("app_dashboard").style.display = "none";
+                document.getElementById("auth_screen").style.display = "block";
+            });
+        }
+
                  document.getElementById("auth_email").value = "";
                   document.getElementById("auth_password").value = "";
                   document.getElementById("app_dashboard").style.display = "none";
