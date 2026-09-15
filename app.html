@@ -156,12 +156,12 @@
                     btn.className = "profile-btn";
                     btn.innerText = "📁 " + name;
                     btn.onclick = function() {
-var data = JSON.parse(localStorage.getItem(key));
-document.getElementById("my_url").value = data.myUrl || "";
- document.getElementById("u1").value = data.c1 || "";
-                      document.getElementById("u2").value = data.c2 || "";
-                      document.getElementById("item_cost").value = data.cost || 25;
-                      };
+                    var data = JSON.parse(localStorage.getItem(key));
+                    document.getElementById("my_url").value = data.myUrl || "";
+                    document.getElementById("u1").value = data.c1 || "";
+                    document.getElementById("u2").value = data.c2 || "";
+                    document.getElementById("item_cost").value = data.cost || 25;
+                };
                   container.appendChild(btn);
                 }
             });
