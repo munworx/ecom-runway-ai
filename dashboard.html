@@ -464,7 +464,6 @@ function loadVaultList() {var container = document.getElementById("vault_list");
 
           var printWindow = window.open("", "_blank");
           printWindow.document.write(`
-
 <html>
 <head>
 
@@ -486,31 +485,31 @@ function loadVaultList() {var container = document.getElementById("vault_list");
 
 
 📊 MarginMatrix AI
-                                Account Instance: ${userEmail}
-                                Export Date: ${new Date().toLocaleDateString()}
+                                Account Instance: \${userEmail}<br>
+                                Export Date: \${new Date().toLocaleDateString()}
 
   I. Market Position & Discrepancy Ledger
-  ${ledgerText}
+  \${ledgerText}
    II. Core Sourcing & Unit Viability
 
-${floorPrice}Market Floor Price
-  ${myPrice}My Captured Price
-    ${margin}Net Profit Margin
+\${floorPrice}Market Floor Price
+  \${myPrice}My Captured Price
+    \${margin}Net Profit Margin
 
   III. Marketing Target Allocations
 
-       ${cpa}Allowable CPA Limit
-          ${roas}Break-Even ROAS
-          ${spend}Projected Ad Budget
+       \${cpa}Allowable CPA Limit
+          \${roas}Break-Even ROAS
+          \${spend}Projected Ad Budget
 
  IV. Operational Volume Requirements
 
-     ${volume}Required Mo. Volume
-     ${velocity}Daily Order Speed     
-          ${revenue}Gross Revenue Target
+     \${volume}Required Mo. Volume
+     \${velocity}Daily Order Speed     
+          \${revenue}Gross Revenue Target
 
      V. Enterprise Corporate Directive
-          ${directive}
+          \${directive}
        window.onload = function() { window.print(); };
        </script>
 
