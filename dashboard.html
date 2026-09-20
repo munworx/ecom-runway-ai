@@ -257,47 +257,70 @@
             <input type="text" id="u1" placeholder="Competitor link 1 (Amazon / eBay)" style="margin-bottom: 8px;">
             <input type="text" id="u2" placeholder="Competitor link 2 (Optional)">
         </div>
-
         <div class="row-3">
             <div class="form-group"><label>📦 Item Sourcing Cost ($)</label><input type="number" id="item_cost" value="25"></div>
-💻 Software Overhead ($)
-          🎯 Cash Take-Home Target ($)
-          ⚡ Execute Head-to-Head Comparison Matrix
-          📥 Export Executive Board-Ready Report (PDF)
-          Analysis Feedback Summary
-          Healthy Margin
+                        <div class="form-group"><label>📦 Item Sourcing Cost ($)</label><input type="number" id="item_cost" value="25"></div>
+            <div class="form-group"><label>💻 Software Overhead ($)</label><input type="number" id="overhead" value="150"></div>
+            <div class="form-group"><label>🎯 Cash Take-Home Target ($)</label><input type="number" id="net_target" value="2500"></div>
+        </div>
+        <button onclick="runMatrix()">⚡ Execute Head-to-Head Comparison Matrix</button>
+        <button onclick="generatePDFReport()" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 12px; box-shadow: 0 4px 12px rgba(16,185,129,0.2);">📥 Export Executive Board-Ready Report (PDF)</button>
+        <div class="results-box" id="results">
+            <div class="status-header">
+                <span style="font-weight: 800; font-size:1.1rem; text-transform:uppercase; letter-spacing:-0.01em;">Analysis Feedback Summary</span>
+                <span class="badge" id="badge_status">Healthy Margin</span>
+            </div>
 
-          I. Core Sourcing Metrics
-          $0.00Market Floor Price
-          $0.00My Captured Price
-          $0.00Net Profit Margin
+            <div class="ledger-box" id="ledger_output" style="margin-bottom: 20px;"></div>
 
-          II. Advertising Threshold ceilings
+            <div class="section-title">I. Core Sourcing Metrics</div>
+            <div class="grid-3">
+                <div class="stat"><div class="stat-val" id="m1">$0.00</div><div class="stat-lbl">Market Floor Price</div></div>
+                <div class="stat"><div class="stat-val" id="my_captured_price">$0.00</div><div class="stat-lbl">My Captured Price</div></div>
+                <div class="stat"><div class="stat-val" id="m2">$0.00</div><div class="stat-lbl">Net Profit Margin</div></div>
+            </div>
 
-          $0.00Allowable CPA Limit
-          0.0xTarget Min. ROAS
-          $0.00Projected Max Budget
+            <div class="section-title">II. Advertising Threshold Ceilings</div>
+            <div class="grid-3">
+                <div class="stat"><div class="stat-val" id="max_cpa">$0.00</div><div class="stat-lbl">Allowable CPA Limit</div></div>
+                <div class="stat"><div class="stat-val" id="target_roas">0.0x</div><div class="stat-lbl">Target Min. ROAS</div></div>
+                <div class="stat"><div class="stat-val" id="ad_budget_max">$0.00</div><div class="stat-lbl">Projected Max Budget</div></div>
+            </div>
 
-          III. Scaling volume blueprints
+            <div class="section-title">III. Scaling Volume Blueprints</div>
+            <div class="grid-3">
+                <div class="stat"><div class="stat-val" id="m3">0 units</div><div class="stat-lbl">Required Mo. Volume</div></div>
+                <div class="stat"><div class="stat-val" id="m4">0.0 daily</div><div class="stat-lbl">Daily Order Speed</div></div>
+                <div class="stat"><div class="stat-val" id="gross_rev">$0.00</div><div class="stat-lbl">Gross Revenue Target</div></div>
+            </div>
 
-          0Required Mo. Volume
-          0.0Daily Order Speed
-          $0.00Gross Revenue Target
+            <div class="progress-container">
+                <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted); font-weight:600;">
+                    <span>CASH-FLOW SECURITY RESILIENCE RADAR</span>
+                    <span id="pText">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="pFill" style="width: 0%;"></div>
+                </div>
+            </div>
 
-          CASH-FLOW SECURITY RESILIENCE RADAR
-          0%
+            <div class="advice" id="plan"></div>
+        </div>
+              <script>
+        // Connect to your working active project credentials instance
+        var supabaseUrl = "https://supabase.co";
+        var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
+        var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-            <script>
-          // Connect to your working active project credentials instancevar supabaseUrl = "supabase.co";
-          var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
-          var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-
-          // Security check: Force user out if no session exists on document loadsupabaseClient.auth.getSession().then(function(response) {if (!response.data.session) {window.location.href = "portal.html";
-          } else {
-          document.getElementById("user_display").innerText = response.data.session.user.email;loadVaultList();
-          }
-          });
-
+        // Security check: Force user out if no session exists on document load
+        supabaseClient.auth.getSession().then(function(response) {
+            if (!response.data.session) {
+                window.location.href = "portal.html";
+            } else {
+                document.getElementById("user_display").innerText = response.data.session.user.email;
+                loadVaultList();
+            }
+        });
           function runMatrix() {
           var myUrl = document.getElementById("my_url").value.trim();
           var targetUrl = document.getElementById("u1").value.trim();
