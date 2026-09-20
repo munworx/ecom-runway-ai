@@ -287,6 +287,7 @@
           CASH-FLOW SECURITY RESILIENCE RADAR
           0%
 
+            <script>
           // Connect to your working active project credentials instancevar supabaseUrl = "supabase.co";
           var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
           var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
@@ -441,9 +442,11 @@ function loadVaultList() {var container = document.getElementById("vault_list");
           var printWindow = window.open("", "_blank");
           printWindow.document.write(`
 
+<html>
+<head>
 
-          MarginMatrix AI - Executive Report
-
+      <titel>MarginMatrix AI - Executive Report</title>
+<style>
           body { font-family: Arial, sans-serif; color: #1e293b; padding: 40px; line-height: 1.6; background-color: #ffffff; }
           .header-table { width: 100%; border-bottom: 2px solid #0f172a; padding-bottom: 20px;
           margin-bottom: 30px; }
