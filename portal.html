@@ -257,7 +257,7 @@
                 <input type="password" id="auth_password" placeholder="••••••••">
             </div>
             
-            <button onclick="handleAuth()" id="auth_btn">Secure Sign In</button>
+           <button onclick="event.preventDefault(); handleAuth()" id="auth_btn">Secure Sign In</button>
            <span class="auth-toggle" onclick="toggleAuthMode()" id="auth_toggle_text">Need to register a corporate account? Create one here</span>
         </div>
 
