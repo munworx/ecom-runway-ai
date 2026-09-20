@@ -396,12 +396,9 @@ var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
             }
         }
         function launchDashboard(userEmail) {
-            document.getElementById("user_display").innerText = userEmail;
-            document.getElementById("auth_screen").style.display = "none";
-            document.getElementById("app_dashboard").style.display = "block";
-            loadVaultList();
-        }
-
+    // Securely forward the authenticated browser window straight to your workspace file
+    window.location.href = "dashboard.html";
+}
         function logoutSession() {
             supabaseClient.auth.signOut().then(function() {
                 document.getElementById("auth_email").value = "";
