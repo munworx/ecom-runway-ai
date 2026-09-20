@@ -5,16 +5,16 @@
     <title>E-Com Runway AI - Client Portal</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root {
-            --bg-main: #0b0f19;       /* Deep Enterprise Slate */
-            --bg-surface: #141b2d;    /* Crisp Elevated Card Row */
-            --bg-input: #060911;      /* Dark Clean Data Field */
-            --text-main: #f8fafc;     /* Clear High-Contrast White */
-            --text-muted: #64748b;    /* Clean Corporate Slate Muted */
-            --tech-cyan: #06b6d4;     /* Cyber Intel Accent */
-            --tech-emerald: #10b981;  /* High-Velocity Margin Profit */
-            --tech-amber: #f59e0b;    /* Market Risk Indicator */
-            --border-clean: 1px solid rgba(255, 255, 255, 0.06);
+             :root {
+            --bg-main: #f1f5f9;       /* Crisp Executive Off-White */
+            --bg-surface: #ffffff;    /* Stark White Elevated Cards */
+            --bg-input: #f8fafc;      /* Clean Clean Input Fields */
+            --text-main: #0f172a;     /* Sharp Deep Charcoal Text */
+            --text-muted: #64748b;    /* Elegant Professional Muted Gray */
+            --tech-cyan: #0284c7;     /* Clear Corporate Blue Accent */
+            --tech-emerald: #16a34a;  /* High-Visibility Profit Green */
+            --tech-amber: #d97706;    /* Executive Warning Amber */
+            --border-clean: 1px solid #e2e8f0; /* Ultra-Sharp Layout Lines */
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -35,11 +35,11 @@
             border-radius: 20px;
             width: 100%;
             max-width: 750px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
             position: relative;
         }
         h1 {
-            color: #ffffff;
+            color: var(--text-main);
             font-size: 2.2rem;
             margin: 0 0 6px 0;
             font-weight: 800;
@@ -72,11 +72,12 @@
             color: var(--text-main);
             font-size: 0.95rem;
             box-sizing: border-box;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         input:focus {
             outline: none;
             border-color: var(--tech-cyan);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
         }
         .row-3 {
             display: grid;
@@ -87,7 +88,7 @@
         button {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #0ea5e9, #2563eb);
+            background: linear-gradient(135deg, #0284c7, #1d4ed8);
             color: #ffffff;
             border: none;
             border-radius: 12px;
@@ -96,6 +97,7 @@
             cursor: pointer;
             transition: transform 0.2s, filter 0.2s;
             margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
         }
         button:hover {
             filter: brightness(1.1);
@@ -152,6 +154,7 @@
             margin: 0;
             width: auto;
             white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
         }
         .profile-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .profile-btn {
@@ -163,8 +166,9 @@
             font-size: 0.8rem;
             cursor: pointer;
             font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .profile-btn:hover { border-color: var(--tech-cyan); }
+        .profile-btn:hover { border-color: var(--tech-cyan); color: var(--tech-cyan); }
         .results-box {
             margin-top: 35px;
             background: var(--bg-input);
@@ -178,7 +182,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            border-bottom: 1px dashed #e2e8f0;
             padding-bottom: 15px;
         }
         .badge {
@@ -206,6 +210,7 @@
             border-radius: 10px;
             text-align: center;
             border: var(--border-clean);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
         }
         .stat-val { font-size: 1.4rem; font-weight: 800; color: var(--tech-emerald); }
         .stat-lbl { color: var(--text-muted); text-transform: uppercase; margin-top: 6px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; }
@@ -216,21 +221,22 @@
             border-radius: 10px;
             border: var(--border-clean);
         }
-        .progress-bar { height: 6px; background-color: var(--bg-input); border-radius: 9999px; overflow: hidden; margin-top: 8px; }
+        .progress-bar { height: 6px; background-color: var(--bg-main); border-radius: 9999px; overflow: hidden; margin-top: 8px; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--tech-emerald), var(--tech-cyan)); width: 0%; transition: width 0.4s; }
         .advice {
             font-size: 0.9rem;
             line-height: 1.6;
-            color: #e2e8f0;
-            background: rgba(6, 182, 212, 0.04);
+            color: var(--text-main);
+            background: rgba(2, 132, 199, 0.04);
             border-radius: 10px;
             padding: 16px;
             border-left: 4px solid var(--tech-cyan);
             margin-top: 20px;
         }
-        .ledger-box { margin-top: 18px; padding: 16px; border-radius: 10px; font-size: 0.9rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.05); }
-        .ledger-win { background: rgba(16, 185, 129, 0.05); border-left: 4px solid var(--tech-emerald); color: #a7f3d0; }
-        .ledger-lose { background: rgba(239, 68, 68, 0.05); border-left: 4px solid #ef4444; color: #fca5a5; }
+        .ledger-box { margin-top: 18px; padding: 16px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; }
+        .ledger-win { background: rgba(22, 163, 74, 0.05); border-left: 4px solid var(--tech-emerald); color: #166534; }
+        .ledger-lose { background: rgba(220, 38, 38, 0.05); border-left: 4px solid #dc2626; color: #991b1b; }
+
     </style>
 </head>
 <body>
