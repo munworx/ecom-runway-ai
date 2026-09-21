@@ -357,10 +357,12 @@
                   document.getElementById("auth_btn").innerText = isLoginMode ? "Secure Sign In" : "Register Corporate Account";
                   document.getElementById("auth_toggle_text").innerText = isLoginMode ? "Need to register a corporate account? Create one here" : "Already have a platform account? Secure log in here";
                   }
-    // Authorize Cloud Database Initialization
-var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
-var supabaseKey = "sb_publishable_h9Qt6L2UZNxiPjxzIagl5w_jh0Pz8cm";
-var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        // Authorize Cloud Database Initialization Matrix
+        var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
+        var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
+        var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
+            auth: { persistSession: true, autoRefreshToken: true }
+        });
                   
                   // Prototype Mock-Auth Handshake System (Upgraded to true Cloud Database in Phase 2)
                             // Live Supabase Authentication Handshake Engine
