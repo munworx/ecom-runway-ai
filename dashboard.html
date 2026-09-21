@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarginMatrix AI | Mission Control Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://jsdelivr.net"></script>
     <style>
         :root {
             --bg-main: #f1f5f9;       /* Crisp Executive Off-White */
@@ -253,24 +253,25 @@
         </div>
 
         <div class="form-group">
-            <label>🔸 Multi-Scraper Competitor Target Links (Up to 2)</label>
-            <input type="text" id="u1" placeholder="Competitor link 1 (Amazon / eBay)" style="margin-bottom: 8px;">
-            <input type="text" id="u2" placeholder="Competitor link 2 (Optional)">
+            <label>🔸 Multi-Scraper Competitor Target Links</label>
+            <input type="text" id="u1" placeholder="Competitor link 1 (Amazon / eBay)">
         </div>
+
         <div class="row-3">
             <div class="form-group"><label>📦 Item Sourcing Cost ($)</label><input type="number" id="item_cost" value="25"></div>
-                        <div class="form-group"><label>📦 Item Sourcing Cost ($)</label><input type="number" id="item_cost" value="25"></div>
             <div class="form-group"><label>💻 Software Overhead ($)</label><input type="number" id="overhead" value="150"></div>
             <div class="form-group"><label>🎯 Cash Take-Home Target ($)</label><input type="number" id="net_target" value="2500"></div>
         </div>
+
         <button onclick="runMatrix()">⚡ Execute Head-to-Head Comparison Matrix</button>
         <button onclick="generatePDFReport()" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 12px; box-shadow: 0 4px 12px rgba(16,185,129,0.2);">📥 Export Executive Board-Ready Report (PDF)</button>
+
         <div class="results-box" id="results">
             <div class="status-header">
                 <span style="font-weight: 800; font-size:1.1rem; text-transform:uppercase; letter-spacing:-0.01em;">Analysis Feedback Summary</span>
                 <span class="badge" id="badge_status">Healthy Margin</span>
             </div>
-
+            
             <div class="ledger-box" id="ledger_output" style="margin-bottom: 20px;"></div>
 
             <div class="section-title">I. Core Sourcing Metrics</div>
@@ -306,15 +307,15 @@
 
             <div class="advice" id="plan"></div>
         </div>
-           <script>
-        // Connect to your working active project credentials instance
-       var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
+    </div>
+
+    <script>
+        var supabaseUrl = "https://supabase.co";
         var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
         var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // Security check: Force user out if no session exists on document load
         supabaseClient.auth.getSession().then(function(response) {
-            if (!response.data.session) {
+            if (!response.data || !response.data.session) {
                 window.location.href = "portal.html";
             } else {
                 document.getElementById("user_display").innerText = response.data.session.user.email;
@@ -379,17 +380,22 @@
                 document.getElementById("m4").innerText = dailyVelocity + " daily";
                 document.getElementById("gross_rev").innerText = "$" + requiredGrossRevenue.toFixed(2);
 
+                var ledger = document.getElementById("ledger_output");
                 var badge = document.getElementById("badge_status");
 
                 if (myFetchedPrice >= fetchedCompetitorPrice) {
                     badge.innerText = "Healthy Margin";
                     badge.style.backgroundColor = "#16a34a";
+                    ledger.className = "ledger-box ledger-win";
+                    ledger.innerText = "🏆 MARKET ADVANTAGE ACTIVE: Your product price ($" + myFetchedPrice.toFixed(2) + ") is safely matching or clearing the competitor floor limit ($" + fetchedCompetitorPrice.toFixed(2) + "). Strategic room exists to scale marketing pipelines.";
                     document.getElementById("pText").innerText = "100%";
                     document.getElementById("pFill").style.width = "100%";
                     document.getElementById("plan").innerText = "ENTERPRISE DIRECTIVE: Maintain current sourcing framework parameters. Allocate up to $" + allowableCPA + " per customer conversion. Focus ad funnels on scaling daily volume targets to clear take-home marks.";
                 } else {
                     badge.innerText = "Risk Detected";
                     badge.style.backgroundColor = "#dc2626";
+                    ledger.className = "ledger-box ledger-lose";
+                    ledger.innerText = "⚠️ PRICE GAP WARNING: Competitor floor value ($" + fetchedCompetitorPrice.toFixed(2) + ") is undercutting your target product list price ($" + myFetchedPrice.toFixed(2) + "). Sourcing adjustment required to defend capital.";
                     document.getElementById("pText").innerText = "40%";
                     document.getElementById("pFill").style.width = "40%";
                     document.getElementById("plan").innerText = "ENTERPRISE DIRECTIVE: Immediately audits supplier inventory costs. If unit margins cannot be improved, pivot promotional assets to bundle strategies to justify premium price points over competitor links.";
@@ -471,6 +477,7 @@
             var velocity = document.getElementById("m4").innerText;
             var revenue = document.getElementById("gross_rev").innerText;
             var directive = document.getElementById("plan").innerText;
+            var ledgerText = document.getElementById("ledger_output").innerText;
             var userEmail = document.getElementById("user_display").innerText;
 
             var printWindow = window.open("", "_blank");
@@ -484,6 +491,7 @@
                         .brand-title { font-size: 24px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; }
                         .report-meta { text-align: right; font-size: 12px; color: #64748b; }
                         h1 { font-size: 20px; text-transform: uppercase; color: #0f172a; border-left: 4px solid #3b82f6; padding-left: 10px; margin: 30px 0 15px 0; }
+                        .ledger-summary { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; font-size: 14px; margin-bottom: 25px; }
                         .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
                         .metric-card { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; text-align: center; background-color: #ffffff; }
                         .metric-val { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
@@ -502,25 +510,27 @@
                             </td>
                         </tr>
                     </table>
-                    <h1>I. Core Sourcing & Unit Viability</h1>
+                    <h1>I. Market Position & Discrepancy Ledger</h1>
+                    <div class="ledger-summary">\${ledgerText}</div>
+                    <h1>II. Core Sourcing & Unit Viability</h1>
                     <div class="metrics-grid">
                         <div class="metric-card"><div class="metric-val">\${floorPrice}</div><div class="metric-lbl">Market Floor Price</div></div>
                         <div class="metric-card"><div class="metric-val">\${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
                         <div class="metric-card"><div class="metric-val">\${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
                     </div>
-                    <h1>II. Marketing Target Allocations</h1>
+                    <h1>III. Marketing Target Allocations</h1>
                     <div class="metrics-grid">
                         <div class="metric-card"><div class="metric-val">\${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
                         <div class="metric-card"><div class="metric-val">\${roas}</div><div class="metric-lbl">Break-Even ROAS</div></div>
                         <div class="metric-card"><div class="metric-val">\${spend}</div><div class="metric-lbl">Projected Ad Budget</div></div>
                     </div>
-                    <h1>III. Operational Volume Requirements</h1>
+                    <h1>IV. Operational Volume Requirements</h1>
                     <div class="metrics-grid">
                         <div class="metric-card"><div class="metric-val">\${volume}</div><div class="metric-lbl">Required Mo. Volume</div></div>
                         <div class="metric-card"><div class="metric-val">\${velocity}</div><div class="metric-lbl">Daily Order Speed</div></div>
                         <div class="metric-card"><div class="metric-val">\${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
                     </div>
-                    <h1>IV. Enterprise Corporate Directive</h1>
+                    <h1>V. Enterprise Corporate Directive</h1>
                     <div class="directive-box">\${directive}</div>
                     <script>window.onload = function() { window.print(); };<\/script>
                 </body>
