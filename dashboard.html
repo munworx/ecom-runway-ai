@@ -161,9 +161,9 @@
             <div class="advice" id="plan"></div>
         </div>
     </div>
-    <script>
-        var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
-        var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
+      <script>
+        var supabaseUrl = "DATABASE_URL_HERE";
+        var supabaseKey = "API_KEY_HERE";
         var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
             auth: { persistSession: true, autoRefreshToken: true }
         });
@@ -193,7 +193,7 @@
 
             var payload = { myUrl: myUrl, targetUrls: [targetUrl] };
 
-            fetch("https://ecom-runway-ai.onrender.com/scrape", {
+            fetch("SCRAPER_URL_HERE", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
@@ -335,61 +335,7 @@
             var userEmail = document.getElementById("user_display").innerText;
 
             var printWindow = window.open("", "_blank");
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>MarginMatrix AI - Executive Report</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; color: #1e293b; padding: 40px; line-height: 1.6; background-color: #ffffff; }
-                        .header-table { width: 100%; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 30px; }
-                        .brand-title { font-size: 24px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; }
-                        .report-meta { text-align: right; font-size: 12px; color: #64748b; }
-                        h1 { font-size: 20px; text-transform: uppercase; color: #0f172a; border-left: 4px solid #3b82f6; padding-left: 10px; margin: 30px 0 15px 0; }
-                        .ledger-summary { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; font-size: 14px; margin-bottom: 25px; }
-                        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-                        .metric-card { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; text-align: center; background-color: #ffffff; }
-                        .metric-val { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
-                        .metric-lbl { font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700; }
-                        .directive-box { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; border-radius: 4px; font-size: 13px; font-weight: 600; color: #1e40af; }
-                    </style>
-                </head>
-                <body>
-                    <table class="header-table">
-                        <tr>
-                            <td class="brand-title">📊 MarginMatrix AI</td>
-                            <td class="report-meta">
-                                <b>STRATEGIC DATA VECTOR REPORT</b><br>
-                                Account Instance: \${userEmail}<br>
-                                Export Date: \${new Date().toLocaleDateString()}
-                            </td>
-                        </tr>
-                    </table>
-                    <h1>I. Market Position & Discrepancy Ledger</h1>
-                    <div class="ledger-summary">\${ledgerText}</div>
-                    <h1>II. Core Sourcing & Unit Viability</h1>
-                    <div class="metrics-grid">
-                        <div class="metric-card"><div class="metric-val">\${floorPrice}</div><div class="metric-lbl">Market Floor Price</div></div>
-                        <div class="metric-card"><div class="metric-val">\${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
-                        <div class="metric-card"><div class="metric-val">\${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
-                    </div>
-                    <h1>III. Marketing Target Allocations</h1>
-                    <div class="metrics-grid">
-                        <div class="metric-card"><div class="metric-val">\${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
-                        <div class="metric-card"><div class="metric-val">\${roas}</div><div class="metric-lbl">Break-Even ROAS</div></div>
-                        <div class="metric-card"><div class="metric-val">\${spend}</div><div class="metric-lbl">Projected Ad Budget</div></div>
-                    </div>
-                    <h1>IV. Operational Volume Requirements</h1>
-                    <div class="metrics-grid">
-                        <div class="metric-card"><div class="metric-val">\${volume}</div><div class="metric-lbl">Required Mo. Volume</div></div>
-                        <div class="metric-card"><div class="metric-val">\${velocity}</div><div class="metric-lbl">Daily Order Speed</div></div>
-                        <div class="metric-card"><div class="metric-val">\${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
-                    </div>
-                    <h1>V. Enterprise Corporate Directive</h1>
-                    <div class="directive-box">\${directive}</div>
-                    <script>window.onload = function() { window.print(); };<\/script>
-                </body>
-                </html>
-            `);
+            printWindow.document.write("<html><head><title>MarginMatrix AI - Executive Report</title><style>body { font-family: Arial, sans-serif; color: #1e293b; padding: 40px; line-height: 1.6; background-color: #ffffff; }.header-table { width: 100%; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 30px; }.brand-title { font-size: 24px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; }.report-meta { text-align: right; font-size: 12px; color: #64748b; }h1 { font-size: 20px; text-transform: uppercase; color: #0f172a; border-left: 4px solid #3b82f6; padding-left: 10px; margin: 30px 0 15px 0; }.ledger-summary { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; font-size: 14px; margin-bottom: 25px; }.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }.metric-card { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; text-align: center; background-color: #ffffff; }.metric-val { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }.metric-lbl { font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700; }.directive-box { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; border-radius: 4px; font-size: 13px; font-weight: 600; color: #1e40af; }</style></head><body><table class='header-table'><tr><td class='brand-title'>📊 MarginMatrix AI</td><td class='report-meta'><b>STRATEGIC DATA VECTOR REPORT</b><br>Account Instance: " + userEmail + "<br>Export Date: " + new Date().toLocaleDateString() + "</td></tr></table><h1>I. Market Position & Discrepancy Ledger</h1><div class='ledger-summary'>" + ledgerText + "</div><h1>II. Core Sourcing & Unit Viability</h1><div class='metrics-grid'><div class='metric-card'><div class='metric-val'>" + floorPrice + "</div><div class='metric-lbl'>Market Floor Price</div></div><div class='metric-card'><div class='metric-val'>" + myPrice + "</div><div class='metric-lbl'>My Captured Price</div></div><div class='metric-card'><div class='metric-val'>" + margin + "</div><div class='metric-lbl'>Net Profit Margin</div></div></div><h1>III. Marketing Target Allocations</h1><div class='metrics-grid'><div class='metric-card'><div class='metric-val'>" + cpa + "</div><div class='metric-lbl'>Allowable CPA Limit</div></div><div class='metric-card'><div class='metric-val'>" + roas + "</div><div class='metric-lbl'>Break-Even ROAS</div></div><div class='metric-card'><div class='metric-val'>" + spend + "</div><div class='metric-lbl'>Projected Ad Budget</div></div></div><h1>IV. Operational Volume Requirements</h1><div class='metrics-grid'><div class='metric-card'><div class='metric-val'>" + volume + "</div><div class='metric-lbl'>Required Mo. Volume</div></div><div class='metric-card'><div class='metric-val'>" + velocity + "</div><div class='metric-lbl'>Daily Order Speed</div></div><div class='metric-card'><div class='metric-val'>" + revenue + "</div><div class='metric-lbl'>Gross Revenue Target</div></div></div><h1>V. Enterprise Corporate Directive</h1><div class='directive-box'>" + directive + "</div><script>window.onload = function() { window.print(); };</script></body></html>");
             printWindow.document.close();
         }
     </script>
