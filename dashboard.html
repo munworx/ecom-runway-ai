@@ -162,8 +162,9 @@
         </div>
     </div>
       <script>
-        var supabaseUrl = "DATABASE_URL_HERE";
-        var supabaseKey = "API_KEY_HERE";
+                var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
+        var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
+
         var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
             auth: { persistSession: true, autoRefreshToken: true }
         });
@@ -196,7 +197,7 @@ setTimeout(function() {
 
             var payload = { myUrl: myUrl, targetUrls: [targetUrl] };
 
-            fetch("SCRAPER_URL_HERE", {
+            fetch("https://ecom-runway-ai.onrender.com/scrape", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
