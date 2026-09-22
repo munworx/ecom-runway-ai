@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarginMatrix AI | Partner Gate</title>
-    <script src=https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src=https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
     <style>
         :root {
             --bg-main: #f1f5f9;
@@ -49,7 +49,6 @@
     </style>
 </head>
 <body>
-
     <div class="card" id="auth_screen">
         <h2>🔒 <span id="auth_title">Partner Login</span></h2>
         <div class="subtitle" id="auth_subtitle">Enter your corporate credentials to access Runway AI</div>
@@ -67,55 +66,3 @@
         <button onclick="event.preventDefault(); handleAuth()" id="auth_btn">Secure Sign In</button>
         <a class="toggle-link" onclick="toggleAuthMode()" id="auth_toggle_text">Need to register a corporate account? Create one here</a>
     </div>
-
-    <script>
-        var isLoginMode = true;
-        var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
-        var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
-        var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
-            auth: { persistSession: true, autoRefreshToken: true }
-        });
-
-        function toggleAuthMode() {
-            isLoginMode = !isLoginMode;
-            document.getElementById("auth_title").innerText = isLoginMode ? "Partner Login" : "Create Account";
-            document.getElementById("auth_subtitle").innerText = isLoginMode ? "Enter your corporate credentials to access Runway AI" : "Register your email to stand up a secure session layout";
-            document.getElementById("auth_btn").innerText = isLoginMode ? "Secure Sign In" : "Register Corporate Account";
-            document.getElementById("auth_toggle_text").innerText = isLoginMode ? "Need to register a corporate account? Create one here" : "Already have a platform account? Log in here";
-        }
-
-        function handleAuth() {
-            var email = document.getElementById("auth_email").value.trim();
-            var password = document.getElementById("auth_password").value;
-
-            if(!email || !password) {
-                alert("Please fully complete your account credentials!");
-                return;
-            }
-
-            if (isLoginMode) {
-                supabaseClient.auth.signInWithPassword({ email: email, password: password }).then(function(result) {
-                    if (result.error) {
-                        alert("Authentication Error: " + result.error.message);
-                    } else {
-                        launchDashboard();
-                    }
-                });
-            } else {
-                supabaseClient.auth.signUp({ email: email, password: password }).then(function(result) {
-                    if (result.error) {
-                        alert("Registration Blocked: " + result.error.message);
-                    } else {
-                        alert("Registration Successful! Logging you in automatically...");
-                        launchDashboard();
-                    }
-                });
-            }
-        }
-
-        function launchDashboard() {
-            window.location.href = "dashboard.html";
-        }
-    </script>
-</body>
-</html>
