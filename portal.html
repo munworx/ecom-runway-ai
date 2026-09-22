@@ -2,31 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>E-Com Runway AI - Client Portal</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-   <style>
-             :root {
-            --bg-main: #f1f5f9;       /* Crisp Executive Off-White */
-            --bg-surface: #ffffff;    /* Stark White Elevated Cards */
-            --bg-input: #f8fafc;      /* Clean Clean Input Fields */
-            --text-main: #0f172a;     /* Sharp Deep Charcoal Text */
-            --text-muted: #64748b;    /* Elegant Professional Muted Gray */
-            --tech-cyan: #0284c7;     /* Clear Corporate Blue Accent */
-            --tech-emerald: #16a34a;  /* High-Visibility Profit Green */
-            --tech-amber: #d97706;    /* Executive Warning Amber */
-            --border-clean: 1px solid #e2e8f0; /* Ultra-Sharp Layout Lines */
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarginMatrix AI | Partner Gate</title>
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        :root {
+            --bg-main: #f1f5f9;
+            --bg-surface: #ffffff;
+            --bg-input: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --tech-cyan: #0284c7;
+            --border-clean: 1px solid #e2e8f0;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            letter-spacing: -0.01em;
         }
         .card {
             background-color: var(--bg-surface);
@@ -34,534 +31,91 @@
             padding: 40px;
             border-radius: 20px;
             width: 100%;
-            max-width: 750px;
+            max-width: 450px;
             box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
-            position: relative;
-        }
-        h1 {
-            color: var(--text-main);
-            font-size: 2.2rem;
-            margin: 0 0 6px 0;
-            font-weight: 800;
             text-align: center;
-            letter-spacing: -0.02em;
         }
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-        .form-group { margin-bottom: 18px; }
-        label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 0.06em;
-        }
+        h2 { font-size: 1.8rem; margin: 0 0 6px 0; font-weight: 800; }
+        .subtitle { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 25px; font-weight: 500; }
+        .form-group { margin-bottom: 18px; text-align: left; }
+        label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.05em; }
         input {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: var(--bg-input);
-            border: var(--border-clean);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--tech-cyan);
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
-        }
-        .row-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 18px;
+            width: 100%; padding: 12px 14px; background-color: var(--bg-input); border: var(--border-clean); border-radius: 8px; color: var(--text-main); font-size: 0.9rem; box-sizing: border-box;
         }
         button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #0284c7, #1d4ed8);
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #ffffff; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
         }
-        button:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
-        }
-        #auth_screen { max-width: 400px; margin: 0 auto; }
-        .auth-toggle {
-            font-size: 0.85rem;
-            color: var(--tech-cyan);
-            cursor: pointer;
-            text-decoration: none;
-            margin-top: 20px;
-            display: inline-block;
-            font-weight: 600;
-        }
-        .auth-toggle:hover { text-decoration: underline; }
-        #app_dashboard { display: none; }
-        .user-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-input);
-            border: var(--border-clean);
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-        .logout-btn {
-            background: transparent;
-            border: 1px solid #ef4444;
-            color: #ef4444;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            margin: 0;
-            width: auto;
-        }
-        .profile-section {
-            background: var(--bg-input);
-            border: var(--border-clean);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .save-row { display: flex;
-        gap: 12px;
-                  }
-        .save-btn {
-            background: var(--tech-emerald);
-            padding: 0 24px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            margin: 0;
-            width: auto;
-            white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
-        }
-        .profile-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .profile-btn {
-            background: var(--bg-surface);
-            border: var(--border-clean);
-            color: var(--text-main);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .profile-btn:hover { border-color: var(--tech-cyan); color: var(--tech-cyan); }
-        .results-box {
-            margin-top: 35px;
-            background: var(--bg-input);
-            border: var(--border-clean);
-            border-radius: 16px;
-            padding: 28px;
-            display: none;
-        }
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 1px dashed #e2e8f0;
-            padding-bottom: 15px;
-        }
-        .badge {
-            padding: 6px 14px;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: #ffffff;
-        }
-        .section-title {
-            font-size: 0.8rem;
-            color: var(--tech-cyan);
-            font-weight: 800;
-            text-transform: uppercase;
-            margin: 30px 0 14px 0;
-            letter-spacing: 0.08em;
-            border-left: 3px solid var(--tech-cyan);
-            padding-left: 10px;
-        }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
-        .stat {
-            background: var(--bg-surface);
-            padding: 16px;
-            border-radius: 10px;
-            text-align: center;
-            border: var(--border-clean);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
-        }
-        .stat-val { font-size: 1.4rem; font-weight: 800; color: var(--tech-emerald); }
-        .stat-lbl { color: var(--text-muted); text-transform: uppercase; margin-top: 6px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; }
-        .progress-container {
-            margin: 25px 0;
-            background: var(--bg-surface);
-            padding: 14px;
-            border-radius: 10px;
-            border: var(--border-clean);
-        }
-        .progress-bar { height: 6px; background-color: var(--bg-main); border-radius: 9999px; overflow: hidden; margin-top: 8px; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--tech-emerald), var(--tech-cyan)); width: 0%; transition: width 0.4s; }
-        .advice {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--text-main);
-            background: rgba(2, 132, 199, 0.04);
-            border-radius: 10px;
-            padding: 16px;
-            border-left: 4px solid var(--tech-cyan);
-            margin-top: 20px;
-        }
-        .ledger-box { margin-top: 18px; padding: 16px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; }
-        .ledger-win { background: rgba(22, 163, 74, 0.05); border-left: 4px solid var(--tech-emerald); color: #166534; }
-        .ledger-lose { background: rgba(220, 38, 38, 0.05); border-left: 4px solid #dc2626; color: #991b1b; }
-
+        .toggle-link { display: block; margin-top: 20px; font-size: 0.8rem; color: var(--tech-cyan); text-decoration: none; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <!-- 🔐 SCREEN A: THE AUTH SECURITY WALL -->
-        <div id="auth_screen">
-            <h1 id="auth_title">🔒 Partner Login</h1>
-            <div class="subtitle" id="auth_subtitle">Enter your corporate credentials to access Runway AI</div>
-            
-            <div class="form-group" style="text-align:left;">
-                <label>Email Address</label>
-                <input type="email" id="auth_email" placeholder="name@company.com">
-            </div>
-            <div class="form-group" style="text-align:left;">
-                <label>Account Password</label>
-                <input type="password" id="auth_password" placeholder="••••••••">
-            </div>
-            
-           <button onclick="event.preventDefault(); handleAuth()" id="auth_btn">Secure Sign In</button>
-           <span class="auth-toggle" onclick="toggleAuthMode()" id="auth_toggle_text">Need to register a corporate account? Create one here</span>
+
+    <div class="card" id="auth_screen">
+        <h2>🔒 <span id="auth_title">Partner Login</span></h2>
+        <div class="subtitle" id="auth_subtitle">Enter your corporate credentials to access Runway AI</div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="auth_email" placeholder="name@company.com">
         </div>
 
-        <!-- 🚀 SCREEN B: THE SYSTEM DASHBOARD (HIDDEN BY DEFAULT) -->
-        <div id="app_dashboard">
-            <div class="user-bar">
-                <span>🔐 Active Subscriber Session: <b id="user_display" style="color:#38bdf8;">user@company.com</b></span>
-                <button onclick="logoutSession()" class="logout-btn">Log Out</button>
-            </div>
+        <div class="form-group">
+            <label>Account Password</label>
+            <input type="password" id="auth_password" placeholder="••••••••">
+        </div>
 
-            <h1>⚡ E-Com Runway AI</h1>
-            <div class="subtitle">SaaS Product Console & Secure Data Vault</div>
-            
-            <div class="profile-section">
-                <label style="color:#3b82f6;">💾 Cloud Saved Products Vault</label>
-                <div class="save-row" style="margin-top:6px;">
-                    <input type="text" id="profile_name" placeholder="Give this tracking setup a name (e.g., Star Wars Toy)">
-                    <button onclick="saveCurrentProfile()" class="save-btn">Save to Cloud</button>
-                </div>
-                <div class="profile-list" id="vault_list"></div>
-            </div>
-
-            <div class="form-group">
-                <label style="color: #c084fc;">💎 My Own Store Listing Link (Your Product)</label>
-                <input type="text" id="my_url" placeholder="Paste your own Amazon/eBay link here to compare">
-            </div>
-
-            <div class="form-group">
-                <label>🌐 Multi-Scraper Competitor Target Links (Up to 2)</label>
-                <input type="text" id="u1" placeholder="Competitor link 1 (Amazon / eBay)">
-                <input type="text" id="u2" placeholder="Competitor link 2 (Optional)">
-            </div>
-            
-            <div class="row-3">
-                <div class="form-group">
-                    <label>📦 Item Wholesale Cost ($)</label>
-                    <input type="number" id="item_cost" value="25">
-                </div>
-                <div class="form-group">
-                    <label>💳 Software Overhead ($)</label>
-                    <input type="number" id="overhead" value="150">
-                </div>
-                <div class="form-group">
-                    <label>🎯 Take-Home Target ($)</label>
-                    <input type="number" id="net_target" value="2500">
-                </div>
-            </div>
-
-           <button onclick="runMatrix()">⚡ Execute Head-to-Head Comparison Matrix</button>
-            
-            <div class="results-box" id="results">
-                <div class="status-header">
-                    <span style="font-size:0.85rem;color:#64748b;font-weight:700;">SAAS PLATFORM RUNTIME RADAR</span>
-                    <div class="badge" id="badge">Analyzing</div>
-                </div>
-
-                <div class="section-title">⚖️ Head-to-Head Market Edge Discrepancy Ledger</div>
-                <div class="ledger-box" id="ledger_output">Analyzing position gap...</div>
-                
-                <div class="section-title">📊 Sourcing & Product Viability</div>
-                <div class="grid-3">
-                    <div class="stat"><div class="stat-val" id="m1">$0.00</div><div class="stat-lbl">Market Floor Price</div></div>
-                    <div class="stat"><div class="stat-val" id="my_captured_price">$0.00</div><div class="stat-lbl">My Captured Price</div></div>
-                    <div class="stat"><div class="stat-val" id="m2">$0.00</div><div class="stat-lbl">Net Profit Margin</div></div>
-                </div>
-                
-                <div class="section-title">📈 Marketing & Acquisition Targets</div>
-                <div class="grid-3">
-                    <div class="stat"><div class="stat-val" id="max_cpa">$0.00</div><div class="stat-lbl">Allowable CPA Limit</div></div>
-                    <div class="stat"><div class="stat-val" id="target_roas">0.0x</div><div class="stat-lbl">Target Break-Even ROAS</div></div>
-                    <div class="stat"><div class="stat-val" id="ad_budget_max">$0.00</div><div class="stat-lbl">Projected Ad Spend</div></div>
-                </div>
-
-                <div class="section-title">💰 Operational Volumes & Revenues</div>
-                <div class="grid-3">
-                    <div class="stat"><div class="stat-val" id="m3">0 Units</div><div class="stat-lbl">Required Mo. Volume</div></div>
-                    <div class="stat"><div class="stat-val" id="m4">0/day</div><div class="stat-lbl">Daily Order Speed</div></div>
-                               <div class="stat"><div class="stat-val" id="gross_rev">$0.00</div><div class="stat-lbl">Gross Revenue Target</div></div>
-                                </div>
-            <div class="progress-container" style="margin:20px 0; background:rgba(30,41,59,0.3); padding:12px; border-radius:12px; border:1px solid #1e293b;">
-                <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#94a3b8; font-weight:600;">
-                    <span>CASH-FLOW SECURITY RESILIENCE RADAR</span>
-                    <span id="pText">0%</span>
-                </div>
-                <div class="progress-bar" style="height:8px; background-color:#1e293b; border-radius:9999px; overflow:hidden; position:relative; margin-top:6px;">
-                    <div class="progress-fill" id="pFill" style="height:100%; background:linear-gradient(90deg,#34d399,#38bdf8); width:0%; transition:width 0.4s;"></div>
-                </div>
-            </div>
-            <div class="advice" id="plan" style="font-size:0.95rem; line-height:1.6; color:#e2e8f0; background:rgba(30,41,59,0.4); border-radius:12px; padding:14px; border-left:4px solid #38bdf8; margin-top:15px;">
+        <button onclick="event.preventDefault(); handleAuth()" id="auth_btn">Secure Sign In</button>
+        <a class="toggle-link" onclick="toggleAuthMode()" id="auth_toggle_text">Need to register a corporate account? Create one here</a>
     </div>
+
     <script>
-    var isLoginMode = true;
-        function toggleAuthMode() {
-                  isLoginMode = !isLoginMode;
-                  document.getElementById("auth_title").innerText = isLoginMode ? "🔒 Partner Login" : "🚀 Create Platform Account";
-                  document.getElementById("auth_subtitle").innerText = isLoginMode ? "Enter your corporate credentials to access Runway AI" : "Register your email to stand up a clean calculation instance";
-                  document.getElementById("auth_btn").innerText = isLoginMode ? "Secure Sign In" : "Register Corporate Account";
-                  document.getElementById("auth_toggle_text").innerText = isLoginMode ? "Need to register a corporate account? Create one here" : "Already have a platform account? Secure log in here";
-                  }
-        // Authorize Cloud Database Initialization Matrix
-        var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
+        var isLoginMode = true;
+        var supabaseUrl = "https://supabase.co";
         var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
         var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
             auth: { persistSession: true, autoRefreshToken: true }
         });
-                  
-                  // Prototype Mock-Auth Handshake System (Upgraded to true Cloud Database in Phase 2)
-                            // Live Supabase Authentication Handshake Engine
-                function handleAuth() {
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            document.getElementById("auth_title").innerText = isLoginMode ? "Partner Login" : "Create Account";
+            document.getElementById("auth_subtitle").innerText = isLoginMode ? "Enter your corporate credentials to access Runway AI" : "Register your email to stand up a secure session layout";
+            document.getElementById("auth_btn").innerText = isLoginMode ? "Secure Sign In" : "Register Corporate Account";
+            document.getElementById("auth_toggle_text").innerText = isLoginMode ? "Need to register a corporate account? Create one here" : "Already have a platform account? Log in here";
+        }
+
+        function handleAuth() {
             var email = document.getElementById("auth_email").value.trim();
             var password = document.getElementById("auth_password").value;
-            
+
             if(!email || !password) {
                 alert("Please fully complete your account credentials!");
                 return;
             }
 
             if (isLoginMode) {
-                // Secure Sign In Handshake
-                supabaseClient.auth.signInWithPassword({ email: email, password: password })
-                    .then(function(result) {
-                        if (result.error) {
-                            alert("Authentication Error: " + result.error.message);
-                        } else {
-                            launchDashboard(result.data.user.email);
-                        }
-                    });
-                    }
-             else {
-                // Secure Registration Handshake
-                supabaseClient.auth.signUp({ email: email, password: password })
-                    .then(function(result) {
-                        if (result.error) {
-                            alert("Registration Blocked: " + result.error.message);
-                        } else {
-                            alert("Registration Successful! Welcome to the platform. Logging you in automatically...");
-                            launchDashboard(result.data.user.email);
-                        }
-                    });
-            }
-        }
-        function launchDashboard(userEmail) {
-    // Securely forward the authenticated browser window straight to your workspace file
-    window.location.href = "dashboard.html";
-}
-        function logoutSession() {
-            supabaseClient.auth.signOut().then(function() {
-                document.getElementById("auth_email").value = "";
-                document.getElementById("auth_password").value = "";
-                document.getElementById("app_dashboard").style.display = "none";
-                document.getElementById("auth_screen").style.display = "block";
-            });
-        }
-
-                        function saveCurrentProfile() {
-            var name = document.getElementById("profile_name").value.trim();
-            var myUrl = document.getElementById("my_url").value;
-            var c1 = document.getElementById("u1").value;
-            var c2 = document.getElementById("u2").value;
-            var cost = document.getElementById("item_cost").value;
-            
-            if(!name || !myUrl || !c1) {
-                alert("Please fill your profile name and URLs before saving!");
-                return;
-            }
-
-            // Securely grab the active authenticated user's ID
-            supabaseClient.auth.getUser().then(function(userResponse) {
-                var user = userResponse.data.user;
-                if (!user) {
-                    alert("Session expired. Please log in again.");
-                    return;
-                }
-
-                var cloudRow = {
-                    user_id: user.id,
-                    profile_name: name,
-                    my_url: myUrl,
-                    comp_url1: c1,
-                    item_cost: parseFloat(cost) || 0
-                };
-
-                // Asynchronously write straight into your relational data grid table
-                supabaseClient.from("saved_vaults").insert([cloudRow]).then(function(result) {
+                supabaseClient.auth.signInWithPassword({ email: email, password: password }).then(function(result) {
                     if (result.error) {
-                        alert("Cloud Save Error: " + result.error.message);
+                        alert("Authentication Error: " + result.error.message);
                     } else {
-                        alert("Product setup successfully archived to your Secure Cloud Vault!");
-                        document.getElementById("profile_name").value = "";
-                        loadVaultList();
+                        launchDashboard();
                     }
                 });
-            });
-        }
- 
-
-                          function loadVaultList() {
-            var container = document.getElementById("vault_list");
-            container.innerHTML = "";
-
-            // Asynchronously fetch archived rows matching the active user session from your database
-            supabaseClient.from("saved_vaults").select("*").then(function(result) {
-                if (result.error) {
-                    console.log("Cloud Pull Blocked: " + result.error.message);
-                    return;
-                }
-
-                var records = result.data || [];
-                records.forEach(function(row) {
-                    var btn = document.createElement("button");
-                    btn.className = "profile-btn";
-                    btn.innerText = "📁 " + row.profile_name;
-                    
-                    // Click event to automatically populate inputs from your relational table row data
-                    btn.onclick = function() {
-                        document.getElementById("my_url").value = row.my_url || "";
-                        document.getElementById("u1").value = row.comp_url1 || "";
-                        document.getElementById("u2").value = ""; // Optional link secondary field reset
-                        document.getElementById("item_cost").value = row.item_cost || 25;
-                    };
-                    container.appendChild(btn);
-                });
-            });
-        }
-
-
-                  function runMatrix(){
-                  var myUrlInput = document.getElementById("my_url").value;
-                  var comp1 = document.getElementById("u1").value;
-                  var comp2 = document.getElementById("u2").value;
-                  var supplierCostInput = parseFloat(document.getElementById("item_cost").value) || 0;
-                  var expenseSpend = document.getElementById("subs").value;
-                  var personalGoal = document.getElementById("goal").value;
-
-                  if(!myUrlInput || !comp1 || !expenseSpend || !personalGoal){
-                  alert("Please complete your store link and competitor targets!");
-                  return;
-                  }
-
-                  var hostCore = "https://ecom-runway-ai.onrender.com/analyze-runway";
-                  var dataQuery = "?url1=" + encodeURIComponent(comp1) + "&url2=" +
-                  encodeURIComponent(comp2) + "&monthly_subs=" + expenseSpend + "&income_goal=" +
-                  personalGoal;
-
-                  fetch(hostCore + dataQuery)
-                  .then(function(res){ return res.json(); })
-                 .then(function(payloadBox){
-                  var d = payloadBox.payload ? payloadBox.payload : payloadBox;
-                  var compFloor = d.floor_price ? d.floor_price : (d.floor ? d.floor : 0);
-
-                  var myQuery = "?url1=" + encodeURIComponent(myUrlInput) + "&url2=" +
-                  encodeURIComponent("") + "&url3=" + encodeURIComponent("") + "&monthly_subs=" +
-                  expenseSpend + "&income_goal=" + personalGoal;
-
-                  fetch(hostCore + myQuery)
-                  .then(function(res2){ return res2.json(); })
-                  .then(function(myPayloadBox){
-                  var myD = myPayloadBox.payload ? myPayloadBox.payload : myPayloadBox;
-                  var myPrice = myD.floor_price ? myD.floor_price : (myD.floor ? myD.floor : 0);
-
-                 var computedMargin = myPrice - supplierCostInput;
-                 var units = d.units_needed ? parseInt(d.units_needed) : (d.units ? parseInt(d.units) : 1);
-                  var grossRevenue = myPrice * units;
-                  var maxSourcingLimit = compFloor * 0.40;
-                  var allowableCPA = computedMargin * 0.45;
-                  var targetROAS = myPrice / (allowableCPA > 0 ? allowableCPA : 1);
-                  var calculatedAdSpend = allowableCPA * units;
-
-                  var ledger = document.getElementById("ledger_output");
-                  if(myPrice < compFloor) {
-                   var gap = compFloor - myPrice;
-                         ledger.className = "ledger-box ledger-win";
-                    ledger.innerHTML = "🎯 MARKET ADVANTAGE: Your product is priced lower than the competitor floor by $" + gap.toFixed(2) + ". This makes you the most competitive option on the dashboard! You have room to increase prices if you want to capture higher margins.";
-                    } else if (myPrice > compFloor) {
-                    var gap = myPrice - compFloor;
-                    ledger.className = "ledger-box ledger-lose";
-                    ledger.innerHTML = "⚠️ COMPETITIVE RISK: You are currently being undercut by competitors by $" + gap.toFixed(2) + ". Consider lowering your pricing strategy to match the competitor floor of $" + compFloor.toFixed(2) + " or bundle features to justify the premium tier cost.";
+            } else {
+                supabaseClient.auth.signUp({ email: email, password: password }).then(function(result) {
+                    if (result.error) {
+                        alert("Registration Blocked: " + result.error.message);
                     } else {
-                   ledger.className = "ledger-box";
-                    ledger.innerHTML = "🤝 MARKET PARITY: Your pricing structure matches the absolute low market floor exactly. Watch software overhead expenses closely to optimize profitability metrics.";
+                        alert("Registration Successful! Logging you in automatically...");
+                        launchDashboard();
                     }
+                });
+            }
+        }
 
-                    document.getElementById("badge").innerText = computedMargin > (myPrice * 0.4) ? "HEALTHY MARGIN" : "COMPETITIVE PRESSURE";
-                    document.getElementById("badge").style.backgroundColor = computedMargin > (myPrice * 0.4) ? "#059669" : "#d97706";
-
-                    document.getElementById("m1").innerText = "$" + Number(compFloor).toFixed(2);
-                    document.getElementById("my_captured_price").innerText = "$" + Number(myPrice).toFixed(2);
-                    document.getElementById("m2").innerText = "$" + Number(computedMargin).toFixed(2);
-
-                    document.getElementById("max_cpa").innerText = "$" + Number(allowableCPA).toFixed(2);
-                    document.getElementById("target_roas").innerText = Number(targetROAS).toFixed(1) + "x";
-                    document.getElementById("ad_budget_max").innerText = "$" + Number(calculatedAdSpend).toFixed(2);
-                    
-              document.getElementById("m3").innerText = units + " Units";
-                  document.getElementById("m4").innerText = (d.daily_target ? d.daily_target : 0) + "/day";
-                   document.getElementById("gross_rev").innerText = "$" + Number(grossRevenue).toFixed(2);
-
-                    document.getElementById("pFill").style.width = d.efficiency + "%";
-                    document.getElementById("pText").innerText = d.efficiency + "% CASHFLOW RUNWAY SECURITY";
-                    document.getElementById("plan").innerHTML = "ENTERPRISE PLATFORM DIRECTIVE: Sourcing your own inventory items at $" + supplierCostInput.toFixed(2) + " yields a clean $" + computedMargin.toFixed(2) + " net margin per order based on your live store listing values.";
-                document.getElementById("results").style.display = "block";
-        });
-    });
-}
-</script>
+        function launchDashboard() {
+            window.location.href = "dashboard.html";
+        }
+    </script>
 </body>
 </html>
