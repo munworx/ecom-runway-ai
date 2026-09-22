@@ -168,14 +168,17 @@
             auth: { persistSession: true, autoRefreshToken: true }
         });
 
-        supabaseClient.auth.getSession().then(function(response) {
-            if (!response.data || !response.data.session) {
-                window.location.href = "portal.html";
-            } else {
-                document.getElementById("user_display").innerText = response.data.session.user.email;
-                loadVaultList();
-            }
-        });
+        // Allow local browser tokens to fully anchor before executing security checks
+setTimeout(function() {
+    supabaseClient.auth.getSession().then(function(response) {
+        if (!response.data || !response.data.session) {
+            window.location.href = "portal.html";
+        } else {
+            document.getElementById("user_display").innerText = response.data.session.user.email;
+            loadVaultList();
+        }
+    });
+}, 1000);
 
         function runMatrix() {
             var myUrl = document.getElementById("my_url").value.trim();
