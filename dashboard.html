@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarginMatrix AI | Mission Control Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://jsdelivr.net"></script>
     <style>
         :root {
             --bg-main: #f1f5f9;       /* Crisp Executive Off-White */
@@ -14,7 +14,6 @@
             --text-muted: #64748b;    /* Elegant Professional Muted Gray */
             --tech-cyan: #0284c7;     /* Clear Corporate Blue Accent */
             --tech-emerald: #16a34a;  /* High-Visibility Profit Green */
-            --tech-amber: #d97706;    /* Executive Warning Amber */
             --border-clean: 1px solid #e2e8f0; /* Ultra-Sharp Layout Lines */
         }
         body {
@@ -27,7 +26,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            letter-spacing: -0.01em;
         }
         .card {
             background-color: var(--bg-surface);
@@ -39,70 +37,16 @@
             box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
             position: relative;
         }
-        h1 {
-            color: var(--text-main);
-            font-size: 2.2rem;
-            margin: 0 0 6px 0;
-            font-weight: 800;
-            text-align: center;
-            letter-spacing: -0.02em;
-        }
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
+        h1 { font-size: 2.2rem; margin: 0 0 6px 0; font-weight: 800; text-align: center; letter-spacing: -0.02em; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; text-align: center; margin-bottom: 30px; font-weight: 500; }
         .form-group { margin-bottom: 18px; }
-        label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 0.06em;
-        }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.06em; }
         input {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: var(--bg-input);
-            border: var(--border-clean);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%; padding: 14px 16px; background-color: var(--bg-input); border: var(--border-clean); border-radius: 10px; color: var(--text-main); font-size: 0.95rem; box-sizing: border-box;
         }
-        input:focus {
-            outline: none;
-            border-color: var(--tech-cyan);
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
-        }
-        .row-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 18px;
-        }
+        .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 18px; }
         button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #0284c7, #1d4ed8);
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
-        }
-        button:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #0284c7, #1d4ed8); color: #ffffff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
         }
         .user-bar {
             display: flex;
@@ -116,119 +60,28 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-        .logout-btn {
-            background: transparent;
-            border: 1px solid #ef4444;
-            color: #ef4444;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            margin: 0;
-            width: auto;
-        }
-        .profile-section {
-            background: var(--bg-input);
-            border: var(--border-clean);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
+        .logout-btn { background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 6px 14px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; width: auto; margin: 0; }
+        .profile-section { background: var(--bg-input); border: var(--border-clean); border-radius: 14px; padding: 20px; margin-bottom: 25px; }
         .save-row { display: flex; gap: 12px; }
-        .save-btn {
-            background: var(--tech-emerald);
-            padding: 0 24px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            margin: 0;
-            width: auto;
-            white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
-        }
+        .save-btn { background: var(--tech-emerald); padding: 0 24px; border-radius: 10px; font-size: 0.85rem; width: auto; margin: 0; white-space: nowrap; }
         .profile-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .profile-btn {
-            background: var(--bg-surface);
-            border: var(--border-clean);
-            color: var(--text-main);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .profile-btn:hover { border-color: var(--tech-cyan); color: var(--tech-cyan); }
-        .results-box {
-            margin-top: 35px;
-            background: var(--bg-input);
-            border: var(--border-clean);
-            border-radius: 16px;
-            padding: 28px;
-            display: none;
-        }
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 1px dashed #e2e8f0;
-            padding-bottom: 15px;
-        }
-        .badge {
-            padding: 6px 14px;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: #ffffff;
-        }
-        .section-title {
-            font-size: 0.8rem;
-            color: var(--tech-cyan);
-            font-weight: 800;
-            text-transform: uppercase;
-            margin: 30px 0 14px 0;
-            letter-spacing: 0.08em;
-            border-left: 3px solid var(--tech-cyan);
-            padding-left: 10px;
-        }
+        .profile-btn { background: var(--bg-surface); border: var(--border-clean); color: var(--text-main); padding: 8px 14px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
+        .results-box { margin-top: 35px; background: var(--bg-input); border: var(--border-clean); border-radius: 16px; padding: 28px; display: none; }
+        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; }
+        .badge { padding: 6px 14px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #ffffff; }
+        .section-title { font-size: 0.8rem; color: var(--tech-cyan); font-weight: 800; text-transform: uppercase; margin: 30px 0 14px 0; letter-spacing: 0.08em; border-left: 3px solid var(--tech-cyan); padding-left: 10px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
-        .stat {
-            background: var(--bg-surface);
-            padding: 16px;
-            border-radius: 10px;
-            text-align: center;
-            border: var(--border-clean);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
-        }
+        .stat { background: var(--bg-surface); padding: 16px; border-radius: 10px; text-align: center; border: var(--border-clean); }
         .stat-val { font-size: 1.4rem; font-weight: 800; color: var(--tech-emerald); }
-        .stat-lbl { color: var(--text-muted); text-transform: uppercase; margin-top: 6px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; }
-        .progress-container {
-            margin: 25px 0;
-            background: var(--bg-surface);
-            padding: 14px;
-            border-radius: 10px;
-            border: var(--border-clean);
-        }
+        .stat-lbl { color: var(--text-muted); text-transform: uppercase; margin-top: 6px; font-size: 0.65rem; font-weight: 700; }
+        .progress-container { margin: 25px 0; background: var(--bg-surface); padding: 14px; border-radius: 10px; border: var(--border-clean); }
         .progress-bar { height: 6px; background-color: var(--bg-main); border-radius: 9999px; overflow: hidden; margin-top: 8px; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--tech-emerald), var(--tech-cyan)); width: 0%; transition: width 0.4s; }
-        .advice {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--text-main);
-            background: rgba(2, 132, 199, 0.04);
-            border-radius: 10px;
-            padding: 16px;
-            border-left: 4px solid var(--tech-cyan);
-            margin-top: 20px;
-        }
+        .advice { font-size: 0.9rem; line-height: 1.6; color: var(--text-main); background: rgba(2, 132, 199, 0.04); border-radius: 10px; padding: 16px; border-left: 4px solid var(--tech-cyan); margin-top: 20px; }
         .ledger-box { margin-top: 18px; padding: 16px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; }
-        .ledger-win { background: rgba(22, 163, 74, 0.05); border-left: 4px solid var(--tech-emerald); color: #166534; }
-        .ledger-lose { background: rgba(220, 38, 38, 0.05); border-left: 4px solid #dc2626; color: #991b1b; }
     </style>
 </head>
 <body>
-
     <div class="card">
         <div class="user-bar">
             <span>📡 Secure Cloud Session Active: <b id="user_display">Loading session...</b></span>
@@ -268,10 +121,10 @@
 
         <div class="results-box" id="results">
             <div class="status-header">
-                <span style="font-weight: 800; font-size:1.1rem; text-transform:uppercase; letter-spacing:-0.01em;">Analysis Feedback Summary</span>
+                <span style="font-weight: 800; font-size:1.1rem; text-transform:uppercase;">Analysis Feedback Summary</span>
                 <span class="badge" id="badge_status">Healthy Margin</span>
             </div>
-            
+
             <div class="ledger-box" id="ledger_output" style="margin-bottom: 20px;"></div>
 
             <div class="section-title">I. Core Sourcing Metrics</div>
@@ -308,12 +161,13 @@
             <div class="advice" id="plan"></div>
         </div>
     </div>
-
     <script>
-        var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
+        var supabaseUrl = "https://supabase.co";
         var supabaseKey = "sb_publishable_hOQt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
-        var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
- auth: { persistSession: true, autoRefreshToken: true }
+        var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
+            auth: { persistSession: true, autoRefreshToken: true }
+        });
+
         supabaseClient.auth.getSession().then(function(response) {
             if (!response.data || !response.data.session) {
                 window.location.href = "portal.html";
@@ -339,7 +193,7 @@
 
             var payload = { myUrl: myUrl, targetUrls: [targetUrl] };
 
-            fetch("https://ecom-runway-ai.onrender.com/scrape", {
+            fetch("https://onrender.com", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
