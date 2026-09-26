@@ -322,81 +322,89 @@ setTimeout(function() {
         }
 
         function generatePDFReport() {
-            var floorPrice = document.getElementById("m1").innerText;
-            if (floorPrice === "\$0.00" || floorPrice === "0.00") {
-                alert("Please execute a head-to-head comparison matrix first to populate your report data!");
-                return;
-            }
+    // 1. Pull the live text variables straight from your working dashboard screen elements
+    var floorPrice = document.getElementById("m1").innerText;
+    var myPrice = document.getElementById("my_captured_price").innerText;
+    var margin = document.getElementById("m2").innerText;
+    var cpa = document.getElementById("max_cpa").innerText;
+    var roas = document.getElementById("target_vol").innerText; // Grabbing target volume maps
+    var revenue = document.getElementById("req_rev").innerText;
+    var userEmail = document.getElementById("user_display").innerText.replace("Secure Cloud Session Active: ", "");
 
-            var myPrice = document.getElementById("my_captured_price").innerText;
-            var margin = document.getElementById("m2").innerText;
-            var cpa = document.getElementById("max_cpa").innerText;
-            var roas = document.getElementById("target_roas").innerText;
-            var spend = document.getElementById("ad_budget_max").innerText;
-            var volume = document.getElementById("m3").innerText;
-            var velocity = document.getElementById("m4").innerText;
-            var revenue = document.getElementById("gross_rev").innerText;
-            var directive = document.getElementById("plan").innerText;
-            var ledgerText = document.getElementById("ledger_output").innerText;
-            var userEmail = document.getElementById("user_display").innerText;
+    // 2. Open a clean, blank browser window target path
+    var printWindow = window.open("", "_blank");
 
-            var printWindow = window.open("", "_blank");
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>MarginMatrix AI - Executive Report</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; color: #1e293b; padding: 40px; line-height: 1.6; background-color: #ffffff; }
-                        .header-table { width: 100%; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 30px; }
-                        .brand-title { font-size: 24px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; }
-                        .report-meta { text-align: right; font-size: 12px; color: #64748b; }
-                        h1 { font-size: 20px; text-transform: uppercase; color: #0f172a; border-left: 4px solid #3b82f6; padding-left: 10px; margin: 30px 0 15px 0; }
-                        .ledger-summary { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; font-size: 14px; margin-bottom: 25px; }
-                        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-                        .metric-card { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; text-align: center; background-color: #ffffff; }
-                        .metric-val { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
-                        .metric-lbl { font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700; }
-                        .directive-box { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; border-radius: 4px; font-size: 13px; font-weight: 600; color: #1e40af; }
-                    </style>
-                </head>
-                <body>
-                    <table class="header-table">
-                        <tr>
-                            <td class="brand-title">📊 MarginMatrix AI</td>
-                            <td class="report-meta">
-                                <b>STRATEGIC DATA VECTOR REPORT</b><br>
-                                Account Instance: \${userEmail}<br>
-                                Export Date: \${new Date().toLocaleDateString()}
-                            </td>
-                        </tr>
-                    </table>
-                    <h1>I. Market Position & Discrepancy Ledger</h1>
-                    <div class="ledger-summary">\${ledgerText}</div>
-                    <h1>II. Core Sourcing & Unit Viability</h1>
-                    <div class="metrics-grid">
-                        <div class="metric-card"><div class="metric-val">\${floorPrice}</div><div class="metric-lbl">Market Floor Price</div></div>
-                        <div class="metric-card"><div class="metric-val">\${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
-                        <div class="metric-card"><div class="metric-val">\${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
-                    </div>
-                    <h1>III. Marketing Target Allocations</h1>
-                    <div class="metrics-grid">
-                        <div class="metric-card"><div class="metric-val">\${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
-                        <div class="metric-card"><div class="metric-val">\${roas}</div><div class="metric-lbl">Break-Even ROAS</div></div>
-                        <div class="metric-card"><div class="metric-val">\${spend}</div><div class="metric-lbl">Projected Ad Budget</div></div>
-                    </div>
-                    <h1>IV. Operational Volume Requirements</h1>
-                    <div class="metrics-grid">
-                        <div class="metric-card"><div class="metric-val">\${volume}</div><div class="metric-lbl">Required Mo. Volume</div></div>
-                        <div class="metric-card"><div class="metric-val">\${velocity}</div><div class="metric-lbl">Daily Order Speed</div></div>
-                        <div class="metric-card"><div class="metric-val">\${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
-                    </div>
-                    <h1>V. Enterprise Corporate Directive</h1>
-                    <div class="directive-box">\${directive}</div>
-                    <script>window.onload = function() { window.print(); };<\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
+    // 3. Inject a standard HTML shell configuration structure into the print page canvas
+    var htmlContent = `
+    <html>
+    <head>
+        <title>MarginMatrix AI - Executive Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; background-color: #ffffff; }
+            .header-table { width: 100%; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 30px; }
+            .brand-title { font-size: 24px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+            .report-meta { text-align: right; font-size: 12px; color: #64748b; }
+            .section-title { font-size: 14px; font-weight: 700; color: #2563eb; text-transform: uppercase; margin: 30px 0 15px 0; border-left: 4px solid #2563eb; padding-left: 10px; }
+            .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+            .metric-card { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; text-align: center; background-color: #ffffff; }
+            .metric-val { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+            .metric-lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+            .directive-box { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; border-radius: 4px; font-size: 13px; font-weight: 600; color: #1e40af; }
+        </style>
+    </head>
+    <body>
+        <table class="header-table">
+            <tr>
+                <td class="brand-title">MarginMatrix AI</td>
+                <td class="report-meta">
+                    <b>STRATEGIC DATA VECTOR REPORT</b><br>
+                    Account Instance: <span id="p_email"></span><br>
+                    Export Date: <span id="p_date"></span>
+                </td>
+            </tr>
+        </table>
+
+        <div class="section-title">I. Core Sourcing & Unit Viability</div>
+        <div class="metrics-grid">
+            <div class="metric-card"><div id="p_floor" class="metric-val"></div><div class="metric-lbl">Market Floor Price</div></div>
+            <div class="metric-card"><div id="p_my" class="metric-val"></div><div class="metric-lbl">My Captured Price</div></div>
+            <div class="metric-card"><div id="p_margin" class="metric-val"></div><div class="metric-lbl">Net Profit Margin</div></div>
+        </div>
+
+        <div class="section-title">II. Marketing Target Allocations</div>
+        <div class="metrics-grid">
+            <div class="metric-card"><div id="p_cpa" class="metric-val"></div><div class="metric-lbl">Allowable CPA Limit</div></div>
+            <div class="metric-card"><div id="p_roas" class="metric-val"></div><div class="metric-lbl">Target Sales Volume</div></div>
+            <div class="metric-card"><div id="p_rev" class="metric-val"></div><div class="metric-lbl">Gross Revenue Target</div></div>
+        </div>
+
+        <div class="section-title">III. Enterprise Corporate Directive</div>
+        <div class="directive-box">
+            Maintain current sourcing framework parameters. Allocate up to allowable CPA targets per customer conversion. Focus ad funnels on scaling daily volume targets to clear take-home marks.
+        </div>
+    </body>
+    </html>
+    `;
+
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    // 4. Force inject the true calculated text values straight into the print window element cells explicitly!
+    printWindow.document.getElementById("p_email").innerText = userEmail;
+    printWindow.document.getElementById("p_date").innerText = new Date().toLocaleDateString();
+    printWindow.document.getElementById("p_floor").innerText = floorPrice;
+    printWindow.document.getElementById("p_my").innerText = myPrice;
+    printWindow.document.getElementById("p_margin").innerText = margin;
+    printWindow.document.getElementById("p_cpa").innerText = cpa;
+    printWindow.document.getElementById("p_roas").innerText = roas;
+    printWindow.document.getElementById("p_rev").innerText = revenue;
+
+    // 5. Fire the clean native system print prompt window layout automatically
+    setTimeout(function() {
+        printWindow.print();
+    }, 500);
+}
+
         }
     </script>
 </body>
