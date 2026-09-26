@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarginMatrix AI - Executive Board Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; color: #0f172a; max-width: 800px; margin: 0 auto; }
+        .header { border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .header h1 { font-size: 26px; margin: 0; font-weight: 800; letter-spacing: -1px; }
+        .section-title { font-size: 12px; font-weight: 700; color: #2563eb; text-transform: uppercase; margin: 30px 0 15px 0; border-left: 3px solid #2563eb; padding-left: 10px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 6px; }
+        .metric-box { text-align: left; }
+        .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 4px; }
+        .metric-value { font-size: 22px; font-weight: 800; color: #0f172a; }
+        .enterprise-box { background: #eff6ff; border: 1px solid #bfdbfe; padding: 20px; border-radius: 6px; font-size: 13px; color: #1e3a8a; line-height: 1.6; }
+        
+        @media print {
+            body { padding: 20px; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h1>MARGINMATRIX AI</h1>
+            <p style="font-size: 12px; color: #64748b; margin-top: 4px;">Strategic Executive Intelligence Document</p>
+        </div>
+        <div style="text-align: right; font-size: 11px; color: #64748b;">
+            <div id="live_date"></div>
+        </div>
+    </div>
+
+    <div class="section-title">I. Core Sourcing & Unit Viability</div>
+    <div class="grid-3">
+        <div class="metric-box"><div class="metric-label">Market Floor Price</div><div id="print_m1" class="metric-value">$0.00</div></div>
+        <div class="metric-box"><div class="metric-label">My Captured Price</div><div id="print_myCap" class="metric-value">$0.00</div></div>
+        <div class="metric-box"><div class="metric-label">Net Profit Margin</div><div id="print_m2" class="metric-value" style="color: #10b981;">$0.00</div></div>
+    </div>
+
+    <div class="section-title">II. Marketing Target Allocations</div>
+    <div class="grid-3">
+        <div class="metric-box"><div class="metric-label">Allowable CPA Limit</div><div id="print_maxCpa" class="metric-value">$0.00</div></div>
+        <div class="metric-box"><div class="metric-label">Target Sales Volume</div><div id="print_targetVol" class="metric-value">0 units</div></div>
+        <div class="metric-box"><div class="metric-label">Required Gross Revenue</div><div id="print_reqRev" class="metric-value">$0.00</div></div>
+    </div>
+
+    <div class="section-title">III. Enterprise Corporate Directive</div>
+    <div class="enterprise-box">
+        Maintain active sourcing framework targets. Allocate up to the Allowable CPA limit for customer acquisition. Focus marketing channels on reaching the specified unit sales volumes to hit cash take-home milestones.
+    </div>
+
+    <script>
+        // Automatically read the metrics passed from your main dashboard tab URL
+        var params = new URLSearchParams(window.location.search);
+        
+        document.getElementById("live_date").innerText = "EXPORT DATE: " + new Date().toLocaleDateString();
+        if(params.get("m1")) document.getElementById("print_m1").innerText = params.get("m1");
+        if(params.get("myCap")) document.getElementById("print_myCap").innerText = params.get("myCap");
+        if(params.get("m2")) document.getElementById("print_print_m2").innerText = params.get("m2"); // Wait, let's fix a small double id mapping artifact down on this line row tracker
+        if(params.get("m2")) document.getElementById("print_m2").innerText = params.get("m2");
+        if(params.get("maxCpa")) document.getElementById("print_maxCpa").innerText = params.get("maxCpa");
+        if(params.get("targetVol")) document.getElementById("print_targetVol").innerText = params.get("targetVol");
+        if(params.get("reqRev")) document.getElementById("print_reqRev").innerText = params.get("reqRev");
+
+        // Open up the print window instantly once the elements have finished rendering!
+        setTimeout(function() {
+            window.print();
+        }, 300);
+    </script>
+
+</body>
+</html>
