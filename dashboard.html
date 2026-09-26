@@ -200,20 +200,20 @@ setTimeout(function() {
 
             var payload = { myUrl: myUrl, targetUrls: [targetUrl] };
 
-            fetch("https://ecom-runway-ai.onrender.com", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            })
-            .then(function(res) { return res.json(); })
-            .then(function(data) {
-                if (data.error) {
-                    alert("Scraper Network Timeout: " + data.error);
-                    return;
-                }
-
-                var fetchedCompetitorPrice = parseFloat(data.competitorPrices) || 0;
-                var myFetchedPrice = parseFloat(data.myPrice) || fetchedCompetitorPrice || 0;
+                   fetch("https://ecom-runway-ai.onrender.com/scrape-product?url=" + encodeURIComponent(targetUrl), {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.error) {
+                alert("Scraper Network Timeout: " + data.error);
+                return;
+            }
+            var fetchedCompetitorPrice = parseFloat(data.competitor_price) || 0;
+            var myFetchedPrice = parseFloat(data.lowest_price_found) || fetchedCompetitorPrice || 0;
 
                 if (fetchedCompetitorPrice === 0) {
                     alert("Could not pull down accurate product rows. Check link pathways.");
