@@ -400,12 +400,43 @@ setTimeout(function() {
     printWindow.document.getElementById("p_rev").innerText = revenue;
 
     // 5. Fire the clean native system print prompt window layout automatically
+    // 5. Fire the clean native system print prompt window layout automatically
     setTimeout(function() {
         printWindow.print();
     }, 500);
 }
 
+function loadVaultList() {
+    supabaseClient.from("product_vault").select("id, profile_name").then(function(res) {
+        if(!res.error && res.data) {
+            var dropdown = document.getElementById("vault_list");
+            dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
+            res.data.forEach(function(item) {
+                var opt = document.createElement("option");
+                opt.value = item.id;
+                opt.innerText = item.profile_name;
+                dropdown.appendChild(opt);
+            });
         }
-    </script>
+    });
+}
+
+function loadSelectedVault(id) {
+    if(!id) return;
+    supabaseClient.from("product_vault").select("*").eq("id", id).single().then(function(res) {
+        if(!res.error && res.data) {
+            document.getElementById("my_url").value = res.data.my_url;
+            document.getElementById("u1").value = res.data.target_url;
+            document.getElementById("item_cost").value = res.data.item_cost;
+            document.getElementById("overhead").value = res.data.overhead;
+            document.getElementById("net_target").value = res.data.net_target;
+            alert("Vault Profile Loaded!");
+        }
+    });
+}
+
+function logoutSession() { supabaseClient.auth.signOut().then(function() { window.location.href = "portal.html"; }); }
+</script>
+
 </body>
 </html>
