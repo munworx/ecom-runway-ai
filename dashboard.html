@@ -329,7 +329,9 @@ setTimeout(function() {
     var cpa = document.getElementById("max_cpa").innerText;
     var roas = document.getElementById("target_vol").innerText; // Grabbing target volume maps
     var revenue = document.getElementById("req_rev").innerText;
-    var userEmail = document.getElementById("user_display").innerText.replace("Secure Cloud Session Active: ", "");
+        var emailEl = document.getElementById("user_display");
+    var userEmail = emailEl ? emailEl.innerText.replace("Secure Cloud Session Active: ", "") : "munworx@gmail.com";
+
 
     // 2. Open a clean, blank browser window target path
     var printWindow = window.open("", "_blank");
