@@ -295,26 +295,31 @@ setTimeout(function() {
                 });
             });
         }
-        function loadVaultList() {
-            var container = document.getElementById("vault_list");
-            container.innerHTML = "";
+   function loadVaultList() {
+    var dropdown = document.getElementById("vault_list");
+    if (!dropdown) return; // Safety check to ensure the dropdown exists
 
-            supabaseClient.from("saved_vaults").select("*").then(function(result) {
-                var records = result.data || [];
-                records.forEach(function(row) {
-                    var btn = document.createElement("button");
-                    btn.className = "profile-btn";
-                    btn.innerText = "📁 " + row.profile_name;
-                    btn.onclick = function() {
-                        document.getElementById("my_url").value = row.my_url || "";
-                        document.getElementById("u1").value = row.comp_url1 || "";
-                        document.getElementById("item_cost").value = row.item_cost || 25;
-                    };
-                    container.appendChild(btn);
-                });
+    dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
+
+    supabaseClient.from("product_vault").select("id, profile_name").then(function(res) {
+        if (res.error) {
+            console.log("Vault list database notice:", res.error.message);
+            return;
+        }
+        if (res.data && Array.isArray(res.data)) {
+            res.data.forEach(function(item) {
+                if (item && item.profile_name) {
+                    var opt = document.createElement("option");
+                    opt.value = item.id;
+                    opt.innerText = item.profile_name;
+                    dropdown.appendChild(opt);
+                }
             });
         }
-
+    }).catch(function(err) {
+        console.log("Vault network handshake notice:", err.message);
+    });
+}
         function logoutSession() {
             supabaseClient.auth.signOut().then(function() {
                 window.location.href = "portal.html";
