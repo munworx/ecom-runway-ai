@@ -200,7 +200,7 @@ setTimeout(function() {
 
             var payload = { myUrl: myUrl, targetUrls: [targetUrl] };
 
-            fetch("https://ecom-runway-ai.onrender.com/scrape", {
+            fetch("https://ecom-runway-ai.onrender.com", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
