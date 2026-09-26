@@ -212,8 +212,8 @@ setTimeout(function() {
                 alert("Scraper Network Timeout: " + data.error);
                 return;
             }
-            var fetchedCompetitorPrice = parseFloat(data.competitor_price) || 0;
-            var myFetchedPrice = parseFloat(data.lowest_price_found) || fetchedCompetitorPrice || 0;
+                        var fetchedCompetitorPrice = parseFloat(data.data.competitor_price) || 0;
+            var myFetchedPrice = parseFloat(data.data.lowest_deal_price) || fetchedCompetitorPrice || 0;
 
                 if (fetchedCompetitorPrice === 0) {
                     alert("Could not pull down accurate product rows. Check link pathways.");
