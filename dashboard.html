@@ -321,22 +321,28 @@ setTimeout(function() {
             });
         }
 
-        function generatePDFReport() {
-    // 1. Pull the live text variables straight from your working dashboard screen elements
-    var floorPrice = document.getElementById("m1").innerText;
-    var myPrice = document.getElementById("my_captured_price").innerText;
-    var margin = document.getElementById("m2").innerText;
-    var cpa = document.getElementById("max_cpa").innerText;
-    var roas = document.getElementById("target_vol").innerText; // Grabbing target volume maps
-    var revenue = document.getElementById("req_rev").innerText;
-        var emailEl = document.getElementById("user_display");
+function generatePDFReport() {
+    // Helper function to safely read elements without crashing if they don't exist
+    function safeRead(id) {
+        var el = document.getElementById(id);
+        return el ? el.innerText : "\$0.00";
+    }
+
+    // 1. Pull the text safely from your screen cards
+    var floorPrice = safeRead("m1");
+    var myPrice = safeRead("my_captured_price");
+    var margin = safeRead("m2");
+    var cpa = safeRead("max_cpa");
+    var roas = safeRead("target_vol"); 
+    var revenue = safeRead("req_rev");
+    
+    var emailEl = document.getElementById("user_display");
     var userEmail = emailEl ? emailEl.innerText.replace("Secure Cloud Session Active: ", "") : "munworx@gmail.com";
 
-
-    // 2. Open a clean, blank browser window target path
+    // 2. Open a clean, blank browser window
     var printWindow = window.open("", "_blank");
 
-    // 3. Inject a standard HTML shell configuration structure into the print page canvas
+    // 3. Inject the clean HTML template shell
     var htmlContent = `
     <html>
     <head>
@@ -391,7 +397,7 @@ setTimeout(function() {
     printWindow.document.write(htmlContent);
     printWindow.document.close();
 
-    // 4. Force inject the true calculated text values straight into the print window element cells explicitly!
+    // 4. Inject values explicitly after opening
     printWindow.document.getElementById("p_email").innerText = userEmail;
     printWindow.document.getElementById("p_date").innerText = new Date().toLocaleDateString();
     printWindow.document.getElementById("p_floor").innerText = floorPrice;
@@ -401,13 +407,11 @@ setTimeout(function() {
     printWindow.document.getElementById("p_roas").innerText = roas;
     printWindow.document.getElementById("p_rev").innerText = revenue;
 
-    // 5. Fire the clean native system print prompt window layout automatically
-    // 5. Fire the clean native system print prompt window layout automatically
+    // 5. Fire print prompt
     setTimeout(function() {
         printWindow.print();
     }, 500);
 }
-
 function loadVaultList() {
     supabaseClient.from("product_vault").select("id, profile_name").then(function(res) {
         if(!res.error && res.data) {
