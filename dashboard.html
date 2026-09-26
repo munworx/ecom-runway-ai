@@ -295,38 +295,6 @@ setTimeout(function() {
                 });
             });
         }
-
-                function saveCurrentProfile() {
-            var name = document.getElementById("profile_name").value.trim();
-            var myUrl = document.getElementById("my_url").value;
-            var c1 = document.getElementById("u1").value;
-            var cost = document.getElementById("item_cost").value;
-            
-            if(!name || !myUrl || !c1) {
-                alert("Please fill your profile name and URLs before saving!");
-                return;
-            }
-
-            supabaseClient.auth.getUser().then(function(userResponse) {
-                var user = userResponse.data.user;
-                if (!user) return;
-
-                var cloudRow = {
-                    user_id: user.id,
-                    profile_name: name,
-                    my_url: myUrl,
-                    comp_url1: c1,
-                    item_cost: parseFloat(cost) || 0
-                };
-
-                supabaseClient.from("saved_vaults").insert([cloudRow]).then(function() {
-                    alert("Product setup successfully archived to your Secure Cloud Vault!");
-                    document.getElementById("profile_name").value = "";
-                    loadVaultList();
-                });
-            });
-        }
-
         function loadVaultList() {
             var container = document.getElementById("vault_list");
             container.innerHTML = "";
