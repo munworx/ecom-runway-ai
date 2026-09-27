@@ -338,8 +338,8 @@ function generatePDFReport() {
     var myPrice = safeRead("my_captured_price");
     var margin = safeRead("m2");
     var cpa = safeRead("max_cpa");
-    var roas = safeRead("target_vol"); 
-    var revenue = safeRead("req_rev");
+        var roas = safeRead("m3");
+        var revenue = safeRead("gross_rev");
     
     var emailEl = document.getElementById("user_display");
     var userEmail = emailEl ? emailEl.innerText.replace("Secure Cloud Session Active: ", "") : "munworx@gmail.com";
