@@ -153,7 +153,8 @@
 
         document.getElementById("results").style.display = "none";
 
-        fetch("https://ecom-runway-ai.onrender.com/scrape" + encodeURIComponent(targetUrl), {
+               fetch("https://ecom-runway-ai.onrender.com/scrape-product?url=" + encodeURIComponent(targetUrl), {
+
             method: "GET",
             headers: { "Accept": "application/json" }
         })
