@@ -217,8 +217,11 @@
             document.getElementById("results").style.display = "block";
         });
     }
-    function generatePDFReport() {
-        function safeRead(id) { var el = document.getElementById(id); return el ? el.innerText : "\$0.00"; }
+        function generatePDFReport() {
+        function safeRead(id) { 
+            var el = document.getElementById(id); 
+            return el ? el.innerText : "\$0.00"; 
+        }
         
         var floorPrice = safeRead("m1");
         var myPrice = safeRead("my_captured_price");
@@ -228,7 +231,15 @@
         var revenue = safeRead("gross_rev");
         var userEmail = "munworx@gmail.com";
 
-        if (globalCompetitorPrices.length === 0) { globalCompetitorPrices = [parseFloat(floorPrice.replace("\$","")) || 0]; }
+        // Clean out any currency text formatting (\$ or - symbols) to give the charting engine pure numeric values
+        var cleanFloor = Math.abs(parseFloat(floorPrice.replace(/[^0-9.]/g, ''))) || 0;
+        var cleanMyPrice = Math.abs(parseFloat(myPrice.replace(/[^0-9.]/g, ''))) || 0;
+        var cleanMargin = Math.abs(parseFloat(margin.replace(/[^0-9.]/g, ''))) || 0;
+        var cleanCost = Math.abs(parseFloat(document.getElementById("item_cost").value)) || 0;
+
+        if (globalCompetitorPrices.length === 0) { 
+            globalCompetitorPrices = [cleanFloor]; 
+        }
 
         var barChartConfig = encodeURIComponent(JSON.stringify({
             type: 'bar',
@@ -236,7 +247,7 @@
                 labels: globalCompetitorPrices.map(function(_, idx) { return 'Comp ' + (idx + 1); }).concat(['My Price']),
                 datasets: [{
                     label: 'Market Capture Spectrum (\$)',
-                    data: globalCompetitorPrices.concat([parseFloat(myPrice.replace("\$",""))]),
+                    data: globalCompetitorPrices.concat([cleanMyPrice]),
                     backgroundColor: globalCompetitorPrices.map(function() { return '#64748b'; }).concat(['#2563eb'])
                 }]
             },
@@ -248,7 +259,7 @@
             data: {
                 labels: ['Product Cost', 'Net Unit Profit Margin'],
                 datasets: [{
-                    data: [parseFloat(document.getElementById("item_cost").value) || 0, parseFloat(margin.replace("\$","")) || 0],
+                    data: [cleanCost, cleanMargin],
                     backgroundColor: ['#e2e8f0', '#10b981']
                 }]
             },
@@ -274,7 +285,7 @@
                 .metric-val { font-size: 18px; font-weight: 700; color: #0f172a; }
                 .metric-lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 4px; }
                 .chart-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0; page-break-inside: avoid; }
-                .chart-box { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; text-align: center; background: #ffffff; }
+                .chart-box { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; text-align: center; background: #ffffff; min-height: 280px; display: flex; align-items: center; justify-content: center; }
                 .chart-box img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
                 .directive-box { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; border-radius: 4px; font-size: 13px; color: #1e40af; line-height: 1.5; }
             </style>
@@ -285,30 +296,30 @@
                     <td class="brand-title">MarginMatrix AI</td>
                     <td class="report-meta">
                         <b>FIRM MARKETING ANALYTICS DOSSIER</b><br>
-                        Account Instance: <span>${userEmail}</span><br>
-                        Export Date: <span>${new Date().toLocaleDateString()}</span>
+                        Account Instance: <span>\${userEmail}</span><br>
+                        Export Date: <span>\${new Date().toLocaleDateString()}</span>
                     </td>
                 </tr>
             </table>
 
             <div class="section-title">I. Core Sourcing & Unit Viability</div>
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-val">${floorPrice}</div><div class="metric-lbl">Lowest Competitor Target</div></div>
-                <div class="metric-card"><div class="metric-val">${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
-                <div class="metric-card"><div class="metric-val" style="color: #10b981;">${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
+                <div class="metric-card"><div class="metric-val">\${floorPrice}</div><div class="metric-lbl">Lowest Competitor Target</div></div>
+                <div class="metric-card"><div class="metric-val">\${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
+                <div class="metric-card"><div class="metric-val" style="color: #10b981;">\${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
             </div>
 
             <div class="section-title">II. Firm Visual Performance Data Analytics</div>
             <div class="chart-container">
-                <div class="chart-box"><img src="${barChartUrl}"></div>
-                <div class="chart-box"><img src="${doughnutUrl}"></div>
+                <div class="chart-box"><img src="\${barChartUrl}" alt="Pricing spectrum bar chart"></div>
+                <div class="chart-box"><img src="\${doughnutUrl}" alt="Profit split pie chart"></div>
             </div>
 
             <div class="section-title">III. Performance Marketing Allocations</div>
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-val">${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
-                <div class="metric-card"><div class="metric-val">${roas}</div><div class="metric-lbl">Target Sales Volume</div></div>
-                <div class="metric-card"><div class="metric-val">${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
+                <div class="metric-card"><div class="metric-val">\${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
+                <div class="metric-card"><div class="metric-val">\${roas}</div><div class="metric-lbl">Target Sales Volume</div></div>
+                <div class="metric-card"><div class="metric-val">\${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
             </div>
 
             <div class="section-title">IV. Agency Execution Directive</div>
@@ -322,9 +333,8 @@
         printWindow.document.write(htmlContent);
         printWindow.document.close();
 
-        setTimeout(function() { printWindow.print(); }, 1200);
+        setTimeout(function() { printWindow.print(); }, 1500);
     }
-
     function saveCurrentProfile() {
         var name = document.getElementById("vault_name").value.trim();
         if(!name) { alert("Please input a profile name!"); return; }
