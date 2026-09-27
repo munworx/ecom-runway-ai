@@ -217,7 +217,7 @@
             document.getElementById("results").style.display = "block";
         });
     }
-          function generatePDFReport() {
+            function generatePDFReport() {
         function safeRead(id) { 
             var el = document.getElementById(id); 
             return el ? el.innerText : "\$0.00"; 
@@ -295,30 +295,30 @@
                     <td class="brand-title">MarginMatrix AI</td>
                     <td class="report-meta">
                         <b>FIRM MARKETING ANALYTICS DOSSIER</b><br>
-                        Account Instance: <span>\${userEmail}</span><br>
-                        Export Date: <span>\${new Date().toLocaleDateString()}</span>
+                        Account Instance: <span>${userEmail}</span><br>
+                        Export Date: <span>${new Date().toLocaleDateString()}</span>
                     </td>
                 </tr>
             </table>
 
             <div class="section-title">I. Core Sourcing & Unit Viability</div>
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-val">\${floorPrice}</div><div class="metric-lbl">Lowest Competitor Target</div></div>
-                <div class="metric-card"><div class="metric-val">\${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
-                <div class="metric-card"><div class="metric-val" style="color: #10b981;">\${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
+                <div class="metric-card"><div class="metric-val">${floorPrice}</div><div class="metric-lbl">Lowest Competitor Target</div></div>
+                <div class="metric-card"><div class="metric-val">${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
+                <div class="metric-card"><div class="metric-val" style="color: #10b981;">${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
             </div>
 
             <div class="section-title">II. Firm Visual Performance Data Analytics</div>
             <div class="chart-container">
-                <div class="chart-box"><img src="\${barChartUrl}" alt="Pricing profile spectrum bar chart"></div>
-                <div class="chart-box"><img src="\${doughnutUrl}" alt="Unit revenue breakdown chart"></div>
+                <div class="chart-box"><img src="${barChartUrl}" alt="Pricing profile spectrum bar chart"></div>
+                <div class="chart-box"><img src="${doughnutUrl}" alt="Unit revenue breakdown chart"></div>
             </div>
 
             <div class="section-title">III. Performance Marketing Allocations</div>
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-val">\${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
-                <div class="metric-card"><div class="metric-val">\${roas}</div><div class="metric-lbl">Target Sales Volume</div></div>
-                <div class="metric-card"><div class="metric-val">\${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
+                <div class="metric-card"><div class="metric-val">${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
+                <div class="metric-card"><div class="metric-val">${roas}</div><div class="metric-lbl">Target Sales Volume</div></div>
+                <div class="metric-card"><div class="metric-val">${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
             </div>
 
             <div class="section-title">IV. Agency Execution Directive</div>
