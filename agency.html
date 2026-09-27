@@ -72,10 +72,15 @@
             <input type="text" id="my_url" class="text-input" placeholder="https://amazon.com">
         </div>
 
-        <div class="section-title">📊 Multi-Scraper Competitor Target Links</div>
-        <div class="input-group">
-            <input type="text" id="u1" class="text-input" placeholder="https://ebay.com">
-        </div>
+        <div class="section-title">
+    <span>📊 Multi-Scraper Competitor Target Links</span>
+    <button type="button" style="background:#2563eb; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer;" onclick="addAgencyInputBox()">+ Add Competitor Link</button>
+</div>
+<div id="agency_input_vault" class="input-group">
+    <div class="competitor-row" style="display:flex; gap:5px; margin-bottom:5px;">
+        <input type="text" id="u1" class="text-input comp-array-field" placeholder="https://ebay.com">
+    </div>
+</div>
 
         <div class="grid-3">
             <div class="input-container">
@@ -240,6 +245,21 @@
         setTimeout(function() { reportWindow.print(); }, 1200);
     }
     function logoutSession() { window.location.href = "portal.html"; }
+        function addAgencyInputBox() {
+        var vault = document.getElementById("agency_input_vault");
+        var count = vault.getElementsByClassName("competitor-row").length + 1;
+        var div = document.createElement("div");
+        div.className = "competitor-row";
+        div.style.display = "flex";
+        div.style.gap = "5px";
+        div.style.marginBottom = "5px";
+        div.innerHTML = `
+            <input type="text" class="text-input comp-array-field" placeholder="https://ebay.com{count}">
+            <button type="button" style="background:#ef4444; color:white; border:none; padding:0 12px; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="this.parentElement.remove()">X</button>
+        `;
+        vault.appendChild(div);
+    }
+
 </script>
 </body>
 </html>
