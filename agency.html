@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarginMatrix AI | Agency Edition</title>
-    <script src=https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
     <style>
         :root {
             --bg-canvas: #f1f5f9;
@@ -136,7 +136,7 @@
     var supabaseKey = "sb_publishable_h9Qt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
     
     // Correct curly-brace parameter grouping to avoid compilation errors
-    var supabaseClient = Supabase.createClient(supabaseUrl, supabaseKey, {
+    var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
     });
 
