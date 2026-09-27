@@ -197,7 +197,7 @@
 
         var cleanFloor = parseFloat(floorPrice.replace(/[^0-9.]/g, '')) || 0;
         var cleanMyPrice = parseFloat(myPrice.replace(/[^0-9.]/g, '')) || 0;
-        var cleanMargin = parseFloat(margin.replace(/[^0-9.]/g, '')) || 0;
+        var cleanMargin = parseFloat(myPrice.replace(/[^0-9.]/g, '')) - cleanCost;
         var cleanCost = parseFloat(document.getElementById("item_cost").value) || 0;
 
         var chartConfig = encodeURIComponent(JSON.stringify({
