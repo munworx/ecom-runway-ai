@@ -217,10 +217,10 @@
             document.getElementById("results").style.display = "block";
         });
     }
-        function generatePDFReport() {
+          function generatePDFReport() {
         function safeRead(id) { 
             var el = document.getElementById(id); 
-            return el ? el.innerText : "$0.00"; 
+            return el ? el.innerText : "\$0.00"; 
         }
         
         var floorPrice = safeRead("m1");
@@ -231,43 +231,42 @@
         var revenue = safeRead("gross_rev");
         var userEmail = "munworx@gmail.com";
 
-        // Clean out any currency text formatting (\$ or - symbols) to give the charting engine pure numeric values
-        var cleanFloor = Math.abs(parseFloat(floorPrice.replace(/[^0-9.]/g, ''))) || 0;
-        var cleanMyPrice = Math.abs(parseFloat(myPrice.replace(/[^0-9.]/g, ''))) || 0;
-        var cleanMargin = Math.abs(parseFloat(margin.replace(/[^0-9.]/g, ''))) || 0;
-        var cleanCost = Math.abs(parseFloat(document.getElementById("item_cost").value)) || 0;
+        // Extract absolute numbers to give QuickChart pure clean values
+        var cleanFloor = parseFloat(floorPrice.replace(/[^0-9.]/g, '')) || 0;
+        var cleanMyPrice = parseFloat(myPrice.replace(/[^0-9.]/g, '')) || 0;
+        var cleanMargin = parseFloat(margin.replace(/[^0-9.]/g, '')) || 0;
+        var cleanCost = parseFloat(document.getElementById("item_cost").value) || 0;
 
-        if (globalCompetitorPrices.length === 0) { 
-            globalCompetitorPrices = [cleanFloor]; 
-        }
-
-        var barChartConfig = encodeURIComponent(JSON.stringify({
+        // Build robust, URL-safe data matrices for the external API engine
+        var barChartUrl = "https://quickchart.io" + encodeURIComponent(JSON.stringify({
             type: 'bar',
             data: {
-                labels: globalCompetitorPrices.map(function(_, idx) { return 'Comp ' + (idx + 1); }).concat(['My Price']),
+                labels: ['Market Lowest', 'My Listing Price'],
                 datasets: [{
-                    label: 'Market Capture Spectrum ($)',
-                    data: globalCompetitorPrices.concat([cleanMyPrice]),
-                    backgroundColor: globalCompetitorPrices.map(function() { return '#64748b'; }).concat(['#2563eb'])
+                    label: 'Market Capture Spectrum (\$)',
+                    data: [cleanFloor, cleanMyPrice],
+                    backgroundColor: ['#64748b', '#2563eb']
                 }]
             },
-            options: { title: { display: true, text: 'HEAD-TO-HEAD PRICING PROFILE' } }
+            options: {
+                title: { display: true, text: 'HEAD-TO-HEAD PRICING PROFILE' },
+                legend: { display: false }
+            }
         }));
 
-               var doughnutConfig = encodeURIComponent(JSON.stringify({
+        var doughnutUrl = "https://quickchart.io" + encodeURIComponent(JSON.stringify({
             type: 'doughnut',
             data: {
-                labels: ['Product Cost', 'Net Unit Profit Margin'],
+                labels: ['Product Sourcing Cost', 'Net Unit Profit Margin'],
                 datasets: [{
                     data: [cleanCost, cleanMargin],
                     backgroundColor: ['#e2e8f0', '#10b981']
                 }]
             },
-            options: { title: { display: true, text: 'UNIT REVENUE SPLIT' } }
+            options: {
+                title: { display: true, text: 'UNIT REVENUE SPLIT' }
+            }
         }));
-
-        var barChartUrl = "https://quickchart.io" + barChartConfig;
-        var doughnutUrl = "https://quickchart.io" + doughnutConfig;
 
         var printWindow = window.open("", "_blank");
         var htmlContent = `
@@ -296,30 +295,30 @@
                     <td class="brand-title">MarginMatrix AI</td>
                     <td class="report-meta">
                         <b>FIRM MARKETING ANALYTICS DOSSIER</b><br>
-                        Account Instance: <span>${userEmail}</span><br>
-                        Export Date: <span>${new Date().toLocaleDateString()}</span>
+                        Account Instance: <span>\${userEmail}</span><br>
+                        Export Date: <span>\${new Date().toLocaleDateString()}</span>
                     </td>
                 </tr>
             </table>
 
             <div class="section-title">I. Core Sourcing & Unit Viability</div>
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-val">${floorPrice}</div><div class="metric-lbl">Lowest Competitor Target</div></div>
-                <div class="metric-card"><div class="metric-val">${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
-                <div class="metric-card"><div class="metric-val" style="color: #10b981;">${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
+                <div class="metric-card"><div class="metric-val">\${floorPrice}</div><div class="metric-lbl">Lowest Competitor Target</div></div>
+                <div class="metric-card"><div class="metric-val">\${myPrice}</div><div class="metric-lbl">My Captured Price</div></div>
+                <div class="metric-card"><div class="metric-val" style="color: #10b981;">\${margin}</div><div class="metric-lbl">Net Profit Margin</div></div>
             </div>
 
             <div class="section-title">II. Firm Visual Performance Data Analytics</div>
             <div class="chart-container">
-                <div class="chart-box"><img src="${barChartUrl}" alt="Pricing spectrum bar chart"></div>
-                <div class="chart-box"><img src="${doughnutUrl}" alt="Profit split pie chart"></div>
+                <div class="chart-box"><img src="\${barChartUrl}" alt="Pricing profile spectrum bar chart"></div>
+                <div class="chart-box"><img src="\${doughnutUrl}" alt="Unit revenue breakdown chart"></div>
             </div>
 
             <div class="section-title">III. Performance Marketing Allocations</div>
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-val">${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
-                <div class="metric-card"><div class="metric-val">${roas}</div><div class="metric-lbl">Target Sales Volume</div></div>
-                <div class="metric-card"><div class="metric-val">${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
+                <div class="metric-card"><div class="metric-val">\${cpa}</div><div class="metric-lbl">Allowable CPA Limit</div></div>
+                <div class="metric-card"><div class="metric-val">\${roas}</div><div class="metric-lbl">Target Sales Volume</div></div>
+                <div class="metric-card"><div class="metric-val">\${revenue}</div><div class="metric-lbl">Gross Revenue Target</div></div>
             </div>
 
             <div class="section-title">IV. Agency Execution Directive</div>
@@ -328,7 +327,7 @@
             </div>
         </body>
         </html>
-        `;
+        \`;
 
         printWindow.document.write(htmlContent);
         printWindow.document.close();
@@ -397,8 +396,8 @@
                     var div = document.createElement("div");
                     div.className = "competitor-row";
                     div.innerHTML = `
-                        <input type="text" class="text-input comp-link" value="${link}">
-                        ${index > 0 ? '<button class="remove-btn" onclick="this.parentElement.remove()">X</button>' : ''}
+                        <input type="text" class="text-input comp-link" value="\${link}">
+                        \${index > 0 ? '<button class="remove-btn" onclick="this.parentElement.remove()">X</button>' : ''}
                     `;
                     container.appendChild(div);
                 });
