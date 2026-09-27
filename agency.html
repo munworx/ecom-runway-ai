@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarginMatrix AI | Agency Edition</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src=https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
     <style>
         :root {
             --bg-canvas: #f1f5f9;
@@ -132,15 +132,17 @@
     </div>
 </div>
 <script>
-      var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
-        auth: { 
-            persistSession: true, 
-            autoRefreshToken: true, 
-            detectSessionInUrl: false 
-        }
+    var supabaseUrl = "https://zhtpvafqukwvzhuamjos.supabase.co";
+    var supabaseKey = "sb_publishable_h9Qt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
+    
+    // Correct curly-brace parameter grouping to avoid compilation errors
+    var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
     });
 
-        // Unmask your executive analytical metrics layout cards instantly on page boot
+    var globalCompetitorPrices = [];
+
+    // Instant session dashboard unmasker on startup
     setTimeout(function() {
         document.getElementById("user_display").innerText = "Secure Cloud Session Active: munworx@gmail.com";
         loadVaultList();
@@ -157,7 +159,6 @@
         `;
         container.appendChild(div);
     }
-
     function runMatrix() {
         var myUrl = document.getElementById("my_url").value.trim();
         var compInputs = document.getElementsByClassName("comp-link");
@@ -179,7 +180,7 @@
         globalCompetitorPrices = [];
 
         var promises = linksToScrape.map(function(link) {
-            return fetch("https://onrender.com" + encodeURIComponent(link), {
+            return fetch("https://ecom-runway-ai.onrender.com/scrape-product?url=" + encodeURIComponent(link), {
                 method: "GET",
                 headers: { "Accept": "application/json" }
             })
@@ -206,18 +207,18 @@
             var requiredGrossRevenue = targetVolume * myCapturedPrice;
             var allowableCPA = (netMargin * 0.45);
 
-            document.getElementById("m1").innerText = "\$" + lowestCompPrice.toFixed(2);
-            document.getElementById("my_captured_price").innerText = "\$" + myCapturedPrice.toFixed(2);
-            document.getElementById("m2").innerText = "\$" + netMargin.toFixed(2);
-            document.getElementById("max_cpa").innerText = "\$" + allowableCPA.toFixed(2);
+            document.getElementById("m1").innerText = "$" + lowestCompPrice.toFixed(2);
+            document.getElementById("my_captured_price").innerText = "$" + myCapturedPrice.toFixed(2);
+            document.getElementById("m2").innerText = "$" + netMargin.toFixed(2);
+            document.getElementById("max_cpa").innerText = "$" + allowableCPA.toFixed(2);
             document.getElementById("m3").innerText = targetVolume + " units";
-            document.getElementById("gross_rev").innerText = "\$" + requiredGrossRevenue.toFixed(2);
+            document.getElementById("gross_rev").innerText = "$" + requiredGrossRevenue.toFixed(2);
 
             document.getElementById("results").style.display = "block";
         });
     }
     function generatePDFReport() {
-        function safeRead(id) { var el = document.getElementById(id); return el ? el.innerText : "$0.00"; }
+        function safeRead(id) { var el = document.getElementById(id); return el ? el.innerText : "\$0.00"; }
         
         var floorPrice = safeRead("m1");
         var myPrice = safeRead("my_captured_price");
@@ -225,18 +226,17 @@
         var cpa = safeRead("max_cpa");
         var roas = safeRead("m3"); 
         var revenue = safeRead("gross_rev");
-        var emailEl = document.getElementById("user_display");
-        var userEmail = emailEl ? emailEl.innerText.replace("Secure Cloud Session Active: ", "") : "munworx@gmail.com";
+        var userEmail = "munworx@gmail.com";
 
-        if (globalCompetitorPrices.length === 0) { globalCompetitorPrices = [parseFloat(floorPrice.replace("$","")) || 0]; }
+        if (globalCompetitorPrices.length === 0) { globalCompetitorPrices = [parseFloat(floorPrice.replace("\$","")) || 0]; }
 
         var barChartConfig = encodeURIComponent(JSON.stringify({
             type: 'bar',
             data: {
                 labels: globalCompetitorPrices.map(function(_, idx) { return 'Comp ' + (idx + 1); }).concat(['My Price']),
                 datasets: [{
-                    label: 'Market Capture Spectrum ($)',
-                    data: globalCompetitorPrices.concat([parseFloat(myPrice.replace("$",""))]),
+                    label: 'Market Capture Spectrum (\$)',
+                    data: globalCompetitorPrices.concat([parseFloat(myPrice.replace("\$",""))]),
                     backgroundColor: globalCompetitorPrices.map(function() { return '#64748b'; }).concat(['#2563eb'])
                 }]
             },
@@ -248,7 +248,7 @@
             data: {
                 labels: ['Product Cost', 'Net Unit Profit Margin'],
                 datasets: [{
-                    data: [parseFloat(document.getElementById("item_cost").value) || 0, parseFloat(margin.replace("$","")) || 0],
+                    data: [parseFloat(document.getElementById("item_cost").value) || 0, parseFloat(margin.replace("\$","")) || 0],
                     backgroundColor: ['#e2e8f0', '#10b981']
                 }]
             },
@@ -371,7 +371,6 @@
         });
     }
 
-    // Load multi-link profiles gracefully from database split strings
     function loadSelectedVault(id) {
         if(!id) return;
         supabaseClient.from("product_vault").select("*").eq("id", id).single().then(function(res) {
@@ -397,4 +396,9 @@
             }
         });
     }
-function logoutSession() { supabaseClient.auth.signOut().then(function() { window.location.href = "portal.html"; }); }
+
+    function logoutSession() { window.location.href = "portal.html"; }
+</script>
+
+</body>
+</html>
