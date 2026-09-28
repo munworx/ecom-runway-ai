@@ -211,7 +211,8 @@
 
         var cleanFloor = parseFloat(floorPrice.replace(/[^0-9.]/g, '')) || 0;
         var cleanMyPrice = parseFloat(myPrice.replace(/[^0-9.]/g, '')) || 0;
-        var cleanMargin = parseFloat(myPrice.replace(/[^0-9.]/g, '')) - cleanCost;
+               var cleanMargin = parseFloat(margin.replace(/[^0-9.-]/g, '')) || 0;
+        var chartMarginSlice = Math.max(0, cleanMargin);
         var cleanCost = parseFloat(document.getElementById("item_cost").value) || 0;
 
             var chartConfig = encodeURIComponent(JSON.stringify({
@@ -231,7 +232,7 @@
             data: {
                 labels: ['Sourcing Cost', 'Net Unit Margin'],
                 datasets: [{
-                    data: [cleanCost, cleanMargin],
+                    data: [cleanCost, chartMarginSlice],
                     backgroundColor: ['#e2e8f0', '#10b981']
                 }]
             }
