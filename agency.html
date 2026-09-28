@@ -135,12 +135,7 @@
 </div>
 
 <script>
-    var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
-    var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnphdWFtanVvcyIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzE2NDAyMjM1LCJleHAiOjIwMzE5NzgyMzV9.FakeKeyForSecurityHandshakeVerificationPurposeOnlyRows";
-    var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
-    });
-
+  var supabaseClient = null;
     setTimeout(function() {
         document.getElementById("user_display").innerText = "Secure Cloud Session Active: munworx@gmail.com";
     }, 500);
