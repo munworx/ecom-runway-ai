@@ -153,7 +153,7 @@
                         then: function(callback) {
                             fetch(supabaseUrl + "/rest/v1/" + tableName + "?select=" + encodeURIComponent(columns) + "&apikey=" + encodeURIComponent(supabaseKey), {
                                 method: "GET",
-                                headers: { "apikey": supabaseKey, "Authorization": "Bearer " + supabaseKey }
+                                                            headers: { "apikey": supabaseKey, "authorization": "Bearer " + supabaseKey }
                             })
                             .then(function(r) { return r.ok ? r.json() : []; })
                             .then(function(d) { callback({ data: d, error: null }); })
