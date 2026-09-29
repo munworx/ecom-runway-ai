@@ -371,8 +371,9 @@
         });
     }
 
-    function loadSelectedVault(id) {
-        if(!id) return;
+  function loadSelectedVault(id) {
+    if(!id || id === 'undefined' || id === undefined) return;
+
         supabaseClient.from("product_vault").select("*").eq("id", id).single().then(function(res) {
             if(!res.error && res.data) {
                 document.getElementById("my_url").value = res.data.my_url;
