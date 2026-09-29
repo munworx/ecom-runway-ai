@@ -138,13 +138,17 @@
     var supabaseKey = "sb_publishable_h9Qt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
 
     // Self-contained browser-native database wrapper to bypass all external library loading blocks
-    var supabaseClient = {
+       var supabaseClient = {
         from: function(tableName) {
             return {
                 insert: function(payloadData) {
-                    return fetch(supabaseUrl + "/rest/v1" + tableName + "?apikey=" + encodeURIComponent(supabaseKey), {
+                    return fetch(supabaseUrl + "/rest/v1/" + tableName + "?apikey=" + encodeURIComponent(supabaseKey), {
                         method: "POST",
-                        headers: { "apikey": supabaseKey, "Authorization": "Bearer " + supabaseKey, "Content-Type": "application/json", "Prefer": "return=minimal" },
+                        headers: { 
+                            "apikey": supabaseKey, 
+                            "Content-Type": "application/json", 
+                            "Prefer": "return=minimal"
+                        },
                         body: JSON.stringify(payloadData)
                     }).then(function(r) { return r.ok ? { data: true } : { error: { message: "Network route closed." } }; });
                 },
@@ -153,7 +157,9 @@
                         then: function(callback) {
                             fetch(supabaseUrl + "/rest/v1/" + tableName + "?select=" + encodeURIComponent(columns) + "&apikey=" + encodeURIComponent(supabaseKey), {
                                 method: "GET",
-                                                            headers: { "apikey": supabaseKey, "authorization": "Bearer " + supabaseKey }
+                                headers: { 
+                                    "apikey": supabaseKey
+                                }
                             })
                             .then(function(r) { return r.ok ? r.json() : []; })
                             .then(function(d) { callback({ data: d, error: null }); })
@@ -164,9 +170,11 @@
                 eq: function(field, value) {
                     return {
                         single: function() {
-                            return fetch(supabaseUrl + "/rest/v1" + tableName + "?" + field + "=eq." + encodeURIComponent(value) + "&apikey=" + encodeURIComponent(supabaseKey), {
+                            return fetch(supabaseUrl + "/rest/v1/" + tableName + "?" + field + "=eq." + encodeURIComponent(value) + "&apikey=" + encodeURIComponent(supabaseKey), {
                                 method: "GET",
-                                headers: { "apikey": supabaseKey, "Authorization": "Bearer " + supabaseKey, "Accept": "application/vnd.pgrst.object+json" }
+                                headers: { 
+                                    "apikey": supabaseKey
+                                }
                             }).then(function(r) { return r.json(); }).then(function(d) { return { data: d, error: null }; });
                         }
                     };
@@ -174,8 +182,6 @@
             };
         }
     };
-
-
 
     var globalCompetitorPrices = [];
 
