@@ -140,15 +140,16 @@
         var supabaseClient = {
         from: function(tableName) {
             return {
-                insert: function(payloadData) {
-                    return fetch(supabaseUrl + "/rest/v1/" + tableName, {
-                        method: "POST",
-                        headers: { 
-                            "apikey": supabaseKey, 
-                            "Authorization": "Bearer " + supabaseKey, 
-                            "Content-Type": "application/json", 
-                            "Prefer": "return=minimal"
-                        },
+                            insert: function(payloadData) {
+                return fetch(supabaseUrl + "/rest/v1/" + tableName + "?apikey=" + encodeURIComponent(supabaseKey), {
+                    method: "POST",
+                    headers: { 
+                        "apikey": supabaseKey, 
+                        "Authorization": "Bearer " + supabaseKey, 
+                        "Content-Type": "application/json", 
+                        "Prefer": "return=minimal"
+                    },
+
                         body: JSON.stringify(payloadData)
                     }).then(function(r) { return r.ok ? { data: true } : { error: { message: "Network route closed." } }; });
                 },
