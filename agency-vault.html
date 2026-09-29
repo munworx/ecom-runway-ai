@@ -142,7 +142,7 @@
         from: function(tableName) {
             return {
                 insert: function(payloadData) {
-                    return fetch(supabaseUrl + "/rest/v1/" + tableName + "?apikey=" + encodeURIComponent(supabaseKey), {
+                    return fetch(supabaseUrl + "/rest/v1" + tableName + "?apikey=" + encodeURIComponent(supabaseKey), {
                         method: "POST",
                         headers: { "apikey": supabaseKey, "Authorization": "Bearer " + supabaseKey, "Content-Type": "application/json", "Prefer": "return=minimal" },
                         body: JSON.stringify(payloadData)
@@ -164,7 +164,7 @@
                 eq: function(field, value) {
                     return {
                         single: function() {
-                            return fetch(supabaseUrl + "/rest/v1/" + tableName + "?" + field + "=eq." + encodeURIComponent(value) + "&apikey=" + encodeURIComponent(supabaseKey), {
+                            return fetch(supabaseUrl + "/rest/v1" + tableName + "?" + field + "=eq." + encodeURIComponent(value) + "&apikey=" + encodeURIComponent(supabaseKey), {
                                 method: "GET",
                                 headers: { "apikey": supabaseKey, "Authorization": "Bearer " + supabaseKey, "Accept": "application/vnd.pgrst.object+json" }
                             }).then(function(r) { return r.json(); }).then(function(d) { return { data: d, error: null }; });
