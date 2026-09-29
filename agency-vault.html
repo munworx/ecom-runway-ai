@@ -137,7 +137,7 @@
      // Standalone native network wrapper to bypass external jsDelivr script execution blocks completely
     var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
     var supabaseKey = "sb_publishable_h9Qt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
-        var supabaseClient = {
+        v    var supabaseClient = {
         from: function(tableName) {
             return {
                 insert: function(payloadData) {
@@ -147,7 +147,8 @@
                             "apikey": supabaseKey, 
                             "Authorization": "Bearer " + supabaseKey, 
                             "Content-Type": "application/json", 
-                            "Prefer": "return=minimal" 
+                            "Prefer": "return=minimal",
+                            "x-client-info": "supabase-js/2.45.4"
                         },
                         body: JSON.stringify(payloadData)
                     }).then(function(r) { return r.ok ? { data: true } : { error: { message: "Network route closed." } }; });
@@ -159,7 +160,8 @@
                                 method: "GET",
                                 headers: { 
                                     "apikey": supabaseKey,
-                                    "Authorization": "Bearer " + supabaseKey
+                                    "Authorization": "Bearer " + supabaseKey,
+                                    "x-client-info": "supabase-js/2.45.4"
                                 }
                             })
                             .then(function(r) { return r.ok ? r.json() : []; })
@@ -176,7 +178,8 @@
                                 headers: { 
                                     "apikey": supabaseKey,
                                     "Authorization": "Bearer " + supabaseKey, 
-                                    "Accept": "application/vnd.pgrst.object+json" 
+                                    "Accept": "application/vnd.pgrst.object+json",
+                                    "x-client-info": "supabase-js/2.45.4"
                                 }
                             }).then(function(r) { return r.json(); }).then(function(d) { return { data: d, error: null }; });
                         }
@@ -187,6 +190,7 @@
     };
 
     var globalCompetitorPrices = [];
+
 
     setTimeout(function() {
         document.getElementById("user_display").innerText = "Secure Cloud Session Active: munworx@gmail.com";
