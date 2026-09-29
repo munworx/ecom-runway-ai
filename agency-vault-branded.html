@@ -85,7 +85,7 @@
     <div class="matrix-card">
         <div class="section-title">🔗 My Own Store Listing Link (Your Product)</div>
         <div class="input-group">
-            <input type="text" id="my_url" class="text-input" placeholder="https://amazon.com">
+            <input type="text" id="my_url" class="text-input" placeholder="https*//*www*.*amazon*.*com/your-product-link">
         </div>
 
         <div class="section-title">
@@ -94,7 +94,7 @@
         </div>
         <div id="agency_input_vault" class="input-group">
             <div class="competitor-row" style="display:flex; gap:5px; margin-bottom:5px;">
-                <input type="text" class="text-input comp-array-field" placeholder="https://ebay.com">
+                <input type="text" class="text-input comp-array-field" placeholder="https*//*www*.*ebay*.*com/competitor-target-link-1">
             </div>
         </div>
 
@@ -133,7 +133,7 @@
     </div>
 </div>
 <script>
-    var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
+    var supabaseUrl = "https://zhtpvafqukwvzhuanjos.supabase.co";
     var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDI0MjEsImV4cCI6MjEwNDk3ODQyMX0.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4";
 
     var supabaseClient = {
@@ -174,7 +174,7 @@
                                             "authorization": "Bearer " + supabaseKey, 
                                             "Accept": "application/vnd.pgrst.object+json" 
                                         }
-                                    }).then(function(r) { return r.json(); }).then(function(d) { return { data: d, error: null }; });
+                                    }).then(function(r) { return r.ok ? r.json() : {}; }).then(function(d) { return { data: d, error: null }; });
                                 }
                             };
                         }
@@ -200,7 +200,7 @@
         div.style.gap = "5px";
         div.style.marginBottom = "5px";
         div.innerHTML = `
-            <input type="text" class="text-input comp-array-field" placeholder="https://ebay.com{count}">
+            <input type="text" class="text-input comp-array-field" placeholder="https*//*www*.*ebay*.*com/competitor-target-link-\${count}">
             <button type="button" style="background:#ef4444; color:white; border:none; padding:0 12px; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="this.parentElement.remove()">X</button>
         `;
         vault.appendChild(div);
@@ -265,9 +265,8 @@
 
             document.getElementById("results").style.display = "block";
         });
-    }     
-    
-     function generatePDFReport() {
+    }
+    function generatePDFReport() {
         var floorPrice = document.getElementById("m1").innerText;
         var myPrice = document.getElementById("my_captured_price").innerText;
         var margin = document.getElementById("m2").innerText;
@@ -283,12 +282,11 @@
 
         var reportWindow = window.open("", "_blank");
         
-        // Formatted with zero nested strings to prevent syntax collisions permanently
-        var htmlContent = `
+        var htmlContent = \`
         <html>
         <head>
             <title>MunWorx | Executive Analysis Dossier</title>
-            <script src="https://jsdelivr.net"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>
             <style>
                 body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; background-color: #fff; }
                 .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f172a; padding-bottom: 20px; margin-bottom: 35px; }
@@ -315,15 +313,15 @@
                 <div class="meta-right">
                     <b>Executive Analysis Dossier</b><br>
                     Client Staging Instance<br>
-                    Date: ${new Date().toLocaleDateString()}
+                    Date: \${new Date().toLocaleDateString()}
                 </div>
             </div>
             
             <h3>I. Core Sourcing & Unit Viability</h3>
             <div class="grid-3">
-                <div class="card"><div class="val">${floorPrice}</div><div class="lbl">Lowest Competitor Target</div></div>
-                <div class="card"><div class="val">${myPrice}</div><div class="lbl">My Captured Price</div></div>
-                <div class="card"><div class="val" style="color:#10b981;">${margin}</div><div class="lbl">Net Profit Margin</div></div>
+                <div class="card"><div class="val">\${floorPrice}</div><div class="lbl">Lowest Competitor Target</div></div>
+                <div class="card"><div class="val">\${myPrice}</div><div class="lbl">My Captured Price</div></div>
+                <div class="card"><div class="val" style="color:#10b981;">\${margin}</div><div class="lbl">Net Profit Margin</div></div>
             </div>
             
             <h3>II. Firm Visual Performance Data Analytics</h3>
@@ -334,9 +332,9 @@
             
             <h3>III. Performance Marketing Allocations</h3>
             <div class="grid-3">
-                <div class="card"><div class="val">${cpa}</div><div class="lbl">Allowable CPA Limit</div></div>
-                <div class="card"><div class="val">${roas}</div><div class="lbl">Target Sales Volume</div></div>
-                <div class="card"><div class="val">${revenue}</div><div class="lbl">Gross Revenue Target</div></div>
+                <div class="card"><div class="val">\${cpa}</div><div class="lbl">Allowable CPA Limit</div></div>
+                <div class="card"><div class="val">\${roas}</div><div class="lbl">Target Sales Volume</div></div>
+                <div class="card"><div class="val">\${revenue}</div><div class="lbl">Gross Revenue Target</div></div>
             </div>
             
             <h3>IV. Agency Execution Directive</h3>
@@ -353,7 +351,7 @@
                             labels: ["Lowest Comp", "My Price"],
                             datasets: [{
                                 label: "Pricing Spectrum ($)",
-                                data: [${cleanFloor}, ${cleanMyPrice}],
+                                data: [\${cleanFloor}, \${cleanMyPrice}],
                                 backgroundColor: ["#64748b", "#2563eb"]
                             }]
                         },
@@ -366,7 +364,7 @@
                         data: {
                             labels: ["Sourcing Cost", "Net Unit Margin"],
                             datasets: [{
-                                data: [${cleanCost}, ${chartMarginSlice}],
+                                data: [\${cleanCost}, \${chartMarginSlice}],
                                 backgroundColor: ["#e2e8f0", "#10b981"]
                             }]
                         },
@@ -378,7 +376,7 @@
             <\/script>
         </body>
         </html>
-        `;
+        \`;
 
         reportWindow.document.write(htmlContent);
         reportWindow.document.close();
@@ -441,18 +439,16 @@
                     div.style.display = "flex";
                     div.style.gap = "5px";
                     div.style.marginBottom = "5px";
-                    div.innerHTML = `
-                        <input type="text" class="text-input comp-array-field" value="${link}">
-                        ${index > 0 ? '<button type="button" style="background:#ef4444; color:white; border:none; padding:0 12px; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="this.parentElement.remove()">X</button>' : ''}
-                    `;
-                    container.appendChild(div);
-                });
-                alert("Vault Profile Loaded!");
-            }
-        });
+                    div.innerHTML = \`
+                        <input type="text" class="text-input comp-array-field" value="\${link}">
+    // Missing boot initializer loop to clear the loading message and request active records
+    setTimeout(function() {
+        document.getElementById("user_display").innerText = "Secure Cloud Session Active: munworx@gmail.com";
+        loadVaultList();
+    }, 500);
+    function logoutSession() { 
+        window.location.href = "portal.html"; 
     }
-
-    function logoutSession() { window.location.href = "portal.html"; }
 </script>
 </body>
 </html>
