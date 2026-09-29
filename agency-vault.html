@@ -137,7 +137,7 @@
     var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
     var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnphdWFtanVvcyIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzE2NDAyMjM1LCJleHAiOjIwMzE5NzgyMzV9.sb_publishable_h9Qt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
     
-    var supabaseClient = Supabase.createClient(supabaseUrl, supabaseKey, {
+    var supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
     });
 
