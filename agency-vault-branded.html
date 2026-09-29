@@ -265,7 +265,9 @@
 
             document.getElementById("results").style.display = "block";
         });
-    }    function generatePDFReport() {
+    }     
+    
+    function generatePDFReport() {
         var floorPrice = document.getElementById("m1").innerText;
         var myPrice = document.getElementById("my_captured_price").innerText;
         var margin = document.getElementById("m2").innerText;
@@ -289,13 +291,13 @@
             '<h3>II. Firm Visual Performance Data Analytics</h3><div class="charts"><div class="chart-box"><canvas id="barCanvas" width="400" height="250"></canvas></div><div class="chart-box"><canvas id="pieCanvas" width="400" height="250"></canvas></div></div>' +
             '<h3>III. Performance Marketing Allocations</h3><div class="grid-3"><div class="card"><div class="val">' + cpa + '</div><div class="lbl">Allowable CPA Limit</div></div><div class="card"><div class="val">' + roas + '</div><div class="lbl">Target Sales Volume</div></div><div class="card"><div class="val">' + revenue + '</div><div class="lbl">Gross Revenue Target</div></div></div>' +
             '<h3 style="margin-top:25px;">IV. Agency Execution Directive</h3><div style="background-color:#fef3c7;border-left:4px solid #ea580c;padding:15px;border-radius:4px;font-size:13px;color:#78350f;line-height:1.5;"><b>MUNWORX STRATEGIC ALIGNMENT MANDATE:</b> Sourcing framework targets validated. Marketing optimization teams are authorized to utilize up to the Allowable CPA limit for paid acquisition vectors. Channels must scale systematically to hit target take-home profitability metrics.</div>' +
-            '<script>' +
+            '<scr' + 'ipt>' +
             'setTimeout(function(){' +
             '    new Chart(document.getElementById("barCanvas").getContext("2d"), {type:"bar", data:{labels:["Lowest Comp","My Price"], datasets:[{label:"Pricing Spectrum ($)", data:[' + cleanFloor + ',' + cleanMyPrice + '], backgroundColor:["#64748b","#2563eb"]}]}, options:{responsive:true, maintainAspectRatio:false}});' +
             '    new Chart(document.getElementById("pieCanvas").getContext("2d"), {type:"doughnut", data:{labels:["Sourcing Cost","Net Unit Margin"], datasets:[{data:[' + cleanCost + ',' + chartMarginSlice + '], backgroundColor:["#e2e8f0","#10b981"]}]}, options:{responsive:true, maintainAspectRatio:false}});' +
             '    setTimeout(function(){ window.print(); }, 700);' +
             '}, 500);' +
-            '</script></body></html>';
+            '</scr' + 'ipt></body></html>';
 
         reportWindow.document.write(htmlContent);
         reportWindow.document.close();
