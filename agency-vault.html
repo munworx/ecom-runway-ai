@@ -138,7 +138,7 @@
     var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDI0MjEsImV4cCI6MjEwNDk3ODQyMX0.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4";
 
     // Self-contained browser-native database wrapper to bypass all external library loading blocks
-    var supabaseClient = {
+        var supabaseClient = {
         from: function(tableName) {
             return {
                 insert: function(payloadData) {
@@ -154,35 +154,31 @@
                     }).then(function(r) { return r.ok ? { data: true } : { error: { message: "Network route closed." } }; });
                 },
                 select: function(columns) {
+                    var selectUrl = supabaseUrl + "/rest/v1/" + tableName + "?select=" + encodeURIComponent(columns) + "&apikey=" + encodeURIComponent(supabaseKey);
                     return {
                         then: function(callback) {
-                            fetch(supabaseUrl + "/rest/v1/" + tableName + "?select=" + encodeURIComponent(columns) + "&apikey=" + encodeURIComponent(supabaseKey), {
+                            fetch(selectUrl, {
                                 method: "GET",
-                                headers: { 
-                                    "apikey": supabaseKey,
-                                    "Authorization": "Bearer " + supabaseKey,
-                                    "Accept": "application/json",
-                                    "Content-Profile": "public"
-                                }
+                                headers: { "apikey": supabaseKey, "Authorization": "Bearer " + supabaseKey }
                             })
                             .then(function(r) { return r.ok ? r.json() : []; })
                             .then(function(d) { callback({ data: d, error: null }); })
                             .catch(function(e) { callback({ data: null, error: e }); });
-                        }
-                    };
-                },
-                eq: function(field, value) {
-                    return {
-                        single: function() {
-                            return fetch(supabaseUrl + "/rest/v1/" + tableName + "?" + field + "=eq." + encodeURIComponent(value) + "&apikey=" + encodeURIComponent(supabaseKey), {
-                                method: "GET",
-                                headers: { 
-                                    "apikey": supabaseKey,
-                                    "Authorization": "Bearer " + supabaseKey,
-                                    "Accept": "application/vnd.pgrst.object+json",
-                                    "Content-Profile": "public"
+                        },
+                        eq: function(field, value) {
+                            var eqUrl = selectUrl + "&" + encodeURIComponent(field) + "=eq." + encodeURIComponent(value);
+                            return {
+                                single: function() {
+                                    return fetch(eqUrl, {
+                                        method: "GET",
+                                        headers: { 
+                                            "apikey": supabaseKey,
+                                            "Authorization": "Bearer " + supabaseKey, 
+                                            "Accept": "application/vnd.pgrst.object+json" 
+                                        }
+                                    }).then(function(r) { return r.json(); }).then(function(d) { return { data: d, error: null }; });
                                 }
-                            }).then(function(r) { return r.json(); }).then(function(d) { return { data: d, error: null }; });
+                            };
                         }
                     };
                 }
@@ -191,8 +187,6 @@
     };
 
     var globalCompetitorPrices = [];
-
-
 
     setTimeout(function() {
         document.getElementById("user_display").innerText = "Secure Cloud Session Active: munworx@gmail.com";
