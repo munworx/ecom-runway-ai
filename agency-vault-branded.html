@@ -227,7 +227,7 @@
         globalCompetitorPrices = [];
 
         var promises = linksToScrape.map(function(link) {
-            return fetch("https://onrender.com" + encodeURIComponent(link), {
+            return fetch("https://ecom-runway-ai.onrender.com/scrape-product?url=" + encodeURIComponent(link), {
                 method: "GET",
                 headers: { "Accept": "application/json" }
             })
