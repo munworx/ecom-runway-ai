@@ -279,7 +279,7 @@
         setTimeout(function() { reportWindow.print(); }, 1200);
     }
 
-    function saveCurrentProfile() {
+        function saveCurrentProfile() {
         var name = document.getElementById("vault_name").value.trim();
         if(!name) { alert("Please input a profile name!"); return; }
         
@@ -292,22 +292,68 @@
         var payload = {
             profile_name: name,
             my_url: document.getElementById("my_url").value,
-            target_url: savedLinksArray.join(","), // Packages multiple links securely into comma-separated strings
+            target_url: savedLinksArray.join(","),
             item_cost: parseFloat(document.getElementById("item_cost").value) || 0,
             overhead: parseFloat(document.getElementById("overhead").value) || 0,
             net_target: parseFloat(document.getElementById("net_target").value) || 0
         };
 
-        alert("Successfully pre-staged cloud tracking array payload for: " + name);
-        console.log("Vault Package Synced:", payload);
+        // Fires the live insert command row straight into your Supabase database table
+        supabaseClient.from("product_vault").insert([payload]).then(function(res) {
+            if(res.error) { alert("Cloud Save Error: " + res.error.message); }
+            else { alert("Product Vault Updated Successfully!"); loadVaultList(); }
+        });
     }
 
     function loadVaultList() {
         var dropdown = document.getElementById("vault_list");
-        if (dropdown) dropdown.innerHTML = '<option value="">-- No Active Database Key Initialized --</option>';
+        if (!dropdown) return;
+        dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
+
+        // Pulls all active folders from your cloud vault table natively on load
+        supabaseClient.from("product_vault").select("id, profile_name").then(function(res) {
+            if (res.data && Array.isArray(res.data)) {
+                res.data.forEach(function(item) {
+                    if (item && item.profile_name) {
+                        var opt = document.createElement("option");
+                        opt.value = item.id;
+                        opt.innerText = item.profile_name;
+                        dropdown.appendChild(opt);
+                    }
+                });
+            }
+        });
     }
 
-    function loadSelectedVault(id) { alert("Vault snapshot reference staged."); }
+    function loadSelectedVault(id) {
+        if(!id) return;
+        supabaseClient.from("product_vault").select("*").eq("id", id).single().then(function(res) {
+            if(!res.error && res.data) {
+                document.getElementById("my_url").value = res.data.my_url;
+                document.getElementById("item_cost").value = res.data.item_cost;
+                document.getElementById("overhead").value = res.data.overhead;
+                document.getElementById("net_target").value = res.data.net_target;
+                
+                var container = document.getElementById("agency_input_vault");
+                container.innerHTML = "";
+                var links = res.data.target_url.split(",");
+                links.forEach(function(link, index) {
+                    var div = document.createElement("div");
+                    div.className = "competitor-row";
+                    div.style.display = "flex";
+                    div.style.gap = "5px";
+                    div.style.marginBottom = "5px";
+                    div.innerHTML = `
+                        <input type="text" class="text-input comp-array-field" value="${link}">
+                        ${index > 0 ? '<button type="button" style="background:#ef4444; color:white; border:none; padding:0 12px; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="this.parentElement.remove()">X</button>' : ''}
+                    `;
+                    container.appendChild(div);
+                });
+                alert("Vault Profile Loaded!");
+            }
+        });
+    }
+
     function logoutSession() { window.location.href = "portal.html"; }
 </script>
 </body>
