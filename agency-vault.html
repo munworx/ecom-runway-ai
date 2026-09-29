@@ -138,7 +138,7 @@
     var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY0MDIyMzUsImV4cCI6MjAzMTk3ODIzNX0.sb_publishable_h9Qt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
 
     // Self-contained browser-native database wrapper to bypass all external library loading blocks
-       var supabaseClient = {
+    var supabaseClient = {
         from: function(tableName) {
             return {
                 insert: function(payloadData) {
@@ -146,6 +146,7 @@
                         method: "POST",
                         headers: { 
                             "apikey": supabaseKey, 
+                            "Authorization": "Bearer " + supabaseKey, 
                             "Content-Type": "application/json", 
                             "Prefer": "return=minimal"
                         },
@@ -158,7 +159,10 @@
                             fetch(supabaseUrl + "/rest/v1/" + tableName + "?select=" + encodeURIComponent(columns) + "&apikey=" + encodeURIComponent(supabaseKey), {
                                 method: "GET",
                                 headers: { 
-                                    "apikey": supabaseKey
+                                    "apikey": supabaseKey,
+                                    "Authorization": "Bearer " + supabaseKey,
+                                    "Accept": "application/json",
+                                    "Content-Profile": "public"
                                 }
                             })
                             .then(function(r) { return r.ok ? r.json() : []; })
@@ -173,7 +177,10 @@
                             return fetch(supabaseUrl + "/rest/v1/" + tableName + "?" + field + "=eq." + encodeURIComponent(value) + "&apikey=" + encodeURIComponent(supabaseKey), {
                                 method: "GET",
                                 headers: { 
-                                    "apikey": supabaseKey
+                                    "apikey": supabaseKey,
+                                    "Authorization": "Bearer " + supabaseKey,
+                                    "Accept": "application/vnd.pgrst.object+json",
+                                    "Content-Profile": "public"
                                 }
                             }).then(function(r) { return r.json(); }).then(function(d) { return { data: d, error: null }; });
                         }
@@ -184,6 +191,7 @@
     };
 
     var globalCompetitorPrices = [];
+
 
 
     setTimeout(function() {
