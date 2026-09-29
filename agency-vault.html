@@ -152,16 +152,17 @@
                         body: JSON.stringify(payloadData)
                     }).then(function(r) { return r.ok ? { data: true } : { error: { message: "Network route closed." } }; });
                 },
-                select: function(columns) {
-                    return {
-                        then: function(callback) {
-                            fetch(supabaseUrl + "/rest/v1/" + tableName + "?select=" + encodeURIComponent(columns), {
-                                method: "GET",
-                                headers: { 
-                                    "apikey": supabaseKey,
-                                    "Authorization": "Bearer " + supabaseKey
-                                }
-                            })
+                           select: function(columns) {
+                return {
+                    then: function(callback) {
+                        fetch(supabaseUrl + "/rest/v1/" + tableName + "?select=" + encodeURIComponent(columns) + "&apikey=" + encodeURIComponent(supabaseKey), {
+                            method: "GET",
+                            headers: { 
+                                "apikey": supabaseKey,
+                                "Authorization": "Bearer " + supabaseKey
+                            }
+                        })
+
                             .then(function(r) { return r.json(); })
                             .then(function(d) { callback({ data: d, error: null }); })
                             .catch(function(e) { callback({ data: null, error: e }); });
