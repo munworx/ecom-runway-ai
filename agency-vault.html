@@ -137,7 +137,7 @@
      // Standalone native network wrapper to bypass external jsDelivr script execution blocks completely
     var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
     var supabaseKey = "sb_publishable_h9Qt6LUZNXlPjxzTagl5w_jh0PzoK1h_SgScl7Dsmq33R2AonW-wQ6_VzO7Lg3qZl68";
-    var supabaseClient = {
+        var supabaseClient = {
         from: function(tableName) {
             return {
                 insert: function(payloadData) {
@@ -162,7 +162,7 @@
                                     "Authorization": "Bearer " + supabaseKey
                                 }
                             })
-                            .then(function(r) { return r.ok ? r.json() : []; })
+                            .then(function(r) { return r.json(); })
                             .then(function(d) { callback({ data: d, error: null }); })
                             .catch(function(e) { callback({ data: null, error: e }); });
                         }
