@@ -282,7 +282,8 @@
 
         if (globalCompetitorPrices.length === 0) { globalCompetitorPrices = [cleanFloor]; }
 
-        var chartConfig = encodeURIComponent(JSON.stringify({
+        var chartConfig = JSON.stringify({
+
             type: 'bar',
             data: {
                 labels: globalCompetitorPrices.map(function(_, idx) { return 'Comp ' + (idx + 1); }).concat(['My Price']),
@@ -294,7 +295,8 @@
             }
         }));
 
-        var pieConfig = encodeURIComponent(JSON.stringify({
+       var pieConfig = JSON.stringify({
+
             type: 'doughnut',
             data: {
                 labels: ['Sourcing Cost', 'Net Unit Margin'],
@@ -305,8 +307,9 @@
             }
         }));
 
-    var barChartUrl = "https://quickchart.io" + chartConfig;
-var doughnutUrl = "https://quickchart.io" + pieConfig;
+    var barChartUrl = "https://quickchart.io" + encodeURIComponent(chartConfig);
+var doughnutUrl = "https://quickchart.io" + encodeURIComponent(pieConfig);
+
 
 
         var reportWindow = window.open("", "_blank");
