@@ -186,20 +186,21 @@
 
     var globalCompetitorPrices = [];
 
-    function addAgencyInputBox() {
-        var vault = document.getElementById("agency_input_vault");
-        var count = vault.getElementsByClassName("competitor-row").length + 1;
-        var div = document.createElement("div");
-        div.className = "competitor-row";
-        div.style.display = "flex";
-        div.style.gap = "5px";
-        div.style.marginBottom = "5px";
-        div.innerHTML = `
-            <input type="text" class="text-input comp-array-field" placeholder="https*//*www*.*ebay*.*com/competitor-target-link-\${count}">
-            <button type="button" style="background:#ef4444; color:white; border:none; padding:0 12px; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="this.parentElement.remove()">X</button>
-        `;
-        vault.appendChild(div);
+       function addAgencyInputBox() {
+        const vault = document.getElementById('agency_input_vault');
+        const count = vault.getElementsByClassName('competitor-row').length + 1;
+        
+        // Create a clean new input row without any leaking syntax characters
+        const row = document.createElement('div');
+        row.className = 'competitor-row';
+        row.style.display = 'flex';
+        row.style.gap = '5px';
+        row.style.marginBottom = '5px';
+        
+        row.innerHTML = `<input type="text" class="text-input comp-array-field" placeholder="https://ebay.com{count}">`;
+        vault.appendChild(row);
     }
+
 
     function runMatrix() {
         var myUrl = document.getElementById("my_url").value.trim();
