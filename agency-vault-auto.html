@@ -355,40 +355,46 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         document.getElementById('bar_comp2').style.height = comp2Height + "px";
         document.getElementById('bar_my_price').style.height = myBarHeight + "px";
     }
-           function generatePDFReport() {
-        // Step 1: Capture your exact pristine dashboard workspace screen layout container
+             function generatePDFReport() {
         const targetElement = document.querySelector('.app-container');
         if (!targetElement) return window.print();
 
-        // Step 2: Temporarily hide interface buttons from the screen capture layer
         const elementsToHide = document.querySelectorAll('.action-btn, .btn-primary, .btn-success, .btn-small, .logout-btn, .session-banner');
         elementsToHide.forEach(el => el.style.opacity = '0');
 
-        // Step 3: Compile the screen pixels directly into an ultra-high-definition canvas print asset
         html2canvas(targetElement, {
             scale: 2,
             useCORS: true,
-                allowTaint: true,
+            allowTaint: true,
             logging: false
         }).then(canvas => {
-            // Restore button layouts onto your active monitor screen instantly
             elementsToHide.forEach(el => el.style.opacity = '1');
 
-            // Step 4: Open a clean, self-contained single-page image printing window pipeline
             const imgData = canvas.toDataURL('image/png');
             const printWindow = window.open('', '_blank');
+            
+            // This ensures all text components layout completely before compiling data structures
             printWindow.document.write(`
                 <html>
                 <head>
                     <title>MunWorx Executive Intelligence Report Document</title>
                     <style>
-                        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: flex-start; background: #fff; }
-                        img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+                        body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: flex-start; background: #fff; }
+                        img { max-width: 100%; max-height: 95vh; object-fit: contain; display: block; }
                         @page { size: auto; margin: 0mm; }
                     </style>
                 </head>
                 <body>
-                    <img src="\${imgData}" onload="window.print(); window.close();">
+                    <img id="report_img" src="${imgData}">
+                    <script>
+                        // Delays printing by 300ms to give the layout engine time to finish rendering your graphs!
+                        window.onload = function() {
+                            setTimeout(function() {
+                                window.print();
+                                window.close();
+                            }, 300);
+                        };
+                    <\/script>
                 </body>
                 </html>
             `);
@@ -398,7 +404,6 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
             window.print();
         });
     }
-
     function logoutSession() { alert("Logging out..."); }
 </script>
 </body>
