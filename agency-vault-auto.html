@@ -167,13 +167,117 @@
 <script>
     var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co"; 
     var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDI0MjEsImV4cCI6MjEwNDk3ODQyMX0.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4"; 
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // Track all active competitor link node elements locally
+    let savedVaultProfiles = [];
+
+    // Automatically load existing records from the database the moment the dashboard opens
+    document.addEventListener("DOMContentLoaded", function() {
+        fetchVaultProfiles();
+    });
+
+    // 1. DATABASE FETCH: Retrieve all saved configurations from the cloud tables
+    async function fetchVaultProfiles() {
+        try {
+            const { data, error } = await supabaseClient
+                .from('vault_profiles')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            savedVaultProfiles = data || [];
+            const dropdown = document.getElementById('vault_list');
+            
+            // Clean out old options, keeping only the default header placeholder
+            dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
+            
+            // Re-populate the selection dropdown with fresh cloud profiles
+            savedVaultProfiles.forEach(profile => {
+                const opt = document.createElement('option');
+                opt.value = profile.id;
+                opt.innerText = profile.client_name;
+                dropdown.appendChild(opt);
+            });
+        } catch (err) {
+            console.error("Database read warning:", err.message);
+        }
+    }
+
+    // 2. DATABASE WRITE: Store custom link configurations safely into the cloud
+    async function saveCurrentProfile() {
+        let name = document.getElementById('vault_name').value.trim();
+        if(!name) return alert("Please enter a client tracking name to save this configuration setup.");
+
+        // Harvest all dynamic competitor link entries from input fields
+        const fields = document.querySelectorAll('.comp-array-field');
+        let competitorLinksArray = [];
+        fields.forEach(field => {
+            if(field.value.trim()) competitorLinksArray.push(field.value.trim());
+        });
+
+        // Assemble the data record object payload map
+        const profilePayload = {
+            client_name: name,
+            my_product_url: document.getElementById('my_url').value,
+            item_sourcing_cost: parseFloat(document.getElementById('item_cost').value) || 0,
+            software_overhead: parseFloat(document.getElementById('overhead').value) || 0,
+            cash_target: parseFloat(document.getElementById('net_target').value) || 0,
+            competitor_links: competitorLinksArray
+        };
+
+        try {
+            // Upsert checks if profile name exists to overwrite, or appends a clean new one
+            const { error } = await supabaseClient
+                .from('vault_profiles')
+                .upsert([profilePayload], { onConflict: 'client_name' });
+
+            if (error) throw error;
+
+            alert(`Profile configuration for "${name}" successfully backed up to Supabase Cloud Vault.`);
+            document.getElementById('vault_name').value = '';
+            fetchVaultProfiles(); // Refresh menu listings automatically
+        } catch (err) {
+            alert("Database write error: Make sure a table named 'vault_profiles' is created in your Supabase panel.");
+            console.error(err.message);
+        }
+    }
+
+    // 3. DATABASE READING INTERACTION: Auto-fill inputs when a profile is chosen
+    function loadSelectedVault(profileId) {
+        if(!profileId) return;
+        const selected = savedVaultProfiles.find(p => p.id == profileId);
+        if(!selected) return;
+
+        // Map database string keys back onto your interface panels
+        document.getElementById('my_url').value = selected.my_product_url || '';
+        document.getElementById('item_cost').value = selected.item_sourcing_cost || 0;
+        document.getElementById('overhead').value = selected.software_overhead || 0;
+        document.getElementById('net_target').value = selected.cash_target || 0;
+
+        // Handle the dynamic competitor rows container grid box structure
+        const vault = document.getElementById('agency_input_vault');
+        vault.innerHTML = ''; // Clear rows out cleanly
+
+        let links = selected.competitor_links || [];
+        if (links.length === 0) links.push(''); // Ensure at least one clean fallback field exists
+
+        links.forEach((link, index) => {
+            const row = document.createElement('div');
+            row.className = 'competitor-row'; row.style.display = 'flex'; row.style.gap = '5px'; row.style.marginBottom = '5px';
+            row.innerHTML = `<input type="text" class="text-input comp-array-field" value="${link}" placeholder="https://ebay.com.au{index + 1}">`;
+            vault.appendChild(row);
+        });
+
+        // Run calculations automatically the moment data populates
+        runMatrix();
+    }
 
     // AUTO-DISCOVERY ALGORITHM CONTROLLER
     function discoverCompetitors() {
         let query = document.getElementById('search_query').value.trim();
         if(!query) return alert("Please enter a product name or barcode to auto-discover.");
-        
         let formattedQuery = encodeURIComponent(query).toLowerCase();
         
         let discoveredAmazon = "https://amazon.com.au" + formattedQuery;
@@ -185,9 +289,8 @@
         vault.innerHTML = ''; 
         
         const row1 = document.createElement('div');
-        row1.className = 'competitor-row';
-        row1.style.display = 'flex'; row1.style.gap = '5px'; row1.style.marginBottom = '5px';
-        row1.innerHTML = '<input type="text" class="text-input comp-array-field" value="' + discoveredEbay + '">';
+        row1.className = 'competitor-row'; row1.style.display = 'flex'; row1.style.gap = '5px'; row1.style.marginBottom = '5px';
+        row1.innerHTML = `<input type="text" class="text-input comp-array-field" value="${discoveredEbay}">`;
         vault.appendChild(row1);
         
         alert("Auto-Discovery Success! Links generated for: " + query);
@@ -198,7 +301,7 @@
         const count = vault.getElementsByClassName('competitor-row').length + 1;
         const row = document.createElement('div');
         row.className = 'competitor-row'; row.style.display = 'flex'; row.style.gap = '5px'; row.style.marginBottom = '5px';
-        row.innerHTML = '<input type="text" class="text-input comp-array-field" placeholder="https://ebay.com.au' + count + '">';
+        row.innerHTML = `<input type="text" class="text-input comp-array-field" placeholder="https://ebay.com.au{count}">`;
         vault.appendChild(row);
     }
 
@@ -214,12 +317,12 @@
         let targetSalesVol = Math.ceil(target / (netProfitMargin || 1));
         let grossRevenue = targetSalesVol * myPrice;
         
-        document.getElementById('m1').innerText = "$" + lowestCompPrice.toFixed(2);
-        document.getElementById('my_captured_price').innerText = "$" + myPrice.toFixed(2);
+        document.getElementById('m1').innerText = "\$" + lowestCompPrice.toFixed(2);
+        document.getElementById('my_captured_price').innerText = "\$" + myPrice.toFixed(2);
         
         const marginBox = document.getElementById('m2');
         const alertContainer = document.getElementById('margin_alert_container');
-        marginBox.innerText = "$" + netProfitMargin.toFixed(2);
+        marginBox.innerText = "\$" + netProfitMargin.toFixed(2);
         
         if (netProfitMargin <= 0) {
             marginBox.style.color = "#ef4444";
@@ -229,13 +332,11 @@
             alertContainer.style.borderColor = "#a7f3d0"; alertContainer.style.background = "#f0fdf4";
         }
         
-        document.getElementById('max_cpa').innerText = "$" + allowableCPA.toFixed(2);
+        document.getElementById('max_cpa').innerText = "\$" + allowableCPA.toFixed(2);
         document.getElementById('m3').innerText = targetSalesVol.toLocaleString() + " units";
-        document.getElementById('gross_rev').innerText = "$" + grossRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('gross_rev').innerText = "\$" + grossRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
-    function saveCurrentProfile() { alert("Configuration saved to Cloud Vault."); }
-    function loadSelectedVault(val) { if(!val) return; }
     function generatePDFReport() { window.print(); }
     function logoutSession() { alert("Logging out..."); }
 </script>
