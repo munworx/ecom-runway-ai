@@ -351,9 +351,9 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         const myBarHeight = (myPrice / maxPriceScale) * 140;
 
         // Assign the heights directly to each unique bar element ID safely
-                document.getElementById('bar_comp1').style.height = ((lowestCompPrice / maxPriceScale) * 100) + "%";
-        document.getElementById('bar_comp2').style.height = ((competitor2Price / maxPriceScale) * 100) + "%";
-        document.getElementById('bar_my_price').style.height = ((myPrice / maxPriceScale) * 100) + "%";
+               document.getElementById('bar_comp1').style.height = comp1Height + "px";
+        document.getElementById('bar_comp2').style.height = comp2Height + "px";
+        document.getElementById('bar_my_price').style.height = myBarHeight + "px";
     }
     function generatePDFReport() { window.print(); }
     function logoutSession() { alert("Logging out..."); }
