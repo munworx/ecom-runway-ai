@@ -136,32 +136,36 @@
             <div class="metric-box"><span>Target Sales Volume</span><h2 id="m3">0 units</h2></div>
             <div class="metric-box"><span>Gross Revenue Target</span><h2 id="gross_rev">$0.00</h2></div>
         </div>
-                <!-- RESTORE VISUAL DATA PERFORMANCE ANALYTICS CHARTS -->
+          <!-- EXPANDED GRAPH CHANNELS WITH THREE DYNAMIC BARS -->
         <div class="section-title" style="margin-top: 2rem;">📊 Firm Visual Performance Data Analytics</div>
         <div class="grid-3" style="grid-template-columns: 1.5fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-            <div class="metric-box" style="padding: 1rem; min-height: 260px; display: flex; flex-direction: column; justify-content: center;">
-                <span style="margin-bottom: 1rem;">Pricing Spectrum ($)</span>
-                   <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 180px; padding-top: 10px; width: 100%; max-width: 300px; margin: 0 auto;">
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                <div style="width: 50px; background: #64748b; height: 120px; border-radius: 4px 4px 0 0;"></div>
-                <span style="font-size: 11px; color: #475569; font-weight: 600; text-align: center; white-space: nowrap;">Lowest Comp</span>
+            <div class="matrix-card" style="padding: 1.5rem; min-height: 260px; display: flex; flex-direction: column; justify-content: center; margin-bottom: 0;">
+                <span style="margin-bottom: 1.5rem; font-size: 0.75rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; display: block; text-align: center;">Pricing Spectrum ($)</span>
+                <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 160px; padding-top: 10px; width: 100%; max-width: 400px; margin: 0 auto;">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div id="bar_comp1" style="width: 45px; background: #64748b; height: 100px; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                        <span style="font-size: 11px; color: #475569; font-weight: 600; text-align: center; white-space: nowrap;">Lowest Comp</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div id="bar_comp2" style="width: 45px; background: #94a3b8; height: 120px; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                        <span style="font-size: 11px; color: #475569; font-weight: 600; text-align: center; white-space: nowrap;">Competitor 2</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div id="bar_my_price" style="width: 45px; background: #2563eb; height: 140px; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                        <span style="font-size: 11px; color: #2563eb; font-weight: 700; text-align: center; white-space: nowrap;">My Price</span>
+                    </div>
+                </div>
             </div>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                <div style="width: 50px; background: #2563eb; height: 140px; border-radius: 4px 4px 0 0;"></div>
-                <span style="font-size: 11px; color: #475569; font-weight: 600; text-align: center; white-space: nowrap;">My Price</span>
-            </div>
-        </div>
-            </div>
-            <div class="metric-box" style="padding: 1rem; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <span style="margin-bottom: 1rem;">Net Unit Margin Distribution</span>
-                <svg width="160" height="160" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+            <div class="matrix-card" style="padding: 1.5rem; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 0;">
+                <span style="margin-bottom: 1.5rem; font-size: 0.75rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; display: block; text-align: center;">Net Unit Margin Distribution</span>
+                <svg width="140" height="140" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
                     <circle cx="18" cy="18" r="15.915" fill="none" stroke="#e2e8f0" stroke-width="4"></circle>
                     <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10b981" stroke-width="4" stroke-dasharray="75 25" stroke-dashoffset="0"></circle>
                 </svg>
-                <div style="font-size: 12px; margin-top: 0.5rem; font-weight: 600; color: #10b981;">75% Profit Cushion</div>
+                <div style="font-size: 12px; margin-top: 0.75rem; font-weight: 600; color: #10b981;">75% Profit Cushion</div>
             </div>
         </div>
-    </div>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -303,13 +307,16 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         vault.appendChild(row);
     }
 
-        function runMatrix() {
+    function runMatrix() {
         document.getElementById('results').style.display = 'block';
         let cost = parseFloat(document.getElementById('item_cost').value) || 0;
         let target = parseFloat(document.getElementById('net_target').value) || 0;
         
+        // Mock competitive market landscape price distributions
         let lowestCompPrice = 45.00;
-        let myPrice = 49.99;
+        let competitor2Price = 64.95; // Added second competitor point
+        let myPrice = 89.95; 
+        
         let netProfitMargin = myPrice - cost;
         let allowableCPA = netProfitMargin * 0.25;
         let targetSalesVol = Math.ceil(target / (netProfitMargin || 1));
@@ -334,18 +341,19 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         document.getElementById('m3').innerText = targetSalesVol.toLocaleString() + " units";
         document.getElementById('gross_rev').innerText = "$" + grossRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-        // DYNAMIC GRAPH SCALING LAYERS
-        // Calculates proportional visual column heights dynamically from prices
-        const maxPriceScale = Math.max(lowestCompPrice, myPrice, 1);
-        const lowestCompBarHeight = (lowestCompPrice / maxPriceScale) * 160;
-        const myBarHeight = (myPrice / maxPriceScale) * 160;
+        // LIVE THREE-BAR SCALING LAYER
+        // Finds the maximum price point to scale the chart bars proportionately
+        const maxPriceScale = Math.max(lowestCompPrice, competitor2Price, myPrice, 1);
+        const comp1Height = (lowestCompPrice / maxPriceScale) * 140;
+        const comp2Height = (competitor2Price / maxPriceScale) * 140;
+        const myBarHeight = (myPrice / maxPriceScale) * 140;
 
-        // Target the individual bar divs using structural indexing
-        const bars = document.querySelectorAll('.matrix-card #results + div, .matrix-card div[style*="flex-direction: column"] div[style*="width: 50px"]');
-        if (bars.length >= 2) {
-            bars[0].style.height = lowestCompBarHeight + "px";
-            bars[1].style.height = myBarHeight + "px";
-        }
+        // Assign the heights directly to each unique bar element ID safely
+        document.getElementById('bar_comp1').style.height = comp1Height + "px";
+        document.getElementById('bar_comp2').style.height = comp2Height + "px";
+        document.getElementById('bar_my_price').style.height = myBarHeight + "px";
+    }
+
     }
     function generatePDFReport() { window.print(); }
     function logoutSession() { alert("Logging out..."); }
