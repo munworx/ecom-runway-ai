@@ -355,7 +355,20 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         document.getElementById('bar_comp2').style.height = comp2Height + "px";
         document.getElementById('bar_my_price').style.height = myBarHeight + "px";
     }
-    function generatePDFReport() { window.print(); }
+        function generatePDFReport() {
+        // Step 1: Temporarily compress visual elements to guarantee single-page safety
+        const mainCard = document.querySelector('.app-container');
+        if (mainCard) mainCard.style.transform = "scale(0.82)";
+        if (mainCard) mainCard.style.transformOrigin = "top center";
+        
+        // Step 2: Open the system print dialog console smoothly
+        window.print();
+        
+        // Step 3: Instantly return your live screen layout back to 100% perfect normal scale
+        setTimeout(() => {
+            if (mainCard) mainCard.style.transform = "none";
+        }, 1000);
+    }
     function logoutSession() { alert("Logging out..."); }
 </script>
 </body>
