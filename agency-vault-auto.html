@@ -46,16 +46,10 @@
         .metric-box span { display: block; font-size: 0.75rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; margin-bottom: 0.25rem; }
         .metric-box h2 { font-size: 1.75rem; font-weight: 800; color: var(--txt-main); }
 
-           @media print {
+              @media print {
+        .session-banner, .matrix-card:nth-of-type(1), .matrix-card:nth-of-type(2), .action-btn, .logout-btn { display: none !important; }
         body { background: #fff; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        .session-banner, .matrix-card:nth-of-type(1), .matrix-card:nth-of-type(2), .action-btn, .btn-primary, .btn-success, .btn-small, .logout-btn { display: none !important; }
-        .matrix-card { box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0.25rem !important; }
-        .results-panel { display: block !important; border-top: none !important; padding-top: 0 !important; page-break-inside: auto !important; }
-        .text-input { border: none !important; border-bottom: 1px dashed #94a3b8 !important; background: transparent !important; padding: 0.15rem 0 !important; }
-                            #analytics_panel { gap: 0.5rem !important; margin-bottom: 0 !important; margin-top: -6.5rem !important; height: 140px !important; page-break-inside: avoid !important; }
-        #analytics_panel .matrix-card { padding: 0.5rem !important; min-height: 150px !important; height: 150px !important; }
-        #analytics_panel div[style*="display: flex"] { height: 100px !important; min-height: 100px !important; align-items: flex-end !important; }
-        #analytics_panel #bar_comp1, #analytics_panel #bar_comp2, #analytics_panel #bar_my_price { min-width: 35px !important; display: block !important; }
+        .app-container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
     }
     </style>
 </head>
@@ -356,18 +350,7 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         document.getElementById('bar_my_price').style.height = myBarHeight + "px";
     }
         function generatePDFReport() {
-        // Step 1: Temporarily compress visual elements to guarantee single-page safety
-        const mainCard = document.querySelector('.app-container');
-        if (mainCard) mainCard.style.transform = "scale(0.82)";
-        if (mainCard) mainCard.style.transformOrigin = "top center";
-        
-        // Step 2: Open the system print dialog console smoothly
         window.print();
-        
-        // Step 3: Instantly return your live screen layout back to 100% perfect normal scale
-        setTimeout(() => {
-            if (mainCard) mainCard.style.transform = "none";
-        }, 1000);
     }
     function logoutSession() { alert("Logging out..."); }
 </script>
