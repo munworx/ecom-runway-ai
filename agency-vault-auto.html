@@ -368,6 +368,7 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         html2canvas(targetElement, {
             scale: 2,
             useCORS: true,
+                allowTaint: true,
             logging: false
         }).then(canvas => {
             // Restore button layouts onto your active monitor screen instantly
