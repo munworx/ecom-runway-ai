@@ -90,7 +90,11 @@
 
         <div class="section-title">
             <span>📊 Multi-Scraper Competitor Target Links</span>
-            <button type="button" class="action-btn btn-primary btn-small" onclick="addAgencyInputBox()">+ Add Competitor Link</button>
+                    <!-- Replace your old broken dynamic field block with this clean block -->
+        <div id="agency_input_vault" class="input-group">
+            <div class="competitor-row" style="display: flex; gap: 5px; margin-bottom: 5px;">
+                <input type="text" class="text-input comp-array-field" placeholder="https://ebay.com">
+            </div>
         </div>
         <div id="agency_input_vault" class="input-group">
             <div class="competitor-row" style="display:flex; gap:5px; margin-bottom:5px;">
@@ -186,11 +190,10 @@
 
     var globalCompetitorPrices = [];
 
-       function addAgencyInputBox() {
+          function addAgencyInputBox() {
         const vault = document.getElementById('agency_input_vault');
         const count = vault.getElementsByClassName('competitor-row').length + 1;
         
-        // Create a clean new input row without any leaking syntax characters
         const row = document.createElement('div');
         row.className = 'competitor-row';
         row.style.display = 'flex';
@@ -200,6 +203,7 @@
         row.innerHTML = `<input type="text" class="text-input comp-array-field" placeholder="https://ebay.com{count}">`;
         vault.appendChild(row);
     }
+
 
 
     function runMatrix() {
