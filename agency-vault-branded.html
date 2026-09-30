@@ -82,24 +82,21 @@
         </div>
     </div>
 
-    <!-- Main Entry Module -->
+      <!-- Main Entry Module -->
     <div class="matrix-card">
         <div class="section-title">🔗 My Own Store Listing Link (Your Product)</div>
         <div class="input-group">
-            <input type="text" id="my_url" class="text-input" placeholder="https*//*www*.*amazon*.*com/your-product-link">
+            <input type="text" id="my_url" class="text-input" placeholder="https://amazon.com.au">
         </div>
 
         <div class="section-title">
             <span>📊 Multi-Scraper Competitor Target Links</span>
-                    <!-- Replace your old broken dynamic field block with this clean block -->
+            <button type="button" class="action-btn btn-primary btn-small" onclick="addAgencyInputBox()">+ Add Competitor Link</button>
+        </div>
+        
         <div id="agency_input_vault" class="input-group">
             <div class="competitor-row" style="display: flex; gap: 5px; margin-bottom: 5px;">
-                <input type="text" class="text-input comp-array-field" placeholder="https://ebay.com">
-            </div>
-        </div>
-        <div id="agency_input_vault" class="input-group">
-            <div class="competitor-row" style="display:flex; gap:5px; margin-bottom:5px;">
-                <input type="text" class="text-input comp-array-field" placeholder="https*//*www*.*ebay*.*com/competitor-target-link-1">
+                <input type="text" class="text-input comp-array-field" placeholder="https://ebay.com.au">
             </div>
         </div>
 
@@ -121,6 +118,7 @@
         <button class="action-btn btn-primary" onclick="runMatrix()">⚡ Execute Head-to-Head Comparison Matrix</button>
         <button class="action-btn btn-success" style="background:#0284c7;" onclick="generatePDFReport()">📊 Export Executive Board-Ready Report (PDF)</button>
     </div>
+
 
     <!-- Results Overview -->
     <div id="results" class="matrix-card results-panel">
