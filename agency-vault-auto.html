@@ -136,6 +136,25 @@
             <div class="metric-box"><span>Target Sales Volume</span><h2 id="m3">0 units</h2></div>
             <div class="metric-box"><span>Gross Revenue Target</span><h2 id="gross_rev">$0.00</h2></div>
         </div>
+                <!-- RESTORE VISUAL DATA PERFORMANCE ANALYTICS CHARTS -->
+        <div class="section-title" style="margin-top: 2rem;">📊 Firm Visual Performance Data Analytics</div>
+        <div class="grid-3" style="grid-template-columns: 1.5fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="metric-box" style="padding: 1rem; min-height: 260px; display: flex; flex-direction: column; justify-content: center;">
+                <span style="margin-bottom: 1rem;">Pricing Spectrum ($)</span>
+                <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 180px; padding-top: 10px;">
+                    <div style="width: 60px; background: #64748b; height: 80%; border-radius: 4px 4px 0 0; text-align: center; color: white; font-size: 11px; padding-top: 5px;">Lowest Comp</div>
+                    <div style="width: 60px; background: #2563eb; height: 90%; border-radius: 4px 4px 0 0; text-align: center; color: white; font-size: 11px; padding-top: 5px;">My Price</div>
+                </div>
+            </div>
+            <div class="metric-box" style="padding: 1rem; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <span style="margin-bottom: 1rem;">Net Unit Margin Distribution</span>
+                <svg width="160" height="160" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#e2e8f0" stroke-width="4"></circle>
+                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10b981" stroke-width="4" stroke-dasharray="75 25" stroke-dashoffset="0"></circle>
+                </svg>
+                <div style="font-size: 12px; margin-top: 0.5rem; font-weight: 600; color: #10b981;">75% Profit Cushion</div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
