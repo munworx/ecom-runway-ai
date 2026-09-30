@@ -46,10 +46,15 @@
         .metric-box span { display: block; font-size: 0.75rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; margin-bottom: 0.25rem; }
         .metric-box h2 { font-size: 1.75rem; font-weight: 800; color: var(--txt-main); }
 
-              @media print {
-        .session-banner, .matrix-card:nth-of-type(1), .matrix-card:nth-of-type(2), .action-btn, .logout-btn { display: none !important; }
+               @media print {
         body { background: #fff; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        .app-container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+        .session-banner, .matrix-card:nth-of-type(1), .matrix-card:nth-of-type(2), .action-btn, .btn-primary, .btn-success, .btn-small, .logout-btn { display: none !important; }
+        .matrix-card { box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0.5rem !important; }
+        #results, #analytics_panel { display: block !important; visibility: visible !important; opacity: 1 !important; }
+        .grid-3 { gap: 0.5rem !important; margin-bottom: 0.5rem !important; }
+        .metrics-shelf { gap: 0.5rem !important; margin-bottom: 0.5rem !important; }
+        .metric-box h2 { font-size: 1.25rem !important; }
+        svg { width: 90px !important; height: 90px !important; }
     }
     </style>
 </head>
