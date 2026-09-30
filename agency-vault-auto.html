@@ -169,19 +169,19 @@
     var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDI0MjEsImV4cCI6MjEwNDk3ODQyMX0.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4"; 
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Track all active competitor link node elements locally
+    // Track all active competitor links locally
     let savedVaultProfiles = [];
 
-    // Automatically load existing records from the database the moment the dashboard opens
+    // Load existing database records immediately when dashboard opens
     document.addEventListener("DOMContentLoaded", function() {
         fetchVaultProfiles();
     });
 
-    // 1. DATABASE FETCH: Retrieve all saved configurations from the cloud tables
+    // 1. DATABASE FETCH: Retrieve configurations from your custom 'product_vault' table
     async function fetchVaultProfiles() {
         try {
             const { data, error } = await supabaseClient
-                .from('vault_profiles')
+                .from('product_vault') // Matches your table name exactly
                 .select('*')
                 .order('created_at', { ascending: false });
 
@@ -190,14 +190,12 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
             savedVaultProfiles = data || [];
             const dropdown = document.getElementById('vault_list');
             
-            // Clean out old options, keeping only the default header placeholder
             dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
             
-            // Re-populate the selection dropdown with fresh cloud profiles
             savedVaultProfiles.forEach(profile => {
                 const opt = document.createElement('option');
                 opt.value = profile.id;
-                opt.innerText = profile.client_name;
+                opt.innerText = profile.profile_name; // Matches your column name profile_name
                 dropdown.appendChild(opt);
             });
         } catch (err) {
@@ -205,63 +203,63 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         }
     }
 
-    // 2. DATABASE WRITE: Store custom link configurations safely into the cloud
+    // 2. DATABASE WRITE: Store values inside your custom 'product_vault' columns
     async function saveCurrentProfile() {
         let name = document.getElementById('vault_name').value.trim();
         if(!name) return alert("Please enter a client tracking name to save this configuration setup.");
 
-        // Harvest all dynamic competitor link entries from input fields
+        // Harvest multi-scraper link target array values
         const fields = document.querySelectorAll('.comp-array-field');
         let competitorLinksArray = [];
         fields.forEach(field => {
             if(field.value.trim()) competitorLinksArray.push(field.value.trim());
         });
 
-        // Assemble the data record object payload map
+        // Map inputs directly onto your exact database columns
         const profilePayload = {
-            client_name: name,
-            my_product_url: document.getElementById('my_url').value,
-            item_sourcing_cost: parseFloat(document.getElementById('item_cost').value) || 0,
-            software_overhead: parseFloat(document.getElementById('overhead').value) || 0,
-            cash_target: parseFloat(document.getElementById('net_target').value) || 0,
-            competitor_links: competitorLinksArray
+            profile_name: name, // target column 1
+            my_url: document.getElementById('my_url').value, // target column 2
+            target_url: competitorLinksArray.join(', '), // flattens links to fit your target_url column string format
+            item_cost: parseFloat(document.getElementById('item_cost').value) || 0, // target column 4
+            overhead: parseFloat(document.getElementById('overhead').value) || 0, // target column 5
+            net_target: parseFloat(document.getElementById('net_target').value) || 0 // target column 6
         };
 
         try {
-            // Upsert checks if profile name exists to overwrite, or appends a clean new one
             const { error } = await supabaseClient
-                .from('vault_profiles')
-                .upsert([profilePayload], { onConflict: 'client_name' });
+                .from('product_vault')
+                .insert([profilePayload]);
 
             if (error) throw error;
 
-            alert(`Profile configuration for "${name}" successfully backed up to Supabase Cloud Vault.`);
+            alert(`Profile configuration for "${name}" successfully backed up to your Supabase Cloud Vault.`);
             document.getElementById('vault_name').value = '';
             fetchVaultProfiles(); // Refresh menu listings automatically
         } catch (err) {
-            alert("Database write error: Make sure a table named 'vault_profiles' is created in your Supabase panel.");
+            alert("Database write error: Double check your field column layouts map cleanly.");
             console.error(err.message);
         }
     }
 
-    // 3. DATABASE READING INTERACTION: Auto-fill inputs when a profile is chosen
+    // 3. DATABASE INTERACTION: Auto-fill fields using your custom table keys
     function loadSelectedVault(profileId) {
         if(!profileId) return;
         const selected = savedVaultProfiles.find(p => p.id == profileId);
         if(!selected) return;
 
-        // Map database string keys back onto your interface panels
-        document.getElementById('my_url').value = selected.my_product_url || '';
-        document.getElementById('item_cost').value = selected.item_sourcing_cost || 0;
-        document.getElementById('overhead').value = selected.software_overhead || 0;
-        document.getElementById('net_target').value = selected.cash_target || 0;
+        // Auto-fill core metric input windows from database fields
+        document.getElementById('my_url').value = selected.my_url || '';
+        document.getElementById('item_cost').value = selected.item_cost || 0;
+        document.getElementById('overhead').value = selected.overhead || 0;
+        document.getElementById('net_target').value = selected.net_target || 0;
 
-        // Handle the dynamic competitor rows container grid box structure
+        // Clear dynamic competitor row containers
         const vault = document.getElementById('agency_input_vault');
-        vault.innerHTML = ''; // Clear rows out cleanly
+        vault.innerHTML = ''; 
 
-        let links = selected.competitor_links || [];
-        if (links.length === 0) links.push(''); // Ensure at least one clean fallback field exists
+        // Split target_url strings back into neat input column lines
+        let links = selected.target_url ? selected.target_url.split(', ') : [];
+        if (links.length === 0) links.push(''); 
 
         links.forEach((link, index) => {
             const row = document.createElement('div');
@@ -270,7 +268,7 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
             vault.appendChild(row);
         });
 
-        // Run calculations automatically the moment data populates
+        // Run dashboard algorithms automatically 
         runMatrix();
     }
 
