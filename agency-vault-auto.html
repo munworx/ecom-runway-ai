@@ -49,9 +49,14 @@
         @media print {
             body { background: #fff; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .session-banner, .matrix-card:nth-of-type(1), .matrix-card:nth-of-type(2), .action-btn, .btn-primary, .btn-success, .btn-small, .logout-btn { display: none !important; }
-            .matrix-card { box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0 !important; }
+                    .matrix-card { box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0.5rem !important; page-break-inside: avoid; }
             .results-panel { display: block !important; border-top: none !important; padding-top: 0 !important; }
             .text-input { border: none !important; border-bottom: 1px dashed #94a3b8 !important; background: transparent !important; padding: 0.25rem 0 !important; }
+                    .grid-3 { gap: 0.75rem !important; margin-bottom: 0.75rem !important; }
+        .metrics-shelf { gap: 0.5rem !important; margin-bottom: 0.5rem !important; }
+        .metric-box h2 { font-size: 1.35rem !important; }
+        svg { width: 110px !important; height: 110px !important; }
+
         }
     </style>
 </head>
