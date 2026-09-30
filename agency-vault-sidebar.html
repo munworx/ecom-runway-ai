@@ -338,9 +338,10 @@
         const comp2Height = (competitor2Price / maxPriceScale) * 100;
         const myBarHeight = (myPrice / maxPriceScale) * 100;
 
-        document.getElementById('bar_comp1').style.height = comp1Height + "%";
-        document.getElementById('bar_comp2').style.height = comp2Height + "%";
-        document.getElementById('bar_my_price').style.height = myBarHeight + "%";
+       document.getElementById('bar_comp1').style.height = comp1Height + "px";
+document.getElementById('bar_comp2').style.height = comp2Height + "px";
+document.getElementById('bar_my_price').style.height = myBarHeight + "px";
+
     }
 
     // 6. SCREEN CAPTURE AND HIGH-DENSITY EXPORT SYSTEM
