@@ -393,7 +393,15 @@ document.getElementById('bar_my_price').style.height = myBarHeight + "px";
         });
     }
 
-    function logoutSession() { alert("Logging out securely..."); }
+     function navigatePortal(targetUrl) {
+        if (targetUrl) {
+            window.location.href = targetUrl;
+        }
+    }
+    function logoutSession() { 
+        alert("Logging out securely..."); 
+    }
+    }
 </script>
 </body>
 </html>
