@@ -61,12 +61,18 @@
             <img src="munworx-logo.PNG" alt="MunWorx Logo" style="height: 55px; margin: 0 auto 0.5rem auto; display: block;">
             <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--txt-main);">MarginMatrix AI</h3>
             <span style="font-size: 0.65rem; color: var(--txt-muted); display: block; margin-top: 2px;">Premium Sidebar v3.0</span>
+              <!-- PREMIUM SANDBOX PORTAL ARCHITECTURE DROPDOWN MENU -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; letter-spacing: 0.05em;">Console System Nav</span>
+            <select id="system_portal_nav" class="text-input" style="font-weight: 600; cursor: pointer; background: #fff; width: 100%;" onchange="navigatePortal(this.value)">
+                <option value="agency-vault-sidebar.html">📋 View: Split Workspace Rail</option>
+                <option value="agency-vault-auto.html">📦 View: Core Operational Vault</option>
+                <option value="agency-vault-trends.html">📈 View: Historical Price Trends</option>
+                <option value="agency-vault-live.html">⏱️ View: Real-Time Clock Portal</option>
+                <option value="agency-vault-intel.html">🧠 View: Tactical Advisory Suite</option>
+            </select>
+            <button class="action-btn btn-primary" style="width: 100%; margin-top: 0.5rem; justify-content: flex-start;" onclick="generatePDFReport()">📊 Export Board Report (PDF)</button>
         </div>
-        <hr style="border: 0; border-top: 1px solid var(--border-ui); margin: 0;">
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase;">Workspace Core Nav</span>
-            <button class="action-btn btn-primary" style="width: 100%; text-align: left; justify-content: flex-start; padding: 0.65rem 1rem;">📦 Operational Vault</button>
-            <button class="action-btn" style="width: 100%; text-align: left; justify-content: flex-start; padding: 0.65rem 1rem; background: transparent; border: none; color: var(--txt-muted);" onclick="generatePDFReport()">📊 Export Board Report</button>
         </div>
         <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-ui);">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;">
