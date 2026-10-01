@@ -60,7 +60,37 @@
     </style>
 </head>
 <body>
-<div class="app-container">
+    <!-- LEFT SIDEBAR MANAGEMENT BANNER PANEL -->
+    <div class="sidebar-panel" style="width: 280px; min-width: 280px; background: var(--bg-card); border: 1px solid var(--border-ui); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; height: fit-content; position: sticky; top: 1.5rem; float: left; margin-right: 1.5rem;">
+        <div style="text-align: center;">
+            <img src="munworx-logo.PNG" alt="MunWorx Logo" style="height: 55px; margin: 0 auto 0.5rem auto; display: block;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--txt-main);">MarginMatrix AI</h3>
+            <span style="font-size: 0.65rem; color: var(--txt-muted); display: block; margin-top: 2px;">Core Operational Vault</span>
+        </div>
+        <hr style="border: 0; border-top: 1px solid var(--border-ui); margin: 0;">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; letter-spacing: 0.05em;">Console System Nav</span>
+            <select id="system_portal_nav" class="text-input" style="font-weight: 600; cursor: pointer; background: #fff; width: 100%; padding: 0.5rem;" onchange="navigatePortal(this.value)">
+                <option value="agency-vault-auto.html">📦 View: Core Operational Vault</option>
+                <option value="agency-vault-trends.html">📈 View: Historical Price Trends</option>
+                <option value="agency-vault-sidebar.html">📋 View: Split Workspace Rail</option>
+                <option value="agency-vault-live.html">⏱️ View: Real-Time Clock Portal</option>
+                <option value="agency-vault-intel.html">🧠 View: Tactical Advisory Suite</option>
+            </select>
+            <button class="action-btn btn-primary" style="width: 100%; margin-top: 0.5rem; justify-content: flex-start;" onclick="generatePDFReport()">📊 Export Board Report (PDF)</button>
+        </div>
+        <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-ui);">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;">
+                <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: #10b981;">Supabase Cloud Active</span>
+            </div>
+            <button class="action-btn" onclick="logoutSession()" style="width: 100%; background: #ef4444; color: white; border-color: #ef4444; padding: 0.5rem; border-radius: 6px; cursor: pointer;">Secure Log Out</button>
+        </div>
+    </div>
+
+    <!-- MAIN RIGHT OPERATIONAL AREA WORKSPACE SHEET CONTAINER -->
+    <div class="main-workspace-sheet" style="flex: 1; display: flow-root; min-width: 0;">
+        <div class="app-container">
     <div class="session-banner">
         <span id="user_display">Secure Cloud Session Active: munworx@gmail.com</span>
         <button class="logout-btn" onclick="logoutSession()">Log Out</button>
@@ -169,6 +199,7 @@
                 <div style="font-size: 11px; margin-top: 0.25rem; font-weight: 600; color: #10b981;">75% Profit Cushion</div>
             </div>
         </div>
+            </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co"; 
@@ -405,6 +436,12 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         });
     }
     function logoutSession() { alert("Logging out..."); }
+            function navigatePortal(targetUrl) {
+        if (targetUrl) {
+            window.location.href = targetUrl;
+        }
+    }
+
 </script>
 </body>
 </html>
