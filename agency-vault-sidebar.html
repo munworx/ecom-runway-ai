@@ -61,7 +61,7 @@
             <img src="munworx-logo.PNG" alt="MunWorx Logo" style="height: 55px; margin: 0 auto 0.5rem auto; display: block;">
             <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--txt-main);">MarginMatrix AI</h3>
             <span style="font-size: 0.65rem; color: var(--txt-muted); display: block; margin-top: 2px;">Premium Sidebar v3.0</span>
-              <!-- PREMIUM SANDBOX PORTAL ARCHITECTURE DROPDOWN MENU -->
+                     <!-- PREMIUM SANDBOX PORTAL ARCHITECTURE DROPDOWN MENU -->
         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <span style="font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; letter-spacing: 0.05em;">Console System Nav</span>
             <select id="system_portal_nav" class="text-input" style="font-weight: 600; cursor: pointer; background: #fff; width: 100%;" onchange="navigatePortal(this.value)">
@@ -186,9 +186,8 @@
 
     let savedVaultProfiles = [];
 
-    document.addEventListener("DOMContentLoaded", function() {
-        fetchVaultProfiles();
-    });
+   // Run database load instantly on execution loop
+fetchVaultProfiles();
 
     // 1. DATABASE FETCH: Load your custom data records
     async function fetchVaultProfiles() {
