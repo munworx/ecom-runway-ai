@@ -388,13 +388,10 @@ document.getElementById('bar_my_price').style.height = myBarHeight + "px";
                     <\/script>
                 </body>
                 </html>
-            `);
-            printWindow.document.close();
-        }).catch(err => {
-            window.print();
-        });
-    }
-
+                   printWindow.document.close();
+    }).catch(err => {
+        window.print();
+}
      function navigatePortal(targetUrl) {
         if (targetUrl) {
             window.location.href = targetUrl;
