@@ -243,7 +243,7 @@
             if (error) throw error;
 
             savedVaultProfiles = data || [];
-            const dropdown = document.getElementById('vault_list');
+            const dropdown = document.getElementById('vault-list');
             dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
             
             savedVaultProfiles.forEach(profile => {
@@ -314,7 +314,7 @@
             vault.appendChild(row);
         });
 
-        runMatrix();
+        runLiveProfitAnalysis();
     }
 
     // 4. AUTOMATED LINK GENERATION CONTROLLER
@@ -349,69 +349,7 @@
     }
 </script>
 <script>
-    // 5. ADVANCED SYSTEM CALCULATIONS & AUTONOMOUS COGNITIVE STRATEGY ADVISOR
-    function runMatrix() {
-        document.getElementById('results').style.display = 'block';
-        let cost = parseFloat(document.getElementById('item_cost').value) || 0;
-        let target = parseFloat(document.getElementById('net_target').value) || 0;
-        
-        let lowestCompPrice = 45.00;
-        let competitor2Price = 64.95;
-        let myPrice = 89.95; 
-        
-        let netProfitMargin = myPrice - cost;
-        let allowableCPA = netProfitMargin * 0.25;
-        let targetSalesVol = Math.ceil(target / (netProfitMargin || 1));
-        let grossRevenue = targetSalesVol * myPrice;
-        
-        document.getElementById('m1').innerText = "\$" + lowestCompPrice.toFixed(2);
-        document.getElementById('my_captured_price').innerText = "\$" + myPrice.toFixed(2);
-        
-        const marginBox = document.getElementById('m2');
-        const alertContainer = document.getElementById('margin_alert_container');
-        marginBox.innerText = "\$" + netProfitMargin.toFixed(2);
-        
-        if (netProfitMargin <= 0) {
-            marginBox.style.color = "#ef4444";
-            alertContainer.style.borderColor = "#fca5a5"; alertContainer.style.background = "#fef2f2";
-        } else {
-            marginBox.style.color = "#10b981";
-            alertContainer.style.borderColor = "#a7f3d0"; alertContainer.style.background = "#f0fdf4";
-        }
-        
-        document.getElementById('max_cpa').innerText = "\$" + allowableCPA.toFixed(2);
-        document.getElementById('m3').innerText = targetSalesVol.toLocaleString() + " units";
-        document.getElementById('gross_rev').innerText = "\$" + grossRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-        const maxPriceScale = Math.max(lowestCompPrice, competitor2Price, myPrice, 1);
-        const comp1Height = (lowestCompPrice / maxPriceScale) * 100;
-        const comp2Height = (competitor2Price / maxPriceScale) * 100;
-        const myBarHeight = (myPrice / maxPriceScale) * 100;
-
-        document.getElementById('bar_comp1').style.height = comp1Height + "px";
-        document.getElementById('bar_comp2').style.height = comp2Height + "px";
-        document.getElementById('bar_my_price').style.height = myBarHeight + "px";
-
-        // REAL-TIME ALGORITHMIC COMPETITIVE POSITION ADVISOR OVERRIDE
-        const advCard = document.getElementById('advisor_container');
-        const advIcon = document.getElementById('advisor_icon');
-        const advMsg = document.getElementById('advisor_message');
-        
-        if (myPrice > competitor2Price && myPrice > lowestCompPrice) {
-            advCard.style.background = "#fff7ed"; advCard.style.borderColor = "#ffedd5";
-            advIcon.style.background = "#f97316"; advIcon.innerText = "⚠️";
-            advMsg.innerHTML = `<strong>OVERPRICED POSITION:</strong> Your listing price ($${myPrice.toFixed(2)}) is significantly higher than Competitor 2 ($${competitor2Price.toFixed(2)}). Your store volume velocity is at risk. <em>Tactical recommendation: Decrease listing price to match Competitor 2 ($64.95) to recapture marketplace share.</em>`;
-        } else if (myPrice < lowestCompPrice) {
-            advCard.style.background = "#f0fdf4"; advCard.style.borderColor = "#bbf7d0";
-            advIcon.style.background = "#10b981"; advIcon.innerText = "💡";
-            advMsg.innerHTML = `<strong>UNDERVALUED POSITION:</strong> You are priced below the lowest market options. While volume will scale, you are leaving money on the table. <em>Tactical recommendation: Increase listing price toward $44.95 to match the market entry floor and expand profit margins.</em>`;
-        } else {
-            advCard.style.background = "#f0f9ff"; advCard.style.borderColor = "#bae6fd";
-            advIcon.style.background = "#0284c7"; advIcon.innerText = "🛡️";
-            advMsg.innerHTML = `<strong>OPTIMIZED MARGIN ALIGNMENT:</strong> Your pricing matches market density lines securely. Sourcing velocity remains highly balanced. <em>Tactical recommendation: Maintain active tracking profile baseline. No structural shifts required.</em>`;
-        }
-    }
-
+  
     // 6. HIGH-DENSITY SCREEN SNAPSHOT CANVAS PRINT ENGINE
     function generatePDFReport() {
         const targetElement = document.querySelector('.main-workspace-sheet');
@@ -547,12 +485,16 @@ function runLiveProfitAnalysis() {
 
 function logoutSession() { alert("Logging out securely..."); }
 
-// Ensures data loads automatically when landing on the page
+// Automatically triggers your profiles to load AND sets up your visual metrics when landing on the page
 window.addEventListener('DOMContentLoaded', () => {
     if (typeof fetchVaultProfiles === 'function') {
         fetchVaultProfiles();
     }
+    if (typeof runLiveProfitAnalysis === 'function') {
+        runLiveProfitAnalysis();
+    }
 });
+
 </script>
 </body>
 </html>
