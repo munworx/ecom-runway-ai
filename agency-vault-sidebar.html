@@ -191,32 +191,31 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
    // Run database load instantly on execution loop
 fetchVaultProfiles();
 
-    // 1. DATABASE FETCH: Load your custom data records
-    async function fetchVaultProfiles() {
-       // 1. DATABASE FETCH: load your custom data records
+  // 1. DATABASE FETCH: Load your custom data records
 async function fetchVaultProfiles() {
     try {
         const { data, error } = await supabaseClient
-            .from('product_vault') // 🌟 FIXED: Changed 'protect_vault' to 'product_vault'
+            .from('product_vault') 
             .select('*')
             .order('created_at', { ascending: false });
-        
-            if (error) throw error;
 
-            savedVaultProfiles = data || [];
-            const dropdown = document.getElementById('vault_list');
-            dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
-            
-            savedVaultProfiles.forEach(profile => {
-                const opt = document.createElement('option');
-                opt.value = profile.id;
-                opt.innerText = profile.profile_name;
-                dropdown.appendChild(opt);
-            });
-        } catch (err) {
-            console.error("Database read warning:", err.message);
-        }
+        if (error) throw error;
+
+        savedVaultProfiles = data || [];
+        const dropdown = document.getElementById('vault-list'); // 🌟 FIXED: Changed to 'vault-list'
+        
+        dropdown.innerHTML = '<option value="">- View Saved Vault Profiles -</option>';
+
+        savedVaultProfiles.forEach(profile => {
+            const opt = document.createElement('option');
+            opt.value = profile.id;
+            opt.innerText = profile.profile_name;
+            dropdown.appendChild(opt);
+        });
+    } catch (err) {
+        console.error("Database read warning:", err.message);
     }
+}
 
     // 2. DATABASE WRITE: Backup variables to the cloud
     async function saveCurrentProfile() {
