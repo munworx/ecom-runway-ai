@@ -472,7 +472,7 @@
             window.location.href = targetUrl;
         }
     }
-    // 📊 CORPORATE MATH CALCULATOR FUNCTION
+// // CORPORATE MATH CALCULATOR FUNCTION
 function runLiveProfitAnalysis() {
     console.log("Running accounting matrix math...");
 
@@ -488,16 +488,15 @@ function runLiveProfitAnalysis() {
     const grossRevenueTarget = myPrice * targetSalesVolume;
     const allowableCPA = grossProfitPerUnit - (overhead / targetSalesVolume);
 
-    // Update screen data blocks instantly
-    // (Note: To see these values change, your HTML display cards must have these matching IDs)
-    if(document.getElementById('display_net_profit')) {
-        document.getElementById('display_net_profit').innerText = `$${grossProfitPerUnit.toFixed(2)} (${netProfitMarginPercent.toFixed(1)}%)`;
+    // 🌟 FIXED: Using your exact HTML element IDs to update the screen text
+    if(document.getElementById('m2')) {
+        document.getElementById('m2').innerText = `$${grossProfitPerUnit.toFixed(2)} (${netProfitMarginPercent.toFixed(1)}%)`;
     }
-    if(document.getElementById('display_cpa_limit')) {
-        document.getElementById('display_cpa_limit').innerText = `$${allowableCPA.toFixed(2)}`;
+    if(document.getElementById('max_cpa')) {
+        document.getElementById('max_cpa').innerText = `$${allowableCPA.toFixed(2)}`;
     }
-    if(document.getElementById('display_gross_rev')) {
-        document.getElementById('display_gross_rev').innerText = `$${grossRevenueTarget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    if(document.getElementById('gross_rev')) {
+        document.getElementById('gross_rev').innerText = `$${grossRevenueTarget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
 
     alert("Corporate ledger analysis completed and updated successfully!");
