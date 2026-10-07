@@ -472,6 +472,37 @@
             window.location.href = targetUrl;
         }
     }
+    // 📊 CORPORATE MATH CALCULATOR FUNCTION
+function runLiveProfitAnalysis() {
+    console.log("Running accounting matrix math...");
+
+    const sourcingCost = parseFloat(document.getElementById('item_cost').value) || 0;
+    const overhead = parseFloat(document.getElementById('overhead').value) || 0;
+
+    const myPrice = 89.95;
+    const targetSalesVolume = 39;
+
+    // Corporate Calculations
+    const grossProfitPerUnit = myPrice - sourcingCost;
+    const netProfitMarginPercent = (grossProfitPerUnit / myPrice) * 100;
+    const grossRevenueTarget = myPrice * targetSalesVolume;
+    const allowableCPA = grossProfitPerUnit - (overhead / targetSalesVolume);
+
+    // Update screen data blocks instantly
+    // (Note: To see these values change, your HTML display cards must have these matching IDs)
+    if(document.getElementById('display_net_profit')) {
+        document.getElementById('display_net_profit').innerText = `$${grossProfitPerUnit.toFixed(2)} (${netProfitMarginPercent.toFixed(1)}%)`;
+    }
+    if(document.getElementById('display_cpa_limit')) {
+        document.getElementById('display_cpa_limit').innerText = `$${allowableCPA.toFixed(2)}`;
+    }
+    if(document.getElementById('display_gross_rev')) {
+        document.getElementById('display_gross_rev').innerText = `$${grossRevenueTarget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+
+    alert("Corporate ledger analysis completed and updated successfully!");
+}
+
 </script>
 </body>
 </html>
