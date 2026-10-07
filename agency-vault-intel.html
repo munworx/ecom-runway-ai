@@ -472,23 +472,32 @@
             window.location.href = targetUrl;
         }
     }
-// // CORPORATE MATH CALCULATOR FUNCTION
+// // CORPORATE MATH CALCULATOR FUNCTION (DYNAMIC VOLUME EDITION)
 function runLiveProfitAnalysis() {
     console.log("Running accounting matrix math...");
 
+    // 1. Grab all input values safely
     const sourcingCost = parseFloat(document.getElementById('item_cost').value) || 0;
     const overhead = parseFloat(document.getElementById('overhead').value) || 0;
+    const netTarget = parseFloat(document.getElementById('net_target').value) || 0; // 🌟 ADDED: Captures your Take-Home Target
 
     const myPrice = 89.95;
-    const targetSalesVolume = 39;
 
-    // Corporate Calculations
+    // 2. Corporate Calculations
     const grossProfitPerUnit = myPrice - sourcingCost;
     const netProfitMarginPercent = (grossProfitPerUnit / myPrice) * 100;
-    const grossRevenueTarget = myPrice * targetSalesVolume;
-    const allowableCPA = grossProfitPerUnit - (overhead / targetSalesVolume);
+    
+    // 🌟 DYNAMIC MATH: Calculates exact units needed to clear fixed overhead AND reach the net income goal
+    // Math logic: (Overhead Expense + Take Home Goal) divided by Gross Profit per item
+    let targetSalesVolume = 0;
+    if (grossProfitPerUnit > 0) {
+        targetSalesVolume = Math.ceil((overhead + netTarget) / grossProfitPerUnit);
+    }
 
-    // 🌟 FIXED: Using your exact HTML element IDs to update the screen text
+    const grossRevenueTarget = myPrice * targetSalesVolume;
+    const allowableCPA = grossProfitPerUnit - (overhead / (targetSalesVolume || 1));
+
+    // 3. Update your screen text metrics instantly
     if(document.getElementById('m2')) {
         document.getElementById('m2').innerText = `$${grossProfitPerUnit.toFixed(2)} (${netProfitMarginPercent.toFixed(1)}%)`;
     }
@@ -497,6 +506,12 @@ function runLiveProfitAnalysis() {
     }
     if(document.getElementById('gross_rev')) {
         document.getElementById('gross_rev').innerText = `$${grossRevenueTarget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    
+    // 🌟 DYNAMIC DISPLAY: Updates your target units card box text dynamically!
+    // (Note: Your HTML layout file already maps this card to id="m3" on line 171)
+    if(document.getElementById('m3')) {
+        document.getElementById('m3').innerText = `${targetSalesVolume} units`;
     }
 
     alert("Corporate ledger analysis completed and updated successfully!");
