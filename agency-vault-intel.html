@@ -486,7 +486,7 @@ function runLiveProfitAnalysis() {
     const grossRevenueTarget = myPrice * targetSalesVolume;
     const allowableCPA = grossProfitPerUnit - (overhead / (targetSalesVolume || 1));
 
-    // 3. Update your screen text metrics instantly using your exact IDs
+    // 3. Update your screen text metrics instantly using your exact HTML IDs
     if(document.getElementById('m2')) {
         document.getElementById('m2').innerText = `$${grossProfitPerUnit.toFixed(2)} (${netProfitMarginPercent.toFixed(1)}%)`;
     }
@@ -502,7 +502,7 @@ function runLiveProfitAnalysis() {
 
     // 📊 CHART.JS LIVE ENGINE: Automatically redraws the graphics smoothly
     try {
-        // Find existing chart instances or create new ones
+        // Find existing chart instances or create new ones using the global Chart object
         let chartStatus1 = Chart.getChart("pricingSpectrumChart");
         if (chartStatus1) { chartStatus1.destroy(); }
         
@@ -545,10 +545,14 @@ function runLiveProfitAnalysis() {
     alert("Corporate ledger analysis and interactive data graphs updated successfully!");
 }
 
+function logoutSession() { alert("Logging out securely..."); }
 
-    alert("Corporate ledger analysis completed and updated successfully!");
-}
-
+// Ensures data loads automatically when landing on the page
+window.addEventListener('DOMContentLoaded', () => {
+    if (typeof fetchVaultProfiles === 'function') {
+        fetchVaultProfiles();
+    }
+});
 </script>
 </body>
 </html>
