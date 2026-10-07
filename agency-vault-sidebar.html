@@ -402,4 +402,7 @@ function navigatePortal(targetUrl) {
 
 function logoutSession() {
     alert("Logging out securely...");
+    document.addEventListener('DOMContentLoaded', () => {
+    fetchVaultProfiles();
+});
 }
