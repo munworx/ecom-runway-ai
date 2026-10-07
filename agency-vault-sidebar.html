@@ -388,13 +388,28 @@ document.getElementById('bar_my_price').style.height = myBarHeight + "px";
             </body>
             </html>
         `);
-        printWindow.document.close();
-    }).catch(err => {
-        window.print();
-    });
-} // This cleanly closes the generatePDFReport function
-</script>
+    printWindow.document.close();
+}).catch(err => {
+    window.print();
+});
+} // This cleanly closes generatePDFReport
 
-<!-- 🌟 CLEANED HTML BODY CLOSURES -->
+function navigatePortal(targetUrl) {
+    if (targetUrl) {
+        window.location.href = targetUrl;
+    }
+}
+
+function logoutSession() {
+    alert("Logging out securely...");
+}
+
+// Automatically triggers your profiles to load when the webpage finishes drawing
+window.addEventListener('DOMContentLoaded', () => {
+    if (typeof fetchVaultProfiles === 'function') {
+        fetchVaultProfiles();
+    }
+});
+</script>
 </body>
 </html>
