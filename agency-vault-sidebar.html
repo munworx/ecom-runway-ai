@@ -75,12 +75,20 @@
 // 🌟 SECTION 2: LIVE CONNECTIONS & DATA READING
 
 const supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co"
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInN1YiI6InpodHB2YWZxdWt2emhhbnVqb3MiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcyNzY1NDA2NSwiZXhwIjoyMDQzMjEwMDY1fQ.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDI0MjEsImV4cCI6MjEwNDk3ODQyMX0.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4";
 
-// Clean client initialization block structure
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+// Clean client initialization block structure with explicit headers
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
+    auth: { persistSession: false },
+    global: {
+        headers: {
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`
+        }
+    }
+});
 let savedVaultProfiles = [];
-
+    
 // 1. DATABASE FETCH: Load your custom data records seamlessly
 async function fetchVaultProfiles() {
     try {
