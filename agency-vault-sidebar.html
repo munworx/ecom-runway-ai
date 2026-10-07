@@ -405,4 +405,14 @@ function logoutSession() {
     document.addEventListener('DOMContentLoaded', () => {
     fetchVaultProfiles();
 });
+    <script>
+        // Forces the dropdown menu to fetch data directly after everything finishes rendering
+        setTimeout(() => {
+            if (typeof fetchVaultProfiles === 'function') {
+                fetchVaultProfiles();
+            }
+        }, 500);
+    </script>
+</body>
+</html>
 }
