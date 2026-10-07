@@ -181,10 +181,26 @@
 <script>
     // Live Cloud Database Connection Credentials
   // Live Cloud Database Connection Credentials
+// 1. Explicit connection parameters
 const supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDI0MjEsImV4cCI6MjEwNDk3ODQyMX0.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4";
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
+// Paste your actual dashboard key directly inside the quotes below:
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInN1YiI6InpodHB2YWZxdUk2bXpzaGFudWpvcyIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzI3NjU0MDY1LCJleHAiOjIwNDMyMTAwNjV9.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4";
+
+// 🌟 THE AUTO-SYNC FIX: This guarantees the client strictly binds your key 
+// to both the tracking header and the global authentication layer.
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
+    auth: {
+        persistSession: false,
+        autoRefreshToken: false
+    },
+    global: {
+        headers: {
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`
+        }
+    }
+});
 
     let savedVaultProfiles = [];
 
