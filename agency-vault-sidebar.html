@@ -100,10 +100,10 @@
             <div class="section-title">☁️ Cloud Saved Products Vault</div>
             <div class="grid-3" style="margin-top: 0.25rem; margin-bottom: 0.75rem;">
                 <input type="text" id="vault_name" class="text-input" placeholder="Give this tracking setup a client name...">
-                <button class="action-btn btn-success" onclick="saveCurrentProfile()">Save to Cloud Vault</button>
-                <select id="vault_list" class="text-input" onchange="loadSelectedVault(this.value)">
-                    <option value="">-- View Saved Vault Profiles --</option>
-                </select>
+               <!-- Update your select tag on line 103 to include onchange: -->
+<select id="vault_list" class="text-input" onchange="loadSelectedVault(this.value)">
+    <option value="">- View Saved Vault Profiles -</option>
+</select>
             </div>
             <div class="section-title">🔗 My Own Store Listing Link (Your Product)</div>
             <input type="text" id="my_url" class="text-input" placeholder="https://amazon.com.au/your-product" style="margin-top: 0.25rem; margin-bottom: 0.75rem;">
@@ -193,12 +193,14 @@ fetchVaultProfiles();
 
     // 1. DATABASE FETCH: Load your custom data records
     async function fetchVaultProfiles() {
-        try {
-            const { data, error } = await supabaseClient
-                .from('product_vault')
-                .select('*')
-                .order('created_at', { ascending: false });
-
+       // 1. DATABASE FETCH: load your custom data records
+async function fetchVaultProfiles() {
+    try {
+        const { data, error } = await supabaseClient
+            .from('product_vault') // 🌟 FIXED: Changed 'protect_vault' to 'product_vault'
+            .select('*')
+            .order('created_at', { ascending: false });
+        
             if (error) throw error;
 
             savedVaultProfiles = data || [];
