@@ -176,16 +176,17 @@
     </style>
 
 </head>
-<body>
-<div class="app-container" style="display: flex !important; flex-direction: row !important; gap: 24px; max-width: 1560px; margin: 0 auto; width: 100%; align-items: flex-start;">
+<body style="background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 2rem; min-height: 100vh; box-sizing: border-box;">
+<div class="app-container" style="display: flex !important; flex-direction: row !important; gap: 24px; max-width: 1560px; margin: 0 auto; width: 100%; align-items: flex-start; box-sizing: border-box;">
 
     <!-- LEFT SIDEBAR MANAGEMENT BANNER PANEL -->
-<div class="sidebar-banner" style="width: 260px; flex-shrink: 0; box-sizing: border-box;">
-        <div style="text-align: center;">
-            <img src="munworx-logo.PNG" alt="MunWorx Logo" style="height: 55px; margin: 0 auto 0.5rem auto; display: block;">
-            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--txt-main);">MarginMatrix AI</h3>
-            <span style="font-size: 0.65rem; color: var(--txt-muted); display: block; margin-top: 2px;">Intelligence Advisory v4.0</span>
-        </div>
+183:         <div style="text-align: center;">
+184:             <img src="img/munworx-logo.png" alt="MunWorx Logo" ...>
+185:             <h3 style="font-size: 1.1rem; font-weight: 700; ...">MarginMatrix AI</h3>
+186:             <span style="font-size: 0.65rem; font-weight: 700; ...">Intelligence Advisory v4.0</span>
+187:         </div> <!-- 🌟 FIXED: Closes the text centering layout cleanly! -->
+188:         
+189:         <div class="live-clock-badge">
 
         <div class="live-clock-badge">
             <div id="live_time_display" class="clock-time">00:00:00 PM</div>
