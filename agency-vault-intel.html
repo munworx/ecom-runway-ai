@@ -595,15 +595,21 @@ function runLiveProfitAnalysis() {
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
 
-        const ctx2 = document.getElementById('profitCushionChart').getContext('2d');
+              const ctx2 = document.getElementById('profitCushionChart').getContext('2d');
         new Chart(ctx2, {
             type: 'doughnut',
             data: {
                 labels: ['Cost & Expenses', 'Profit Cushion'],
                 datasets: [{ data: [sourcingCost, grossProfitPerUnit > 0 ? grossProfitPerUnit : 0], backgroundColor: ['#e2e8f0', '#10b981'] }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                devicePixelRatio: window.devicePixelRatio || 2, /* 🌟 FORCE CRISP HIGH DENSITY PIXELS */
+                plugins: { legend: { position: 'bottom' } } 
+            }
         });
+
     } catch (err) { console.error(err.message); }
 }
 
