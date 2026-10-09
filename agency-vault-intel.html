@@ -54,15 +54,15 @@
     flex-shrink: 0 !important;
 }
 
-        /* 🌟 THE WORKSPACE FIX: Forces main content right beside the sidebar! */
-       .main-workspace-sheet {
+/* 📊 STRETCH REGION MATRIX FOR YOUR RIGHT CONTENT COLUMN */
+.main-workspace-sheet {
     flex-grow: 1 !important;
     min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 24px;
+    gap: 24px !important;
+    box-sizing: border-box !important;
 }
-
         .live-clock-badge { 
             background: #1e293b; 
             color: #ffffff; 
