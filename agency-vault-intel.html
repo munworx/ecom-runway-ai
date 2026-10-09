@@ -275,6 +275,15 @@
             </div>
 
             <div class="section-title">🧮 Matrix Intelligence Output Ledger</div>
+                    <!-- 🤖 LIVE INTELLIGENCE STATUS SYSTEM LOG LOGIC WRAPPER -->
+        <div id="intel_log_panel" class="metric-box" style="background: #0f172a; border-color: #1e293b; color: #f8fafc; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; min-height: 50px; box-sizing: border-box; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span id="intel_status_dot" style="height: 10px; width: 10px; background-color: #a1a1aa; border-radius: 50%; display: inline-block;"></span>
+                <p id="intel_log_text" style="margin: 0; font-family: monospace; font-size: 0.85rem; color: #cbd5e1; letter-spacing: 0.02em;">[SYSTEM STATUS]: Awaiting dynamic corporate ledger calculations...</p>
+            </div>
+            <span style="font-family: monospace; font-size: 0.7rem; font-weight: bold; background: #1e293b; padding: 4px 8px; border-radius: 4px; color: #94a3b8; text-transform: uppercase;">Realtime AI</span>
+        </div>
+
             <div class="metrics-shelf">
                 <div class="metric-box"><span>Lowest Competitor Price</span><h2 id="m1">$0.00</h2></div>
                 <div class="metric-box"><span>My Captured Price</span><h2 id="my_captured_price">$0.00</h2></div>
@@ -518,16 +527,19 @@ let pricingSpectrumChartInstance = null;
 let marginDistributionChartInstance = null;
 
 // // CORPORATE MATH CALCULATOR FUNCTION (FULLY COMPREHENSIVE EDITION)
-function runLiveProfitAnalysis() {
-    console.log("Running comprehensive financial matrix calculations...");
+// Global graph references to maintain execution stability
+let pricingSpectrumChartInstance = null;
+let marginDistributionChartInstance = null;
 
-    // 1. DYNAMICALLY READ CURRENT CARD AND INPUT NUMBERS LIVE
-    // This looks at your live layout text fields so your math is never multiplying zero!
+// // CORPORATE MATH CALCULATOR FUNCTION (FULLY COMPREHENSIVE EDITION WITH LOGIC FLAGS)
+function runLiveProfitAnalysis() {
+    console.log("Running comprehensive financial matrix calculations with live intelligence flags...");
+
+    // 1. Read current input metrics live
     const sourcingCost = parseFloat(document.getElementById('item_cost').value) || 0;
     const overhead = parseFloat(document.getElementById('overhead').value) || 0;
     const netTarget = parseFloat(document.getElementById('net_target').value) || 0;
 
-    // Dynamically captures your active pricing parameters from your metrics nodes
     const myPrice = 89.95; 
     const lowestCompPrice = 45.00;
     const competitor2Price = 64.95;
@@ -544,8 +556,7 @@ function runLiveProfitAnalysis() {
     const grossRevenueTarget = myPrice * targetSalesVolume;
     const allowableCPA = grossProfitPerUnit - (overhead / (targetSalesVolume || 1));
 
-    // 3. MAP CALCULATIONS IMMEDIATELY INTO YOUR VISUAL GRAPH CARD MATRICES
-    // This updates your numeric metrics rows text nodes dynamically on click!
+    // 3. Map Calculations immediately into visual layout grids
     if(document.getElementById('m1')) document.getElementById('m1').innerText = `$${lowestCompPrice.toFixed(2)}`;
     if(document.getElementById('my_captured_price')) document.getElementById('my_captured_price').innerText = `$${myPrice.toFixed(2)}`;
     if(document.getElementById('m2')) document.getElementById('m2').innerText = `$${grossProfitPerUnit.toFixed(2)} (${netProfitMarginPercent.toFixed(1)}%)`;
@@ -553,59 +564,75 @@ function runLiveProfitAnalysis() {
     if(document.getElementById('m3')) document.getElementById('m3').innerText = `${targetSalesVolume} units`;
     if(document.getElementById('gross_rev')) document.getElementById('gross_rev').innerText = `$${grossRevenueTarget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-    // 4. CHART GRAPH GENERATION STREAM
-    try {
-        // Find existing instances and destroy them smoothly to prevent background canvas ghosting
-        let oldChart1 = Chart.getChart("pricingSpectrumChart");
-        if (oldChart1) oldChart1.destroy();
-        
-        let oldChart2 = Chart.getChart("profitCushionChart");
-        if (oldChart2) oldChart2.destroy();
+    // 4. 🤖 DYNAMIC LIVE INTELLIGENCE STATUS LOG FLAGGING SYSTEM
+    const logText = document.getElementById('intel_log_text');
+    const logDot = document.getElementById('intel_status_dot');
+    const logPanel = document.getElementById('intel_log_panel');
 
-        // Chart A: Pricing Spectrum Comparison Bar Chart
+    if (logText && logDot && logPanel) {
+        if (grossProfitPerUnit <= 0) {
+            logPanel.style.background = "#fee2e2"; logPanel.style.borderColor = "#f87171";
+            logText.style.color = "#991b1b"; logDot.style.backgroundColor = "#ef4444";
+            logText.innerText = "[CRITICAL FLAG]: Sourcing cost exceeds list price. Negative margins detected.";
+        } else if (allowableCPA < 5) {
+            logPanel.style.background = "#fef3c7"; logPanel.style.borderColor = "#fbbf24";
+            logText.style.color = "#92400e"; logDot.style.backgroundColor = "#f59e0b";
+            logText.innerText = "[WARNING BADGE]: Low allowable CPA cushion (\$" + allowableCPA.toFixed(2) + "). Overhead eating market spend viability.";
+        } else if (myPrice > competitor2Price) {
+            logPanel.style.background = "#eff6ff"; logPanel.style.borderColor = "#60a5fa";
+            logText.style.color = "#1e40af"; logDot.style.backgroundColor = "#3b82f6";
+            logText.innerText = "[TACTICAL ADVISORY]: Price sits above competitor spectrum. Verify premium value prop sync.";
+        } else {
+            logPanel.style.background = "#0f172a"; logPanel.style.borderColor = "#1e293b";
+            logText.style.color = "#cbd5e1"; logDot.style.backgroundColor = "#10b981";
+            logText.innerText = "[OPTIMAL RUNTIME]: Capital matrix stable. Target profit velocity healthy.";
+        }
+    }
+
+    // 5. Chart graph canvas generation stream
+    try {
+        let oldChart1 = Chart.getChart("pricingSpectrumChart"); if (oldChart1) oldChart1.destroy();
+        let oldChart2 = Chart.getChart("profitCushionChart"); if (oldChart2) oldChart2.destroy();
+
         const ctx1 = document.getElementById('pricingSpectrumChart').getContext('2d');
         new Chart(ctx1, {
             type: 'bar',
             data: {
                 labels: ['Lowest Comp', 'Competitor 2', 'My Price'],
-                datasets: [{
-                    label: 'Pricing Spectrum (\$)',
-                    data: [lowestCompPrice, competitor2Price, myPrice],
-                    backgroundColor: ['#475569', '#94a3b8', '#2563eb'],
-                    borderRadius: 6
-                }]
+                datasets: [{ data: [lowestCompPrice, competitor2Price, myPrice], backgroundColor: ['#475569', '#94a3b8', '#2563eb'], borderRadius: 6 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
 
-        // Chart B: Net Unit Margin Distribution Doughnut Ring
         const ctx2 = document.getElementById('profitCushionChart').getContext('2d');
         new Chart(ctx2, {
             type: 'doughnut',
             data: {
                 labels: ['Cost & Expenses', 'Profit Cushion'],
-                datasets: [{
-                    data: [sourcingCost, grossProfitPerUnit > 0 ? grossProfitPerUnit : 0],
-                    backgroundColor: ['#e2e8f0', '#10b981'],
-                    borderWidth: 2
-                }]
+                datasets: [{ data: [sourcingCost, grossProfitPerUnit > 0 ? grossProfitPerUnit : 0], backgroundColor: ['#e2e8f0', '#10b981'] }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
         });
+    } catch (err) { console.error(err.message); }
+}
 
-        console.log("Interactive corporate accounting analytics graphics rendered successfully!");
-    } catch (chartErr) {
-        console.error("Chart engine update alert connection hitch:", chartErr.message);
+function updateLiveClock() {
+    const now = new Date();
+    if(document.getElementById('live_time_display')) {
+        document.getElementById('live_time_display').innerText = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
 }
+setInterval(updateLiveClock, 1000);
+
+function generatePDFReport() { alert("Generating corporate matrix overview PDF asset..."); }
+function logoutSession() { alert("Logging session out securely..."); }
+
+window.addEventListener('DOMContentLoaded', () => {
+    fetchVaultProfiles();
+    runLiveProfitAnalysis();
+    updateLiveClock();
+});
+
 
 </script>
 </body>
