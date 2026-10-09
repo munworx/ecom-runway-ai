@@ -29,38 +29,39 @@
         }
 
         /* 🌟 THE GRID FIX: Forces your layout columns to snap side-by-side! */
-        .app-container { 
-            display: flex !important; 
-            flex-direction: row !important; 
-            gap: 24px; 
-            max-width: 1560px; 
-            margin: 0 auto; 
-            width: 100%; 
-            align-items: flex-start;
-        }
+       .app-container { 
+    display: flex !important; 
+    flex-direction: row !important; 
+    gap: 24px; 
+    max-width: 1560px; 
+    margin: 0 auto; 
+    width: 100%; 
+    align-items: flex-start;
+}
 
         /* 🔒 EXECUTIVE SIDEBAR (MATCHES YOUR BANNER CLASS NAME) */
-        .sidebar-banner { 
-            background: var(--bg-card); 
-            border: 1px solid var(--border-ui); 
-            padding: 24px; 
-            border-radius: 14px; 
-            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
-            position: sticky;
-            top: 2rem;
-            height: fit-content;
-            width: 260px !important;      /* Locks sidebar width column dimensions */
-            flex-shrink: 0 !important;    /* Prevents sidebar from collapsing */
-        }
+       .sidebar-banner { 
+    background: var(--bg-card); 
+    border: 1px solid var(--border-ui); 
+    padding: 24px; 
+    border-radius: 14px; 
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+    /* 🌟 ADD THESE TWO LINES TO LOCK DETACHMENT DIMENSIONS */
+    width: 260px !important;
+    flex-shrink: 0 !important;
+}
 
         /* 🌟 THE WORKSPACE FIX: Forces main content right beside the sidebar! */
-        .main-workspace-sheet {
-            flex-grow: 1 !important;
-            min-width: 0 !important;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+       .main-workspace-sheet {
+    flex-grow: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px;
+}
 
         .live-clock-badge { 
             background: #1e293b; 
