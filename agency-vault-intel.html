@@ -323,7 +323,7 @@ async function fetchVaultProfiles() {
         const { data, error } = await supabaseClient.from('product_vault').select('*').order('created_at', { ascending: false });
         if (error) throw error;
         savedVaultProfiles = data || [];
-        const dropdown = document.getElementById('vault-list') || document.getElementById('vault_list');
+        const dropdown = document.getElementById('vault_list') || document.getElementById('vault_list');
         dropdown.innerHTML = '<option value="">- View Saved Vault Profiles -</option>';
         savedVaultProfiles.forEach(profile => {
             const opt = document.createElement('option');
@@ -353,7 +353,7 @@ async function saveProfileToCloud() {
     } catch (err) { alert(err.message); }
 }
 
-document.getElementById('vault-list').addEventListener('change', function() {
+document.getElementById('vault_list').addEventListener('change', function() {
     const selectedId = this.value;
     if (!selectedId) return;
     const profile = savedVaultProfiles.find(p => p.id == selectedId);
