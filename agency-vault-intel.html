@@ -19,25 +19,30 @@
             --border-ui: #cbd5e1;   /* Well-defined tracking framing lines */
         }
 
-        body { 
-            background-color: var(--bg-canvas); 
-            color: var(--txt-main); 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 2rem; 
-        }
+    body { 
+    background-color: var(--bg-canvas); 
+    color: var(--txt-main); 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh; 
+    margin: 0; 
+    padding: 1.25rem; 
+    box-sizing: border-box;
+    /* 🌟 COMPACT ENTERPRISE SCALING: Shrinks text, padding, and fields to fit everything on one monitor view! */
+    zoom: 0.82; 
+    -moz-transform: scale(0.82); 
+    -moz-transform-origin: top center;
+}
 
-        /* 🌟 THE GRID FIX: Forces your layout columns to snap side-by-side! */
-     /* 🌟 FORCES BOTH COLUMNS SIDE-BY-SIDE WITHOUT INFLEXIBLE GAP STRETCHING */
+/* 🌟 CENTERED HORIZONTAL DASHBOARD GRID */
 .app-container { 
     display: flex !important; 
     flex-direction: row !important; 
     gap: 20px !important; 
-    max-width: 1280px !important; 
-    margin: 0 auto !important;     
+    max-width: 1400px !important; /* Holds everything compact horizontally */
+    margin: 0 auto !important;     /* Centers your entire web terminal on the display screen */
     width: 100% !important; 
     align-items: flex-start !important;
+    box-sizing: border-box !important;
 }
 
 /* 🔒 PIN REGION DIMENSIONS FOR YOUR LEFT COLUMN */
