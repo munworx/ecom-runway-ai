@@ -4,6 +4,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarginMatrix AI | Executive Advisory Suite</title>
@@ -461,10 +463,32 @@ function updateLiveClock() {
 }
 setInterval(updateLiveClock, 1000);
 
-function generatePDFReport() { alert("Generating corporate matrix overview PDF asset..."); }
-function logoutSession() { alert("Logging session out securely..."); }
-function discoverCompetitors() { alert("Initiating auto-discovery web scraping sequence..."); }
-function addCompetitorRow() { alert("Adding brand-new dynamic tracking matrix row block..."); }
+// --- DYNAMIC CONTROL INTERFACE ACTIONS PACK ---
+
+async function generatePDFReport() {
+    alert("Generating corporate matrix overview PDF asset...");
+    const element = document.querySelector('.app-container');
+    const canvas = await html2canvas(element, { scale: 2 });
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('l', 'mm', 'a4');
+    const imgWidth = 297; 
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    pdf.save('MarginMatrix_Executive_Report.pdf');
+}
+
+function logoutSession() { 
+    alert("Logging session out securely..."); 
+}
+
+function discoverCompetitors() { 
+    alert("Initiating auto-discovery web scraping sequence..."); 
+}
+
+function addCompetitorRow() { 
+    alert("Adding brand-new dynamic tracking matrix row block..."); 
+}
 
 window.addEventListener('DOMContentLoaded', () => {
     fetchVaultProfiles();
