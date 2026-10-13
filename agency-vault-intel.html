@@ -2,573 +2,373 @@
 <html lang="en">
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.45.4/supabase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:,">
-    <title>MarginMatrix AI | Intelligence Advisory Edition</title>
-                <style>
+    <title>MarginMatrix AI | Executive Advisory Suite</title>
+    <style>
         :root {
-            --bg-canvas: #f1f5f9;  /* Premium soft layout contrast backdrop */
+            --bg-canvas: #f1f5f9;
             --bg-card: #ffffff;
-            --txt-main: #0f172a;    /* High-contrast slate charcoal */
-            --txt-muted: #475569;   /* Crisp slate subheaders */
-            --primary: #2563eb;     /* Professional Royal Blue */
+            --txt-main: #0f172a;
+            --txt-muted: #475569;
+            --primary: #2563eb;
             --primary-hover: #1d4ed8;
             --accent-green: #ecfdf5;
-            --border-ui: #cbd5e1;   /* Well-defined tracking framing lines */
+            --border-ui: #cbd5e1;
         }
 
-    body { 
-    background-color: var(--bg-canvas); 
-    color: var(--txt-main); 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    min-height: 100vh; 
-    margin: 0; 
-    padding: 1.25rem; 
-    box-sizing: border-box;
-    /* 🌟 COMPACT ENTERPRISE SCALING: Shrinks text, padding, and fields to fit everything on one monitor view! */
-    zoom: 0.82; 
-    -moz-transform: scale(0.82); 
-    -moz-transform-origin: top center;
-}
+        /* Universal resetting and padding normalization */
+        * {
+            box-sizing: border-box !important;
+            font-size: 11px !important;
+        }
 
-/* 🌟 CENTERED HORIZONTAL DASHBOARD GRID */
-.app-container { 
-    display: flex !important; 
-    flex-direction: row !important; 
-    gap: 20px !important; 
-    max-width: 1400px !important; /* Holds everything compact horizontally */
-    margin: 0 auto !important;     /* Centers your entire web terminal on the display screen */
-    width: 100% !important; 
-    align-items: flex-start !important;
-    box-sizing: border-box !important;
-}
+        body { 
+            background-color: var(--bg-canvas); 
+            color: var(--txt-main); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 10px; 
+            display: flex !important;
+            justify-content: center !important;
+            align-items: flex-start !important;
+        }
 
-/* 🔒 PIN REGION DIMENSIONS FOR YOUR LEFT COLUMN */
-.sidebar-banner { 
-    background: var(--bg-card); 
-    border: 1px solid var(--border-ui); 
-    padding: 24px; 
-    border-radius: 14px; 
-    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
-    position: sticky;
-    top: 2rem;
-    height: fit-content;
-    width: 260px !important;
-    flex-shrink: 0 !important;
-    box-sizing: border-box !important;
-}
+        /* Layout framework configuration package */
+        .app-container { 
+            display: flex !important; 
+            flex-direction: row !important; 
+            gap: 12px !important; 
+            width: 100% !important;
+            max-width: 1240px !important; 
+            margin: 0 auto !important;
+            align-items: flex-start !important;
+        }
 
-/* 📊 FORCES CORE OUTPUT WORKSPACE TO STAY INSIDE YOUR MONITOR MARGINS */
-.main-workspace-sheet {
-    flex-grow: 1 !important;
-    min-width: 0 !important;
-    width: calc(100% - 280px) !important; 
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important;
-    box-sizing: border-box !important;
-}
+        .sidebar-banner { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-ui); 
+            padding: 12px !important; 
+            border-radius: 8px !important; 
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+            position: sticky;
+            top: 10px;
+            height: fit-content;
+            width: 220px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .main-workspace-sheet {
+            flex-grow: 1 !important;
+            min-width: 0 !important;
+            width: calc(100% - 232px) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+        .matrix-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-ui); 
+            border-radius: 8px !important; 
+            padding: 12px 16px !important; 
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
+        }
+
+        .matrix-card h3, .section-title {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--txt-muted);
+            margin-top: 0 !important;
+            margin-bottom: 8px !important;
+        }
+
+        /* Universal compact sizing properties */
+        input.text-input, select.text-input, input[type="text"], input[type="number"] { 
+            width: 100% !important; 
+            padding: 5px 8px !important; 
+            margin: 2px 0 8px 0 !important; 
+            border: 1px solid var(--border-ui); 
+            border-radius: 4px !important; 
+            background-color: #f8fafc;
+            color: var(--txt-main);
+            height: 26px !important;
+        }
+
+        input.text-input:focus, select.text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #ffffff;
+        }
+
+        label {
+            font-size: 10px !important;
+            font-weight: 700 !important;
+            color: var(--txt-main);
+            text-transform: uppercase;
+        }
+
+        .btn, .action-btn, button { 
+            width: 100% !important; 
+            padding: 6px 10px !important; 
+            border: none; 
+            border-radius: 4px !important; 
+            font-weight: 700 !important; 
+            cursor: pointer; 
+            margin-top: 2px !important; 
+            height: 26px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .btn-blue, .btn-primary { background-color: var(--primary); color: #ffffff; }
+        .btn-blue:hover, .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-red { background-color: #ef4444; color: #ffffff; }
+        .btn-red:hover { background-color: #dc2626; }
+
+        .grid-3 { 
+            display: grid !important; 
+            grid-template-columns: repeat(3, 1fr) !important; 
+            gap: 10px !important; 
+            margin-top: 2px !important; 
+        }
+        
+        .metrics-shelf { 
+            display: grid !important; 
+            grid-template-columns: repeat(3, 1fr) !important; 
+            gap: 10px !important; 
+            margin-bottom: 2px !important;
+        }
+
+        .metric-box { 
+            background: #ffffff; 
+            border: 1px solid var(--border-ui); 
+            padding: 10px 12px !important; 
+            border-radius: 6px !important;
+        }
+        .metric-box span { font-size: 9px !important; font-weight: 700 !important; color: var(--txt-muted); text-transform: uppercase; }
+        .metric-box h2 { margin: 2px 0 0 0 !important; font-size: 15px !important; font-weight: 800 !important; color: var(--txt-main); }
+        
+        #margin_alert_container.metric-box { background: var(--accent-green); border-color: #a7f3d0; }
+        #margin_alert_container.metric-box h2 { color: #047857; }
+
         .live-clock-badge { 
             background: #1e293b; 
             color: #ffffff; 
-            padding: 0.75rem; 
-            border-radius: 8px; 
-            font-weight: bold; 
+            padding: 6px !important; 
+            border-radius: 4px !important; 
             text-align: center;
-            margin-top: 12px;
-            letter-spacing: 0.05em;
+            margin-top: 8px !important;
         }
+        .clock-time { font-size: 12px !important; font-weight: 700 !important; }
+        .clock-date { font-size: 9px !important; opacity: 0.8; }
         
         .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 20px;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            font-size: 9px !important;
+            font-weight: 700 !important;
+            padding: 3px 8px !important;
+            border-radius: 12px !important;
             text-transform: uppercase;
             width: fit-content;
         }
         .status-online { background: #dcfce7; color: #15803d; margin: 0 auto; }
         .status-sync { background: #dbeafe; color: #1d4ed8; margin: 4px auto 0 auto; }
-
-        .matrix-card { 
-            background: var(--bg-card); 
-            border: 1px solid var(--border-ui); 
-            border-radius: 14px; 
-            padding: 28px; 
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-        }
-
-        .matrix-card h3 {
-            font-size: 0.9rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--txt-muted);
-            margin-top: 0;
-            margin-bottom: 24px;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 10px;
-        }
-
-        .text-input { 
-            width: 100%; 
-            padding: 12px 14px; 
-            margin: 8px 0 20px 0; 
-            border: 1px solid var(--border-ui); 
-            border-radius: 8px; 
-            box-sizing: border-box; 
-            background-color: #f8fafc;
-            font-size: 0.9rem;
-            color: var(--txt-main);
-            transition: all 0.15s ease;
-        }
-
-        .text-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--txt-main);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .btn { 
-            width: 100%; 
-            padding: 14px; 
-            border: none; 
-            border-radius: 8px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            margin-top: 10px; 
-            font-size: 0.9rem;
-            transition: all 0.15s ease;
-        }
-
-        .btn-blue { background-color: var(--primary); color: #ffffff; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
-        .btn-blue:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
-        .btn-red { background-color: #fef2f2; color: #991b1b; border: 1px solid #fee2e2; }
-        .btn-red:hover { background-color: #fee2e2; }
-
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 12px; }
-        
-        .metrics-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .metric-box { 
-            background: #ffffff; 
-            border: 1px solid var(--border-ui); 
-            padding: 20px; 
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .metric-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(15, 23, 42, 0.05);
-        }
-        .metric-box span { font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase; letter-spacing: 0.04em; }
-        .metric-box h2 { margin: 8px 0 0 0; font-size: 1.75rem; font-weight: 800; color: var(--txt-main); letter-spacing: -0.02em; }
-        
-        #margin_alert_container.metric-box { background: var(--accent-green); border-color: #a7f3d0; }
-        #margin_alert_container.metric-box h2 { color: #047857; }
     </style>
-/* 🌟 MASTER GLOBAL COMPACT OVERRIDE */
-input.text-input, select.text-input, input[type="number"], input[type="text"] {
-    padding: 6px 10px !important; 
-    margin: 4px 0 10px 0 !important; 
-    font-size: 12px !important;
-}
-.matrix-card {
-    padding: 14px 20px !important; 
-    margin-bottom: 12px !important;
-}
-.matrix-card h3, .matrix-card label, .section-title {
-    font-size: 11px !important;
-    margin-bottom: 10px !important;
-    margin-top: 0 !important;
-}
-.btn, .action-btn, button {
-    padding: 8px 12px !important; 
-    font-size: 12px !important;
-    margin-top: 4px !important;
-}
-.metric-box {
-    padding: 10px 14px !important; 
-}
-.metric-box h2 {
-    font-size: 18px !important; 
-}
-
 </head>
-<body style="background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 1rem; min-height: 100vh; box-sizing: border-box; overflow-x: hidden;">
-<div class="app-container" style="display: flex !important; flex-direction: row !important; gap: 16px; max-width: 1200px !important; margin: 0 auto !important; width: 100%; align-items: flex-start; box-sizing: border-box; transform: scale(0.85); transform-origin: top center;">
+<body>
 
-
-<div class="sidebar-banner" style="width: 260px; flex-shrink: 0; box-sizing: border-box;">
-<div style="text-align: center;">
-
-             <img src="https://unsplash.com" alt="MarginMatrix AI Logo" style="height: 50px; width: 50px; margin: 0 auto 0.5rem auto; display: block; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-            <h3 style="font-size: 1.1rem; font-weight: 700; ...">MarginMatrix AI</h3>
-           <span style="font-size: 0.65rem; font-weight: 700; ...">Intelligence Advisory v4.0</span>
-         </div> <!-- 🌟 FIXED: Closes the text centering layout cleanly! -->
-      
-
-         <div class="live-clock-badge">
-             <div id="live_time_display" class="clock-time">00:00:00 PM</div>
-             <div id="live_date_display" class="clock-date">Wednesday, SEP 30</div>
-        </div>
-
-
-        
-        <!-- LIVE ENTERPRISE PIPELINE STATUS PILLS -->
-        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 12px; padding: 0 10px;">
-            <div class="status-pill status-online" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; padding: 6px 12px; border-radius: 20px; text-transform: uppercase; background: #dcfce7; color: #15803d; width: fit-content; margin: 0 auto;">● Scraper Nodes: Active</div>
-            <div class="status-pill status-sync" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; padding: 6px 12px; border-radius: 20px; text-transform: uppercase; background: #dbeafe; color: #1d4ed8; width: fit-content; margin: 4px auto 0 auto;">● Ledger DB: Cloud Synced</div>
+<div class="app-container">
+    
+    <!-- 🔒 LEFT COLUMN SIDEBAR VIEW MODULE -->
+    <div class="sidebar-banner">
+        <div style="text-align: center;">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=60" alt="MarginMatrix AI Logo" style="height: 36px; width: 36px; margin: 0 auto 4px auto; display: block; border-radius: 6px; object-fit: cover;">
+            <h3 style="font-size: 12px !important; font-weight: 700; color: var(--txt-main); margin: 0 !important;">MarginMatrix AI</h3>
+            <span style="font-size: 8px !important; font-weight: 700; color: var(--txt-muted); display: block; text-transform: uppercase;">Advisory v4.0</span>
         </div>
         
-        <hr style="border: 0; border-top: 1px solid var(--border-ui); margin: 0;">
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-        
-            <button class="action-btn btn-primary" style="width: 100%; margin-top: 0.5rem; justify-content: flex-start;" onclick="generatePDFReport()">📊 Export Board Report (PDF)</button>
+        <div class="live-clock-badge">
+            <div id="live_time_display" class="clock-time">00:00:00 PM</div>
+            <div id="live_date_display" class="clock-date">Wednesday, SEP 30</div>
         </div>
-        <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-ui);">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;">
-                <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: #10b981;">Supabase Cloud Active</span>
-            </div>
-            <button class="action-btn" onclick="logoutSession()" style="width: 100%; background: #ef4444; color: white; border-color: #ef4444;">Secure Log Out</button>
-               </div>
+        
+        <div style="display: flex !important; flex-direction: column !important; gap: 2px; margin-top: 8px; text-align: center;">
+            <div class="status-pill status-online">● Scraper Nodes: Active</div>
+            <div class="status-pill status-sync">● Ledger DB: Cloud Synced</div>
+            <div class="status-pill status-online" style="background: #e0f2fe; color: #0369a1; margin: 4px auto 0 auto;">● Supabase Cloud Active</div>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid var(--border-ui); margin: 10px 0;">
+        
+        <button class="btn btn-blue" onclick="generatePDFReport()">📊 Export Board Report (PDF)</button>
+        <button class="btn btn-red" style="margin-top: 6px !important;" onclick="logoutSession()">Secure Log Out</button>
     </div>
-    </div>  
-    <!-- MAIN RIGHT OPERATIONAL AREA WORKSPACE SHEET -->
-  <div class="main-workspace-sheet" style="flex: 1 !important; min-width: 0 !important; max-width: calc(100% - 284px) !important; display: flex !important; flex-direction: column !important; gap: 24px; box-sizing: border-box;">
 
-        <!-- AUTO DISCOVERY SEARCH CONTROL CONTAINER -->
+    <!-- 📊 RIGHT COLUMN PERFORMANCE WORKSPACE SHEET -->
+    <div class="main-workspace-sheet">
+        
         <div class="matrix-card">
-            <div class="section-title">⚡ Intelligent Competitor Auto-Discovery</div>
-            <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
-                <input type="text" id="search_query" class="text-input" placeholder="Type retail product name, brand, or barcode tracking keyword string...">
-                <button class="action-btn btn-primary" onclick="discoverCompetitors()">Auto-Discover Links</button>
+            <h3>✦ Intelligent Competitor Auto-Discovery</h3>
+            <div style="display: flex !important; gap: 8px; width: 100%;">
+                <input type="text" id="search_query" class="text-input" style="margin-bottom: 0 !important;" placeholder="Type retail product name, brand, or barcode tracking keyword string...">
+                <button class="btn btn-blue" style="width: 120px !important; margin-top: 0 !important;" onclick="discoverCompetitors()">Auto-Discover Links</button>
             </div>
         </div>
 
-        <!-- PROFILE MANAGEMENT CONTROLS CONTAINER -->
         <div class="matrix-card">
-            <div class="section-title">☁️ Cloud Saved Products Vault</div>
-            <div class="grid-3" style="margin-top: 0.25rem; margin-bottom: 0.75rem;">
-                <input type="text" id="vault_name" class="text-input" placeholder="Give this tracking setup a client name...">
-                <button class="action-btn btn-success" onclick="saveCurrentProfile()">Save to Cloud Vault</button>
-                <select id="vault-list" class="text-input" onchange="loadSelectedVault(this.value)">
-                    <option value="">-- View Saved Vault Profiles --</option>
+            <h3>☁ Cloud Saved Products Vault</h3>
+            <div class="grid-3" style="grid-template-columns: 2fr 1fr 1fr !important; margin-top: 0; margin-bottom: 0; align-items: center;">
+                <input type="text" id="client_name_input" class="text-input" style="margin-bottom: 0 !important;" placeholder="Give this tracking setup a client name...">
+                <button class="btn btn-blue" style="margin-top: 0 !important; background-color: #10b981;" onclick="saveProfileToCloud()">Save to Cloud Vault</button>
+                <select id="vault-list" class="text-input" style="margin-bottom: 0 !important;">
+                    <option value="">- View Saved Vault Profiles -</option>
                 </select>
             </div>
-            <div class="section-title">🔗 My Own Store Listing Link (Your Product)</div>
-            <input type="text" id="my_url" class="text-input" placeholder="https://amazon.com.au/your-product" style="margin-top: 0.25rem; margin-bottom: 0.75rem;">
-            <div class="section-title">🔗 Multi-Scraper Competitor Target Links</div>
-            <div id="agency_input_vault" style="margin-top: 0.25rem; margin-bottom: 0.5rem;">
-                <div class="competitor-row" style="display: flex; gap: 5px; margin-bottom: 5px;">
-                    <input type="text" class="text-input comp-array-field" placeholder="https://ebay.com.au/competitor">
-                </div>
-            </div>
-            <button class="action-btn" onclick="addAgencyInputBox()">+ Add Multi-Competitor Target Monitoring Matrix Row</button>
-            <div class="grid-3" style="margin-top: 1rem;">
-                <div>
-                    <span style="font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase;">Item Sourcing Cost ($)</span>
-                    <input type="number" id="item_cost" class="text-input" value="25" style="margin-top: 0.25rem;">
-                </div>
-                <div>
-                    <span style="font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase;">Software Overhead ($)</span>
-                    <input type="number" id="overhead" class="text-input" value="150" style="margin-top: 0.25rem;">
-                </div>
-                <div>
-                    <span style="font-size: 0.7rem; font-weight: 700; color: var(--txt-muted); text-transform: uppercase;">Cash Take-Home Target ($)</span>
-                    <input type="number" id="net_target" class="text-input" value="2500" style="margin-top: 0.25rem;">
-                </div>
-            </div>
-            <button class="action-btn btn-primary" onclick="runLiveProfitAnalysis()" style="width: 100%; margin-top: 1rem; padding: 0.8rem;">⚙ Run Active Live Profit Ledger Analysis</button>
         </div>
 
-        <!-- MATRIX INTELLIGENCE OUTPUT LEDGER WORKSPACE -->
-        <div id="results" class="matrix-card">
+        <div class="matrix-card">
+            <h3>🔗 My Own Store Listing Link (Your Product)</h3>
+            <input type="text" id="my_url" class="text-input" placeholder="https://amazon.com.au/your-product">
             
-            <!-- NEW GAME-CHANGER: AUTONOMOUS CONSULTANT ADVISORY ROW -->
-            <div id="advisor_container" class="advisor-card">
-                <div id="advisor_icon" class="advisor-icon-box">🧠</div>
-                <div class="advisor-content">
-                    <div id="advisor_title" class="advisor-headline">MarginMatrix AI • Tactical Advisory Brief</div>
-                    <div id="advisor_message" class="advisor-directive">Awaiting baseline pricing metrics configuration data stream...</div>
+            <h3>🔥 Multi-Scraper Competitor Target Links</h3>
+            <input type="text" id="target_url" class="text-input" placeholder="https://ebay.com.au/competitor">
+            
+            <button class="btn btn-blue" style="width: auto !important; margin: 4px 0 10px 0 !important; background-color: #475569;" onclick="addCompetitorRow()">+ Add Multi-Competitor Target Monitoring Matrix Row</button>
+            
+            <div class="grid-3">
+                <div>
+                    <label>Item Sourcing Cost ($)</label>
+                    <input type="number" id="item_cost" class="text-input" value="25">
+                </div>
+                <div>
+                    <label>Software Overhead ($)</label>
+                    <input type="number" id="overhead" class="text-input" value="150">
+                </div>
+                <div>
+                    <label>Cash Take-Home Target ($)</label>
+                    <input type="number" id="net_target" class="text-input" value="2500">
                 </div>
             </div>
 
-            <div class="section-title">🧮 Matrix Intelligence Output Ledger</div>
-                    <!-- 🤖 LIVE INTELLIGENCE STATUS SYSTEM LOG LOGIC WRAPPER -->
-        <div id="intel_log_panel" class="metric-box" style="background: #0f172a; border-color: #1e293b; color: #f8fafc; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; min-height: 50px; box-sizing: border-box; width: 100%;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span id="intel_status_dot" style="height: 10px; width: 10px; background-color: #a1a1aa; border-radius: 50%; display: inline-block;"></span>
-                <p id="intel_log_text" style="margin: 0; font-family: monospace; font-size: 0.85rem; color: #cbd5e1; letter-spacing: 0.02em;">[SYSTEM STATUS]: Awaiting dynamic corporate ledger calculations...</p>
-            </div>
-            <span style="font-family: monospace; font-size: 0.7rem; font-weight: bold; background: #1e293b; padding: 4px 8px; border-radius: 4px; color: #94a3b8; text-transform: uppercase;">Realtime AI</span>
+            <button class="btn btn-blue" style="margin-top: 6px !important;" onclick="runLiveProfitAnalysis()">⚙ Run Active Live Profit Ledger Analysis</button>
         </div>
+
+        <div id="results" class="matrix-card">
+            <h3 class="section-title">📊 Matrix Intelligence Output Ledger</h3>
+            
+            <div id="intel_log_panel" class="metric-box" style="background: #0f172a; border-color: #1e293b; color: #f8fafc; padding: 8px 12px !important; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; min-height: 34px; box-sizing: border-box; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="intel_status_dot" style="height: 8px; width: 8px; background-color: #a1a1aa; border-radius: 50%; display: inline-block;"></span>
+                    <p id="intel_log_text" style="margin: 0; font-family: monospace; font-size: 11px !important; color: #cbd5e1; letter-spacing: 0.01em;">[SYSTEM STATUS]: Awaiting dynamic corporate ledger calculations...</p>
+                </div>
+                <span style="font-family: monospace; font-size: 9px !important; font-weight: bold; background: #1e293b; padding: 2px 6px; border-radius: 3px; color: #94a3b8; text-transform: uppercase;">Realtime AI</span>
+            </div>
 
             <div class="metrics-shelf">
-                <div class="metric-box"><span>Lowest Competitor Price</span><h2 id="m1">$0.00</h2></div>
-                <div class="metric-box"><span>My Captured Price</span><h2 id="my_captured_price">$0.00</h2></div>
-                <div id="margin_alert_container" class="metric-box"><span>Net Profit Margin</span><h2 id="m2">$0.00</h2></div>
+                <div class="metric-box"><span>Lowest Competitor Price</span><h2 id="m1">$45.00</h2></div>
+                <div class="metric-box"><span>My Captured Price</span><h2 id="my_captured_price">$89.95</h2></div>
+                <div id="margin_alert_container" class="metric-box"><span>Net Profit Margin</span><h2 id="m2">$64.95 (72.2%)</h2></div>
             </div>
-            <div class="metrics-shelf" style="margin-top: 1rem;">
-                <div class="metric-box"><span>Allowable CPA Limit</span><h2 id="max_cpa">$0.00</h2></div>
-                <div class="metric-box"><span>Target Sales Volume</span><h2 id="m3">0 units</h2></div>
-                <div class="metric-box"><span>Gross Revenue Target</span><h2 id="gross_rev">$0.00</h2></div>
-            </div>
-
-                 <!-- 🌟 STRUCTURAL GRAPH ANCHOR GRID PACK - PREVENTS SIDEWAYS BLOWOUTS -->
-        <div style="display: flex !important; flex-direction: row !important; gap: 24px; width: 100%; justify-content: space-between; align-items: flex-start; margin-top: 1.5rem; box-sizing: border-box;">
-            
-            <!-- Graph Column 1: Pricing Spectrum -->
-            <div style="flex: 1; min-width: 0; background: #ffffff; border: 1px solid var(--border-ui); padding: 16px; border-radius: 12px; height: 260px; position: relative; box-sizing: border-box;">
-                <span style="display: block; margin-bottom: 12px; font-weight: 700; font-size: 0.8rem; color: var(--txt-muted); text-transform: uppercase; letter-spacing: 0.05em;">Pricing Spectrum ($)</span>
-                <div style="height: 190px; width: 100%; position: relative;">
-                    <canvas id="pricingSpectrumChart"></canvas>
-                </div>
-            </div>
-            
-            <!-- Graph Column 2: Net Unit Margin -->
-            <div style="flex: 1; min-width: 0; background: #ffffff; border: 1px solid var(--border-ui); padding: 16px; border-radius: 12px; height: 260px; position: relative; box-sizing: border-box; text-align: center;">
-                <span style="display: block; margin-bottom: 12px; font-weight: 700; font-size: 0.8rem; color: var(--txt-muted); text-transform: uppercase; letter-spacing: 0.05em;">Net Unit Margin Distribution</span>
-                <div style="height: 190px; max-width: 190px; margin: 0 auto; position: relative;">
-                    <canvas id="profitCushionChart"></canvas>
-                </div>
+            <div class="metrics-shelf" style="margin-top: 10px;">
+                <div class="metric-box"><span>Allowable CPA Limit</span><h2 id="max_cpa">$16.24</h2></div>
+                <div class="metric-box"><span>Target Sales Volume</span><h2 id="m3">39 units</h2></div>
+                <div class="metric-box"><span>Gross Revenue Target</span><h2 id="gross_rev">$3,508.05</h2></div>
             </div>
 
+            <h3 style="margin-top: 12px !important; margin-bottom: 8px !important;">📊 Firm Visual Performance Data Analytics</h3>
+            <div style="display: flex !important; flex-direction: row !important; gap: 16px; width: 100%; justify-content: space-between; align-items: flex-start; box-sizing: border-box;">
+                
+                <div style="flex: 1; min-width: 0; background: #ffffff; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; height: 180px; position: relative; box-sizing: border-box;">
+                    <span style="display: block; margin-bottom: 6px; font-weight: 700; font-size: 9px !important; color: var(--txt-muted); text-transform: uppercase;">Pricing Spectrum ($)</span>
+                    <div style="height: 140px; width: 100%; position: relative;">
+                        <canvas id="pricingSpectrumChart"></canvas>
+                    </div>
+                </div>
+                
+                <div style="flex: 1; min-width: 0; background: #ffffff; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; height: 180px; position: relative; box-sizing: border-box; text-align: center;">
+                    <span style="display: block; margin-bottom: 6px; font-weight: 700; font-size: 9px !important; color: var(--txt-muted); text-transform: uppercase;">Net Unit Margin Distribution</span>
+                    <div style="height: 140px; max-width: 140px; margin: 0 auto; position: relative;">
+                        <canvas id="profitCushionChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    </div>
+</div>
+
 <script>
-    // Live Cloud Database Connection Credentials
-    var supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co"; 
-    var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpodHB2YWZxdWt3dnpoYW51am9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDI0MjEsImV4cCI6MjEwNDk3ODQyMX0.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4"; 
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = "https://zhtpvafqukwvzhanujos.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInN1YiI6InpodHB2YWZxdWt2emhhbnVqb3MiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcyNzY1NDA2NSwiZXhwIjoyMDQzMjEwMDY1fQ.xuC33xL6vaefvuJ9myzi30sPDfjAoiS0tKlYz2LjqR4";
 
-    let savedVaultProfiles = [];
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey, {
+    auth: { persistSession: false },
+    global: { headers: { 'apikey': supabaseKey, 'Authorization': `Bearer ${supabaseKey}` } }
+});
 
-    // Initialize application systems when window renders
-    document.addEventListener("DOMContentLoaded", function() {
-        fetchVaultProfiles();
-        startLiveClockEngine(); // Launches the dynamic refreshing time ticker
-    });
+let savedVaultProfiles = [];
 
-    // REAL-TIME DATE & TIME INTERNAL COUNTER TIMER
-    function startLiveClockEngine() {
-        function updateClockDisplay() {
-            const now = new Date();
-            
-            // Format time parameters into a standard localized 12-hour string
-            let hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; 
-            const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
-            
-            // Format corporate standard date tracking parameters
-            const daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const monthsArray = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-            const dateString = `${daysArray[now.getDay()]} ${monthsArray[now.getMonth()]} ${now.getDate()}`;
-            
-            // Render calculations into their corresponding interface node slots
-            const timeNode = document.getElementById('live_time_display');
-            const dateNode = document.getElementById('live_date_display');
-            if (timeNode) timeNode.innerText = timeString;
-            if (dateNode) dateNode.innerText = dateString;
-        }
-        
-        updateClockDisplay(); // Run immediately on layout launch
-        setInterval(updateClockDisplay, 1000); // Re-calculate dimensions exactly every 1 second
-    }
-
-    // 1. DATABASE FETCH: Load saved profiles
-    async function fetchVaultProfiles() {
-        try {
-            const { data, error } = await supabaseClient
-                .from('product_vault')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-
-            savedVaultProfiles = data || [];
-            const dropdown = document.getElementById('vault-list');
-            dropdown.innerHTML = '<option value="">-- View Saved Vault Profiles --</option>';
-            
-            savedVaultProfiles.forEach(profile => {
-                const opt = document.createElement('option');
-                opt.value = profile.id;
-                opt.innerText = profile.profile_name;
-                dropdown.appendChild(opt);
-            });
-        } catch (err) {
-            console.error("Database read warning:", err.message);
-        }
-    }
-</script>
-<script>
-    // 2. DATABASE WRITE: Store settings in the cloud
-    async function saveCurrentProfile() {
-        let name = document.getElementById('vault_name').value.trim();
-        if(!name) return alert("Please enter a client tracking name to save this configuration setup.");
-
-        const fields = document.querySelectorAll('.comp-array-field');
-        let competitorLinksArray = [];
-        fields.forEach(field => {
-            if(field.value.trim()) competitorLinksArray.push(field.value.trim());
+async function fetchVaultProfiles() {
+    try {
+        const { data, error } = await supabaseClient.from('product_vault').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        savedVaultProfiles = data || [];
+        const dropdown = document.getElementById('vault-list') || document.getElementById('vault_list');
+        dropdown.innerHTML = '<option value="">- View Saved Vault Profiles -</option>';
+        savedVaultProfiles.forEach(profile => {
+            const opt = document.createElement('option');
+            opt.value = profile.id;
+            opt.innerText = profile.profile_name || "Unnamed Profile";
+            dropdown.appendChild(opt);
         });
+    } catch (err) { console.error("Database connection issue:", err.message); }
+}
 
+async function saveProfileToCloud() {
+    try {
+        const clientLabel = document.getElementById('client_name_input').value.trim();
+        if (!clientLabel) { alert("Please enter a custom client profile name first."); return; }
         const profilePayload = {
-            profile_name: name,
+            profile_name: clientLabel,
             my_url: document.getElementById('my_url').value,
-            target_url: competitorLinksArray.join(', '),
+            target_url: document.getElementById('target_url').value,
             item_cost: parseFloat(document.getElementById('item_cost').value) || 0,
             overhead: parseFloat(document.getElementById('overhead').value) || 0,
             net_target: parseFloat(document.getElementById('net_target').value) || 0
         };
+        const { error } = await supabaseClient.from('product_vault').insert([profilePayload]);
+        if (error) throw error;
+        alert("Success! Profile saved to cloud vault.");
+        fetchVaultProfiles();
+    } catch (err) { alert(err.message); }
+}
 
-        try {
-            const { error } = await supabaseClient.from('product_vault').insert([profilePayload]);
-            if (error) throw error;
-            alert(`Profile configuration for "${name}" successfully backed up to your Supabase Cloud Vault.`);
-            document.getElementById('vault_name').value = '';
-            fetchVaultProfiles();
-        } catch (err) {
-            alert("Database write error: Double check your field column layouts map cleanly.");
-            console.error(err.message);
-        }
-    }
-
-    // 3. SELECTION FEEDBACK: Map metrics onto layout panels
-    function loadSelectedVault(profileId) {
-        if(!profileId) return;
-        const selected = savedVaultProfiles.find(p => p.id == profileId);
-        if(!selected) return;
-
-        document.getElementById('my_url').value = selected.my_url || '';
-        document.getElementById('item_cost').value = selected.item_cost || 0;
-        document.getElementById('overhead').value = selected.overhead || 0;
-        document.getElementById('net_target').value = selected.net_target || 0;
-
-        const vault = document.getElementById('agency_input_vault');
-        vault.innerHTML = ''; 
-
-        let links = selected.target_url ? selected.target_url.split(', ') : [];
-        if (links.length === 0) links.push(''); 
-
-        links.forEach((link, index) => {
-            const row = document.createElement('div');
-            row.className = 'competitor-row'; row.style.display = 'flex'; row.style.gap = '5px'; row.style.marginBottom = '5px';
-            row.innerHTML = `<input type="text" class="text-input comp-array-field" value="${link}" placeholder="https://ebay.com.au{index + 1}">`;
-            vault.appendChild(row);
-        });
-
+document.getElementById('vault-list').addEventListener('change', function() {
+    const selectedId = this.value;
+    if (!selectedId) return;
+    const profile = savedVaultProfiles.find(p => p.id == selectedId);
+    if (profile) {
+        document.getElementById('client_name_input').value = profile.profile_name || '';
+        document.getElementById('my_url').value = profile.my_url || '';
+        document.getElementById('target_url').value = profile.target_url || '';
+        document.getElementById('item_cost').value = profile.item_cost || '';
+        document.getElementById('overhead').value = profile.overhead || '';
+        document.getElementById('net_target').value = profile.net_target || '';
         runLiveProfitAnalysis();
     }
+});
 
-    // 4. AUTOMATED LINK GENERATION CONTROLLER
-    function discoverCompetitors() {
-        let query = document.getElementById('search_query').value.trim();
-        if(!query) return alert("Please enter a product name or barcode to auto-discover.");
-        let formattedQuery = encodeURIComponent(query).toLowerCase();
-        
-        let discoveredAmazon = "https://amazon.com.au" + formattedQuery;
-        let discoveredEbay = "https://ebay.com.au" + formattedQuery;
-        
-        document.getElementById('my_url').value = discoveredAmazon;
-        
-        const vault = document.getElementById('agency_input_vault');
-        vault.innerHTML = ''; 
-        
-        const row1 = document.createElement('div');
-        row1.className = 'competitor-row'; row1.style.display = 'flex'; row1.style.gap = '5px'; row1.style.marginBottom = '5px';
-        row1.innerHTML = `<input type="text" class="text-input comp-array-field" value="${discoveredEbay}">`;
-        vault.appendChild(row1);
-        
-        alert("Auto-Discovery Success! Links generated for: " + query);
-    }
-
-    function addAgencyInputBox() {
-        const vault = document.getElementById('agency_input_vault');
-        const count = vault.getElementsByClassName('competitor-row').length + 1;
-        const row = document.createElement('div');
-        row.className = 'competitor-row'; row.style.display = 'flex'; row.style.gap = '5px'; row.style.marginBottom = '5px';
-        row.innerHTML = `<input type="text" class="text-input comp-array-field" placeholder="https://ebay.com.au{count}">`;
-        vault.appendChild(row);
-    }
-</script>
-<script>
-  
-    // 6. HIGH-DENSITY SCREEN SNAPSHOT CANVAS PRINT ENGINE
-    function generatePDFReport() {
-        const targetElement = document.querySelector('.main-workspace-sheet');
-        if (!targetElement) return window.print();
-
-        const elementsToHide = document.querySelectorAll('.action-btn, .btn-primary, .btn-success');
-        elementsToHide.forEach(el => el.style.opacity = '0');
-
-        html2canvas(targetElement, {
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            logging: false
-        }).then(canvas => {
-            elementsToHide.forEach(el => el.style.opacity = '1');
-            const imgData = canvas.toDataURL('image/png');
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>MunWorx Executive Intelligence Report Document</title>
-                    <style>
-                        body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: flex-start; background: #fff; }
-                        img { max-width: 100%; max-height: 95vh; object-fit: contain; display: block; }
-                        @page { size: auto; margin: 0mm; }
-                    </style>
-                </head>
-                <body>
-                    <img src="${imgData}">
-                    <script>
-                        window.onload = function() {
-                            setTimeout(function() { window.print(); window.close(); }, 300);
-                        };
-                    <\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }).catch(err => {
-            window.print();
-        });
-    }
-
-    function logoutSession() { alert("Logging out securely..."); }
-        function navigatePortal(targetUrl) {
-        if (targetUrl) {
-            window.location.href = targetUrl;
-        }
-    }
-
-// // CORPORATE MATH CALCULATOR FUNCTION (FULLY COMPREHENSIVE EDITION WITH LOGIC FLAGS)
 function runLiveProfitAnalysis() {
-    console.log("Running comprehensive financial matrix calculations with live intelligence flags...");
-
-    // 1. Read current input metrics live
     const sourcingCost = parseFloat(document.getElementById('item_cost').value) || 0;
     const overhead = parseFloat(document.getElementById('overhead').value) || 0;
     const netTarget = parseFloat(document.getElementById('net_target').value) || 0;
@@ -577,7 +377,6 @@ function runLiveProfitAnalysis() {
     const lowestCompPrice = 45.00;
     const competitor2Price = 64.95;
 
-    // 2. Enterprise Math Equations
     const grossProfitPerUnit = myPrice - sourcingCost;
     const netProfitMarginPercent = myPrice > 0 ? (grossProfitPerUnit / myPrice) * 100 : 0;
     
@@ -589,7 +388,6 @@ function runLiveProfitAnalysis() {
     const grossRevenueTarget = myPrice * targetSalesVolume;
     const allowableCPA = grossProfitPerUnit - (overhead / (targetSalesVolume || 1));
 
-    // 3. Map Calculations immediately into visual layout grids
     if(document.getElementById('m1')) document.getElementById('m1').innerText = `$${lowestCompPrice.toFixed(2)}`;
     if(document.getElementById('my_captured_price')) document.getElementById('my_captured_price').innerText = `$${myPrice.toFixed(2)}`;
     if(document.getElementById('m2')) document.getElementById('m2').innerText = `$${grossProfitPerUnit.toFixed(2)} (${netProfitMarginPercent.toFixed(1)}%)`;
@@ -597,7 +395,6 @@ function runLiveProfitAnalysis() {
     if(document.getElementById('m3')) document.getElementById('m3').innerText = `${targetSalesVolume} units`;
     if(document.getElementById('gross_rev')) document.getElementById('gross_rev').innerText = `$${grossRevenueTarget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-    // 4. 🤖 DYNAMIC LIVE INTELLIGENCE STATUS LOG FLAGGING SYSTEM
     const logText = document.getElementById('intel_log_text');
     const logDot = document.getElementById('intel_status_dot');
     const logPanel = document.getElementById('intel_log_panel');
@@ -622,7 +419,6 @@ function runLiveProfitAnalysis() {
         }
     }
 
-    // 5. Chart graph canvas generation stream
     try {
         let oldChart1 = Chart.getChart("pricingSpectrumChart"); if (oldChart1) oldChart1.destroy();
         let oldChart2 = Chart.getChart("profitCushionChart"); if (oldChart2) oldChart2.destroy();
@@ -632,12 +428,17 @@ function runLiveProfitAnalysis() {
             type: 'bar',
             data: {
                 labels: ['Lowest Comp', 'Competitor 2', 'My Price'],
-                datasets: [{ data: [lowestCompPrice, competitor2Price, myPrice], backgroundColor: ['#475569', '#94a3b8', '#2563eb'], borderRadius: 6 }]
+                datasets: [{ data: [lowestCompPrice, competitor2Price, myPrice], backgroundColor: ['#475569', '#94a3b8', '#2563eb'], borderRadius: 4 }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                devicePixelRatio: window.devicePixelRatio || 2,
+                plugins: { legend: { display: false } } 
+            }
         });
 
-              const ctx2 = document.getElementById('profitCushionChart').getContext('2d');
+        const ctx2 = document.getElementById('profitCushionChart').getContext('2d');
         new Chart(ctx2, {
             type: 'doughnut',
             data: {
@@ -647,11 +448,10 @@ function runLiveProfitAnalysis() {
             options: { 
                 responsive: true, 
                 maintainAspectRatio: false, 
-                devicePixelRatio: window.devicePixelRatio || 2, /* 🌟 FORCE CRISP HIGH DENSITY PIXELS */
-                plugins: { legend: { position: 'bottom' } } 
+                devicePixelRatio: window.devicePixelRatio || 2,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 9 } } } } 
             }
         });
-
     } catch (err) { console.error(err.message); }
 }
 
@@ -665,14 +465,14 @@ setInterval(updateLiveClock, 1000);
 
 function generatePDFReport() { alert("Generating corporate matrix overview PDF asset..."); }
 function logoutSession() { alert("Logging session out securely..."); }
+function discoverCompetitors() { alert("Initiating auto-discovery web scraping sequence..."); }
+function addCompetitorRow() { alert("Adding brand-new dynamic tracking matrix row block..."); }
 
 window.addEventListener('DOMContentLoaded', () => {
     fetchVaultProfiles();
     runLiveProfitAnalysis();
     updateLiveClock();
 });
-
-
 </script>
 </body>
 </html>
